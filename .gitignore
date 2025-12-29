@@ -209,3 +209,4 @@ __marimo__/
 # llm cache
 /.llm_cache/
 /outputs/
+/data/
