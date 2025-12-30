@@ -206,7 +206,7 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-# llm cache
+.DS_Store
 /.llm_cache/
 /outputs/
 /data/

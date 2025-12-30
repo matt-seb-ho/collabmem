@@ -1,0 +1,826 @@
+[
+    {
+        "task_id": "wmt-news-0-de-en",
+        "task": "translation",
+        "document_en": "Munich 1856: Four maps that will change your view of the city\nA mental asylum, where today young people are said to meet.\nA crypt chapel, where they are now digging tunnels for the S-Bahn.\nAllotment holders cultivate the soil of former farmers.\nThe oldest official map of Munich brings captivating stories to light.\nIt is annoying when geographical maps are not up-to-date.\nAnyone who has ever got worked up because the car's sat-nav is showing a green field instead of a bypass knows that.\nThe historical maps of the digital BayernAtlas, an offering from the State Government's Geoportal Bayern, are anything but up-to-date \u2013 and yet it is precisely for this reason that they are so informative.\nEspecially when one compares them with current online maps.\nThen it becomes clear how the towns and municipalities in the distribution area of Munich's Merkur newspaper have changed since the 19th century.",
+        "document_de": "M\u00fcnchen 1856: Vier Karten, die Ihren Blick auf die Stadt ver\u00e4ndern\nEine Irren-Anstalt, wo sich heute Jugendliche begegnen sollen.\nEine Gruftkapelle, wo nun f\u00fcr den S-Bahn-Tunnel gegraben wird.\nKleing\u00e4rtner bewirtschaften den einstigen Grund von Bauern.\nDie \u00e4lteste offizielle Karte M\u00fcnchens f\u00f6rdert spannende Geschichten zu Tage.\nEs nervt, wenn Landkarten nicht aktuell sind.\nDas kennt jeder, der sich schon mal aufregen musste, weil das Auto-Navi statt einer Umgehungsstra\u00dfe eine gr\u00fcne Wiese anzeigte.\nDie historischen Landkarten des digitalen Bayern-Atlases, ein Angebot des Geoportals Bayern der Staatsregierung, sind alles andere als aktuell - doch gerade deshalb sehr aufschlussreich.\nBesonders wenn man sie mit aktuellen Online-Karten vergleicht.\nDann wird deutlich, wie sich St\u00e4dte und Gemeinden im Verbreitungsgebiet des M\u00fcnchner Merkur seit dem 19. Jahrhundert ver\u00e4ndert haben.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "M\u00fcnchen 1856: Vier Karten, die Ihren Blick auf die Stadt ver\u00e4ndern\nEine Irren-Anstalt, wo sich heute Jugendliche begegnen sollen."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Eine Gruftkapelle, wo nun f\u00fcr den S-Bahn-Tunnel gegraben wird.\nKleing\u00e4rtner bewirtschaften den einstigen Grund von Bauern."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Die \u00e4lteste offizielle Karte M\u00fcnchens f\u00f6rdert spannende Geschichten zu Tage.\nEs nervt, wenn Landkarten nicht aktuell sind."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Das kennt jeder, der sich schon mal aufregen musste, weil das Auto-Navi statt einer Umgehungsstra\u00dfe eine gr\u00fcne Wiese anzeigte.\nDie historischen Landkarten des digitalen Bayern-Atlases, ein Angebot des Geoportals Bayern der Staatsregierung, sind alles andere als aktuell - doch gerade deshalb sehr aufschlussreich."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Besonders wenn man sie mit aktuellen Online-Karten vergleicht.\nDann wird deutlich, wie sich St\u00e4dte und Gemeinden im Verbreitungsgebiet des M\u00fcnchner Merkur seit dem 19. Jahrhundert ver\u00e4ndert haben."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-1-de-en",
+        "task": "translation",
+        "document_en": "Civil rights group issues travel warning for Missouri\nThe National Association for the Advancement of Colored People has put out an alert for people of color traveling to Missouri because of the state's discriminatory policies and racist attacks.\n\"The NAACP Travel Advisory for the state of Missouri, effective through August 28th, 2017, calls for African American travelers, visitors and Missourians to pay special attention and exercise extreme caution when traveling throughout the state given the series of questionable, race-based incidents occurring statewide recently, and noted therein,\" the group's statement reads.\nA recent Missouri law making it harder for people to win discrimination lawsuits, as well as the state's law enforcement disproportionately targeting minorities prompted the group to issue the travel alert, the NAACP said.\n\"You have violations of civil rights that are happening to people.\nThey're being pulled over because of their skin color, they're being beaten up or killed,\" the president of the Missouri NAACP, Rod Chapel, told The Kansas City Star.\n\"We are hearing complaints at a rate we haven't heard before.\"\nIt is the first such warning that the organization has issued for a state in the US.\nThe group cited incidents such as racial slurs against black students at the University of Missouri and the death of Tory Sanders, 28, a black man from Tennessee.\nSanders died under questionable circumstances earlier this year after he ran out of gas while traveling through the state, and was taken into custody by Missouri police without being accused of a crime.",
+        "document_de": "B\u00fcrgerrechtsgruppe ver\u00f6ffentlicht Reisewarnung f\u00fcr Missouri\nDie Nationale Vereinigung zur F\u00f6rderung von Farbigen hat eine Warnung f\u00fcr farbige Menschen ausgestellt, die aufgrund der diskriminierenden Politik und der rassistischen Angriffe des Staates nach Missouri reisen.\n\"Die NAACP Travel Advisory f\u00fcr den Bundesstaat Missouri, die bis zum 28. August 2017 in Kraft treten soll, fordert afro-amerikanische Reisende, Besucher und Missourianer auf, bei Reisen durch den Staat besondere Aufmerksamkeit aufzubringen und \u00e4u\u00dferste Vorsicht walten zu lassen, da eine Reihe von fragw\u00fcrdigen, rassenbasierten Vorf\u00e4llen in letzter Zeit im gesamten Staat vorkommen und hier vermerkt werden\", hei\u00dft es in der Stellungnahme der Gruppe.\nEin k\u00fcrzlich verabschiedetes Gesetz von Missouri, das es Menschen schwerer macht, Diskriminierungsklagen zu gewinnen, sowie die Strafverfolgungsbeh\u00f6rden des Staates, die unverh\u00e4ltnism\u00e4\u00dfig auf Minderheiten abzielen, veranlassten die Gruppe, die Reisewarnung herauszugeben, sagte die NAACP.\n\"Sie haben Verletzungen der B\u00fcrgerrechte, die Menschen passieren.\nSie werden wegen ihrer Hautfarbe angehalten, sie werden zusammengeschlagen oder get\u00f6tet\", sagte der Pr\u00e4sident des Missouri NAACP, Rod Chapel, dem Kansas City Star.\n\"Wir h\u00f6ren Beschwerden in einer solchen H\u00e4ufigkeit, die wir noch nicht geh\u00f6rt haben.\"\nEs ist die erste solche Warnung, die die Organisation f\u00fcr einen Staat in den USA ausgestellt hat.\nDie Gruppe zitierte Vorf\u00e4lle wie rassistische Vergehen gegen schwarze Studenten an der University of Missouri und den Tod von Tory Sanders, 28, einem schwarzen Mann aus Tennessee.\nSanders starb unter fragw\u00fcrdigen Umst\u00e4nden Anfang des Jahres, nachdem er w\u00e4hrend der Reise durch den Staat kein Benzin mehr hatte und von der Polizei von Missouri in Gewahrsam genommen wurde, ohne eines Verbrechens beschuldigt zu werden.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "B\u00fcrgerrechtsgruppe ver\u00f6ffentlicht Reisewarnung f\u00fcr Missouri\nDie Nationale Vereinigung zur F\u00f6rderung von Farbigen hat eine Warnung f\u00fcr farbige Menschen ausgestellt, die aufgrund der diskriminierenden Politik und der rassistischen Angriffe des Staates nach Missouri reisen."
+            },
+            {
+                "shard_id": 2,
+                "shard": "\"Die NAACP Travel Advisory f\u00fcr den Bundesstaat Missouri, die bis zum 28. August 2017 in Kraft treten soll, fordert afro-amerikanische Reisende, Besucher und Missourianer auf, bei Reisen durch den Staat besondere Aufmerksamkeit aufzubringen und \u00e4u\u00dferste Vorsicht walten zu lassen, da eine Reihe von fragw\u00fcrdigen, rassenbasierten Vorf\u00e4llen in letzter Zeit im gesamten Staat vorkommen und hier vermerkt werden\", hei\u00dft es in der Stellungnahme der Gruppe.\nEin k\u00fcrzlich verabschiedetes Gesetz von Missouri, das es Menschen schwerer macht, Diskriminierungsklagen zu gewinnen, sowie die Strafverfolgungsbeh\u00f6rden des Staates, die unverh\u00e4ltnism\u00e4\u00dfig auf Minderheiten abzielen, veranlassten die Gruppe, die Reisewarnung herauszugeben, sagte die NAACP."
+            },
+            {
+                "shard_id": 3,
+                "shard": "\"Sie haben Verletzungen der B\u00fcrgerrechte, die Menschen passieren.\nSie werden wegen ihrer Hautfarbe angehalten, sie werden zusammengeschlagen oder get\u00f6tet\", sagte der Pr\u00e4sident des Missouri NAACP, Rod Chapel, dem Kansas City Star."
+            },
+            {
+                "shard_id": 4,
+                "shard": "\"Wir h\u00f6ren Beschwerden in einer solchen H\u00e4ufigkeit, die wir noch nicht geh\u00f6rt haben.\"\nEs ist die erste solche Warnung, die die Organisation f\u00fcr einen Staat in den USA ausgestellt hat."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Die Gruppe zitierte Vorf\u00e4lle wie rassistische Vergehen gegen schwarze Studenten an der University of Missouri und den Tod von Tory Sanders, 28, einem schwarzen Mann aus Tennessee.\nSanders starb unter fragw\u00fcrdigen Umst\u00e4nden Anfang des Jahres, nachdem er w\u00e4hrend der Reise durch den Staat kein Benzin mehr hatte und von der Polizei von Missouri in Gewahrsam genommen wurde, ohne eines Verbrechens beschuldigt zu werden."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-2-de-en",
+        "task": "translation",
+        "document_en": "Pasture fence project is fundamental\nThe Fischerbach pasture fence project is a successful project and will be continued next year.\nMembers of the Bundestag for the CDU Peter Wei\u00df and Kordula Kovac got a first-hand view.\nRepresentatives from the Fischerbach local CDU group met with mayor Thomas Schneider and the two representatives at Rechtgrabenhof farm, belonging to the Schwendemann family.\nTo start with, Markus Schwendemann gave insights into his business, in which he cultivates 55 hectares of pasture and 40 hectares of woodland, keeps 40 milk cows and just as many young stock, and accommodates five apartments of holiday makers.\nSchwendemann says that, for him, there is no alternative to the \"Black Forest milk\" marketing channel he uses for the milk from his cows.\nOnly regional produce is served to the holiday-makers.\nSince he is also BLHV chairman for Fischerbach, he described the pasture fence project as \"fundamentally important\".\nI can't make a profit on that kind of steep-sloping ground.\nGrassland areas make for a lot of work, a lot has to be done with the string trimmer.",
+        "document_de": "Weidezaunprojekt ist elementar\nDas Fischerbacher Weidezaun-Projekt ist ein Erfolgsprojekt und wird im kommenden Jahr fortgesetzt.\nDie CDU-Bundestagsabgeordneten Peter Wei\u00df und Kordula Kovac haben sich vor Ort ein Bild verschafft.\nBeim Rechtgrabenhof der Familie Schwendemann trafen sich Vertreter des Fischerbacher CDU-Ortsverbands zusammen mit B\u00fcrgermeister Thomas Schneider und den beiden Abgeordneten.\nMarkus Schwendemann gew\u00e4hrte zun\u00e4chst Einblicke in seinen Betrieb, in dem er 55 Hektar Wiesen und 40 Hektar Wald bewirtschaftet, 40 Milchk\u00fche und ebenso viele Jungtiere versorgt und in f\u00fcnf Wohnungen Ferieng\u00e4ste beherbergt.\nDie \"Schwarzwaldmilch\" ist f\u00fcr ihn der alternativlose Vermarktungsweg f\u00fcr die Milch seiner K\u00fche, so Schwendemann.\nAuf den Tisch der Ferieng\u00e4ste kommt ausschlie\u00dflich Regionales.\nDa er auch BLHV-Vorsitzender von Fischerbach ist, bezeichnete er das Weidezaunprojekt als \"elementar wichtig\".\nIch kann auf derart steilen Fl\u00e4chen nicht gewinnbringend wirtschaften.\nDie Gr\u00fcnlandfl\u00e4che sorge f\u00fcr viel Arbeit, vieles m\u00fcsse mit der Motorsense bearbeitet werden.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Weidezaunprojekt ist elementar\nDas Fischerbacher Weidezaun-Projekt ist ein Erfolgsprojekt und wird im kommenden Jahr fortgesetzt."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Die CDU-Bundestagsabgeordneten Peter Wei\u00df und Kordula Kovac haben sich vor Ort ein Bild verschafft.\nBeim Rechtgrabenhof der Familie Schwendemann trafen sich Vertreter des Fischerbacher CDU-Ortsverbands zusammen mit B\u00fcrgermeister Thomas Schneider und den beiden Abgeordneten."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Markus Schwendemann gew\u00e4hrte zun\u00e4chst Einblicke in seinen Betrieb, in dem er 55 Hektar Wiesen und 40 Hektar Wald bewirtschaftet, 40 Milchk\u00fche und ebenso viele Jungtiere versorgt und in f\u00fcnf Wohnungen Ferieng\u00e4ste beherbergt.\nDie \"Schwarzwaldmilch\" ist f\u00fcr ihn der alternativlose Vermarktungsweg f\u00fcr die Milch seiner K\u00fche, so Schwendemann."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Auf den Tisch der Ferieng\u00e4ste kommt ausschlie\u00dflich Regionales.\nDa er auch BLHV-Vorsitzender von Fischerbach ist, bezeichnete er das Weidezaunprojekt als \"elementar wichtig\"."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Ich kann auf derart steilen Fl\u00e4chen nicht gewinnbringend wirtschaften.\nDie Gr\u00fcnlandfl\u00e4che sorge f\u00fcr viel Arbeit, vieles m\u00fcsse mit der Motorsense bearbeitet werden."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-3-de-en",
+        "task": "translation",
+        "document_en": "Is nothing sacred?\nNow Trump's White House is targeting the Statue of Liberty\nThe surest mark of regime change is when they start attacking the statues.\nAmericans appreciate this as well as anyone - hence the carefully stage-manged toppling of Saddam Hussein in Firdos square in Baghdad in 2003.\nStephen Miller, one of the key ideologues of the Trump regime, surely knew what he was doing when he took a symbolic axe to the Statue of Liberty in a heated argument with CNN's Jim Acosta over the president's proposals to drastically limit legal immigration.\nIn fairness, Miller did not attack the statue itself.\nA horde of boat-trip owners and Liberty impersonators would have lynched him if he did.\nBut he did attack its meaning, and in particular the meaning ascribed to it when Emma Lazarus's famous poem was added to its base in 1903, 17 years after the monument itself was completed.\nAs Miller scolded Acosta: \"I don't want to get off into a whole thing about history here, but the Statue of Liberty is ... a symbol of American liberty lighting the world.\nThe poem that you're referring to, that was added later and is not part of the original Statue of Liberty.\"",
+        "document_de": "Ist nichts mehr heilig?\nJetzt nimmt sich das Wei\u00dfe Haus von Trump die Freiheitsstatue vor\nDas sicherste Zeichen eines Regime-Wechsels ist es, wenn sie beginnen, die Statuen zu attackieren.\nDie Amerikaner sch\u00e4tzen diese ebenso wie jede andere - daher der sorgsam inszenierte Sturz Saddam Husseins auf dem Firdos Platz in Bagdad im Jahr 2003.\nStephen Miller, einer der Schl\u00fcssel-Ideologen des Trump-Regimes, wusste sicherlich, was er tat, als er eine symbolische Axt in einem hitzigen Streit mit Jim Acosta von CNN \u00fcber die Vorschl\u00e4ge des Pr\u00e4sidenten zur drastischen Einschr\u00e4nkung der legalen Einwanderung mit zur Freiheitsstatue nahm.\nUm fair zu bleiben, Miller griff nicht die Statue selbst an.\nEine Horde von Bootsbesitzern und Liberty-Imitatoren h\u00e4tten ihn gelyncht, wenn er es getan h\u00e4tte.\nAber er griff deren Bedeutung an, und insbesondere die Bedeutung, die ihr zugeschrieben wurde, als das ber\u00fchmte Gedicht von Emma Lazarus 1903, 17 Jahre nach der Fertigstellung des Denkmals, seiner Basis hinzugef\u00fcgt wurde.\nAls Miller Acosta beschimpfte: \"Ich will hier nicht auf ein komplettes Ding \u00fcber Geschichte eingehen, aber die Freiheitsstatue ist ... ein Symbol amerikanischer Freiheit, das die Welt erleuchtet.\nDas Gedicht, auf das Sie sich beziehen, das sp\u00e4ter hinzugef\u00fcgt wurde und nicht Teil der urspr\u00fcnglichen Freiheitsstatue ist.\"",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Ist nichts mehr heilig?\nJetzt nimmt sich das Wei\u00dfe Haus von Trump die Freiheitsstatue vor"
+            },
+            {
+                "shard_id": 2,
+                "shard": "Das sicherste Zeichen eines Regime-Wechsels ist es, wenn sie beginnen, die Statuen zu attackieren.\nDie Amerikaner sch\u00e4tzen diese ebenso wie jede andere - daher der sorgsam inszenierte Sturz Saddam Husseins auf dem Firdos Platz in Bagdad im Jahr 2003."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Stephen Miller, einer der Schl\u00fcssel-Ideologen des Trump-Regimes, wusste sicherlich, was er tat, als er eine symbolische Axt in einem hitzigen Streit mit Jim Acosta von CNN \u00fcber die Vorschl\u00e4ge des Pr\u00e4sidenten zur drastischen Einschr\u00e4nkung der legalen Einwanderung mit zur Freiheitsstatue nahm.\nUm fair zu bleiben, Miller griff nicht die Statue selbst an."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Eine Horde von Bootsbesitzern und Liberty-Imitatoren h\u00e4tten ihn gelyncht, wenn er es getan h\u00e4tte.\nAber er griff deren Bedeutung an, und insbesondere die Bedeutung, die ihr zugeschrieben wurde, als das ber\u00fchmte Gedicht von Emma Lazarus 1903, 17 Jahre nach der Fertigstellung des Denkmals, seiner Basis hinzugef\u00fcgt wurde."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Als Miller Acosta beschimpfte: \"Ich will hier nicht auf ein komplettes Ding \u00fcber Geschichte eingehen, aber die Freiheitsstatue ist ... ein Symbol amerikanischer Freiheit, das die Welt erleuchtet.\nDas Gedicht, auf das Sie sich beziehen, das sp\u00e4ter hinzugef\u00fcgt wurde und nicht Teil der urspr\u00fcnglichen Freiheitsstatue ist.\""
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-4-de-en",
+        "task": "translation",
+        "document_en": "World Championships 2017: Neil Black praises Scottish members of Team GB\nEilidh Doyle recalls a time when only two Scots made the GB team\nUK Athletics' performance director Neil Black says the 16-strong Scottish contingent in the World Championships squad will make \"a massive contribution to the team.\"\nA record number of Scottish athletes have been selected for London 2017, which starts on Friday.\nBlack believes \"there's something special evolving\" in Scotland and UK athletics must learn from that.\n\"We embrace it and we're trying to understand it and we'll push on that until we work it out,\" Black said.\n\"I speak to people in the Scottish Institute of Sport and they think it's something to do with what they've done.\nScottish Athletics think it's something to do with what they've done.\nBritish athletics: it's something to do with what they've done.\nAnd the guy on the corner street, too.",
+        "document_de": "Weltmeisterschaft 2017: Neil Black lobt schottische Mitglieder des Teams von Gro\u00dfbritannien\nEilidh Doyle erinnert sich an eine Zeit, als nur zwei Schotten zum Team von Gro\u00dfbritannien geh\u00f6rten\nDer Leistungsdirektor der Leichtathletik des Vereinigten K\u00f6nigreichs, Neil Black, sagt, dass das 16-k\u00f6pfige schottische Kontingent im Weltmeisterschaftskader \"einen massiven Beitrag zum Team leisten wird\".\nEine Rekordzahl von schottischen Athleten wurde f\u00fcr London 2017 ausgew\u00e4hlt, das am Freitag startet.\nBlack glaubt, dass \"sich in Schottland etwas Spezielles entwickelt\" und die Leichtathletik des Vereinigten K\u00f6nigreichs etwas daraus lernen muss.\n\"Wir begr\u00fc\u00dfen es, und wir versuchen es zu verstehen, und wir werden es weiterf\u00fchren, bis wir es herausfinden,\" sagte Black.\n\"Ich spreche mit Leuten im Scottish Institute of Sport und sie denken, dass es etwas mit dem zu tun hat, was sie getan haben.\nDie schottischen Athleten denken, dass es etwas mit dem zu tun hat, was sie getan haben.\nBritische Leichtathletik: Es hat etwas mit dem zu tun, was sie getan haben.\nUnd auch mit dem Typ an der Stra\u00dfenecke.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Weltmeisterschaft 2017: Neil Black lobt schottische Mitglieder des Teams von Gro\u00dfbritannien\nEilidh Doyle erinnert sich an eine Zeit, als nur zwei Schotten zum Team von Gro\u00dfbritannien geh\u00f6rten"
+            },
+            {
+                "shard_id": 2,
+                "shard": "Der Leistungsdirektor der Leichtathletik des Vereinigten K\u00f6nigreichs, Neil Black, sagt, dass das 16-k\u00f6pfige schottische Kontingent im Weltmeisterschaftskader \"einen massiven Beitrag zum Team leisten wird\".\nEine Rekordzahl von schottischen Athleten wurde f\u00fcr London 2017 ausgew\u00e4hlt, das am Freitag startet."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Black glaubt, dass \"sich in Schottland etwas Spezielles entwickelt\" und die Leichtathletik des Vereinigten K\u00f6nigreichs etwas daraus lernen muss.\n\"Wir begr\u00fc\u00dfen es, und wir versuchen es zu verstehen, und wir werden es weiterf\u00fchren, bis wir es herausfinden,\" sagte Black."
+            },
+            {
+                "shard_id": 4,
+                "shard": "\"Ich spreche mit Leuten im Scottish Institute of Sport und sie denken, dass es etwas mit dem zu tun hat, was sie getan haben.\nDie schottischen Athleten denken, dass es etwas mit dem zu tun hat, was sie getan haben."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Britische Leichtathletik: Es hat etwas mit dem zu tun, was sie getan haben.\nUnd auch mit dem Typ an der Stra\u00dfenecke."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-5-de-en",
+        "task": "translation",
+        "document_en": "Blocking critics from Facebook: Don't run for public office, if you can't take heat from voters\nThe father of our country knew something about bad press.\nAmericans loved George Washington, but it didn't take long for newspapers to start slamming him on everything from domestic policy to his political principles.\nHe chafed at the criticism, sure.\nBut he did not silence his critics.\nBecause back in 1783, Washington said, \"the freedom of Speech may be taken away - and, dumb & silent we may be led, like sheep, to the Slaughter.\"\nThat brings me to Maryland Gov. Larry Hogan, who needs to work on being more like Washington.\nHogan's staff has blocked and deleted the posts of at least 450 people who voiced their opinions on his official Facebook page.\nAnd the American Civil Liberties Union sued him for that earlier this week.\nThe governor's staff dismissed the lawsuit as frivolous, and the online commentary was rich with a \"who cares?\" backlash.",
+        "document_de": "Blockieren von Kritikern \u00fcber Facebook: Bewirb dich nicht um ein \u00f6ffentliches Amt, wenn du das Einheizen von W\u00e4hlern nicht vertragen kannst\nDer Vater unseres Landes wusste etwas von schlechter Presse.\nDie Amerikaner liebten George Washington, aber es dauerte nicht lange, bis die Zeitungen ihn wegen allem schlugen, von der Innenpolitik bis zu seinen politischen Prinzipien.\nEr schimpfte bei der Kritik, sicher.\nAber er hat seine Kritiker nicht zum Schweigen gebracht.\nDenn im Jahr 1783 sagte Washington: \"Die Redefreiheit kann weggenommen werden - und, dumm und stumm werden wir wie die Schafe zum Schlachten gef\u00fchrt.\"\nDas bringt mich nach Maryland zu Gouverneur Larry Hogan, der daran arbeiten muss, mehr wie Washington zu sein.\nHogans Mitarbeiter haben die Beitr\u00e4ge von mindestens 450 Personen blockiert und gel\u00f6scht, die ihre Meinung auf seiner offiziellen Facebook-Seite ge\u00e4u\u00dfert haben.\nUnd die American Civil Liberties Union verklagte ihn deswegen Anfang dieser Woche.\nDer Stab des Gouverneurs entlie\u00df die Klage als frivol, und der Online-Kommentar war voll von einer Gegenreaktion mit \"Na, und?\" .",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Blockieren von Kritikern \u00fcber Facebook: Bewirb dich nicht um ein \u00f6ffentliches Amt, wenn du das Einheizen von W\u00e4hlern nicht vertragen kannst\nDer Vater unseres Landes wusste etwas von schlechter Presse."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Die Amerikaner liebten George Washington, aber es dauerte nicht lange, bis die Zeitungen ihn wegen allem schlugen, von der Innenpolitik bis zu seinen politischen Prinzipien.\nEr schimpfte bei der Kritik, sicher."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Aber er hat seine Kritiker nicht zum Schweigen gebracht.\nDenn im Jahr 1783 sagte Washington: \"Die Redefreiheit kann weggenommen werden - und, dumm und stumm werden wir wie die Schafe zum Schlachten gef\u00fchrt.\""
+            },
+            {
+                "shard_id": 4,
+                "shard": "Das bringt mich nach Maryland zu Gouverneur Larry Hogan, der daran arbeiten muss, mehr wie Washington zu sein.\nHogans Mitarbeiter haben die Beitr\u00e4ge von mindestens 450 Personen blockiert und gel\u00f6scht, die ihre Meinung auf seiner offiziellen Facebook-Seite ge\u00e4u\u00dfert haben."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Und die American Civil Liberties Union verklagte ihn deswegen Anfang dieser Woche.\nDer Stab des Gouverneurs entlie\u00df die Klage als frivol, und der Online-Kommentar war voll von einer Gegenreaktion mit \"Na, und?\" ."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-6-de-en",
+        "task": "translation",
+        "document_en": "Ronan Rafferty hopes for home comforts at Renaissance Club\nFormer European No 1 Ronan Rafferty will be hoping for home comforts over the next three days as the Renaissance Club in East Lothian hosts the 25th edition of the Scottish Senior Open.\nThe Northern Irishman, who led next door at Archerfield Links heading into the final round last year before losing out to Paul Eales, is attached to the new venue and is acting as tournament ambassador on behalf of the club's founder and CEO Jerry Sarvadi.\n\"I watched Renaissance Club being built, and we're seeing it come to its glory with this event,\" said Rafferty.\n\"The players will see this course at its finest, it is in fabulous condition.\nJerry has done a fabulous job setting this place up.\nHe's a keen advocate of this game and is proud of his achievement here.\nThis is a great showcase for this course.\"\nEnglishman Eales is looking forward to defending a championship for the first time despite winning on both the European Tour and European Challenge Tour in his 32-year career.\n\"This does feel really special,\" said the Southport-based player.",
+        "document_de": "Ronan Rafferty hofft auf h\u00e4uslichen Komfort im Renaissance Club\nDer ehemalige Europ\u00e4er Nr. 1 Ronan Rafferty wird in den n\u00e4chsten drei Tagen auf heimischen Komfort hoffen, da der Renaissance Club in East Lothian die 25. Ausgabe der Scottish Senior Open veranstaltet.\nDer Nordire, der im vergangenen Jahr nebenan im Archerfield Links bis zur Endrunde f\u00fchrte, bevor er gegen Paul Eales verlor, ist mit dem neuen Austragungsort verbunden und fungiert als Turnierbotschafter im Namen des Vereinsgr\u00fcnders und CEOs Jerry Sarvadi.\n\"Ich habe gesehen, wie der Renaissance-Club gebaut wurde, und wir sehen, wie er mit diesem Ereignis seinen Ruhm erreicht\", sagte Rafferty.\n\"Die Spieler werden diesen Kurs von seiner besten Seite sehen, er ist in einem tollen Zustand.\nJerry hat einen tollen Job gemacht, als er diesen Ort festlegte.\nEr ist ein eifriger Verfechter dieses Spiels und ist stolz auf seine Leistung hier.\nDies ist ein gro\u00dfartiges Schaufenster f\u00fcr diesen Kurs.\"\nDer Engl\u00e4nder Eales freut sich darauf, zum ersten Mal eine Meisterschaft zu verteidigen, obwohl er in seiner 32-j\u00e4hrigen Karriere sowohl bei der European Tour als auch bei der European Challenge Tour gewonnen hat.\n\"Das f\u00fchlt sich wirklich besonders an\", sagte der in Southport beheimatete Spieler.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Ronan Rafferty hofft auf h\u00e4uslichen Komfort im Renaissance Club\nDer ehemalige Europ\u00e4er Nr. 1 Ronan Rafferty wird in den n\u00e4chsten drei Tagen auf heimischen Komfort hoffen, da der Renaissance Club in East Lothian die 25. Ausgabe der Scottish Senior Open veranstaltet."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Der Nordire, der im vergangenen Jahr nebenan im Archerfield Links bis zur Endrunde f\u00fchrte, bevor er gegen Paul Eales verlor, ist mit dem neuen Austragungsort verbunden und fungiert als Turnierbotschafter im Namen des Vereinsgr\u00fcnders und CEOs Jerry Sarvadi.\n\"Ich habe gesehen, wie der Renaissance-Club gebaut wurde, und wir sehen, wie er mit diesem Ereignis seinen Ruhm erreicht\", sagte Rafferty."
+            },
+            {
+                "shard_id": 3,
+                "shard": "\"Die Spieler werden diesen Kurs von seiner besten Seite sehen, er ist in einem tollen Zustand.\nJerry hat einen tollen Job gemacht, als er diesen Ort festlegte."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Er ist ein eifriger Verfechter dieses Spiels und ist stolz auf seine Leistung hier.\nDies ist ein gro\u00dfartiges Schaufenster f\u00fcr diesen Kurs.\""
+            },
+            {
+                "shard_id": 5,
+                "shard": "Der Engl\u00e4nder Eales freut sich darauf, zum ersten Mal eine Meisterschaft zu verteidigen, obwohl er in seiner 32-j\u00e4hrigen Karriere sowohl bei der European Tour als auch bei der European Challenge Tour gewonnen hat.\n\"Das f\u00fchlt sich wirklich besonders an\", sagte der in Southport beheimatete Spieler."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-7-de-en",
+        "task": "translation",
+        "document_en": "Fewer lung cancer deaths due to passive smoking\nIn past two decades, an ever decreasing number of people have died from lung cancer due to passive smoking.\nThis is the conclusion drawn by scientists from the University Medical Centre Hamburg-Eppendorf (UKE) in a study.\n\"According to our estimations, 167 lung cancer deaths a year can be attributed to passive smoking,\" said study leader Heiko Becher.\nFor comparison, he referred to one of his own studies on this topic from 1994.\nBack then, there were still 400 lung cancer deaths due to passive smoking every year in Germany.\nThe new study is published in the \"International Journal of Public Health\".\n",
+        "document_de": "Weniger Lungenkrebstote durch Passivrauchen\nIn den vergangenen zwei Jahrzehnten sind immer weniger Menschen wegen Passivrauchens an Lungenkrebs gestorben.\nZu diesem Ergebnis kommen Wissenschaftler des Universit\u00e4tsklinikums Hamburg-Eppendorf (UKE) in einer Studie.\n\"Nach unseren Sch\u00e4tzungen sind pro Jahr 167 Lungenkrebstodesf\u00e4lle auf Passivrauchen zur\u00fcckzuf\u00fchren\", sagte Studienleiter Heiko Becher.\nAls Vergleich zog er eine eigene Studie zu diesem Thema von 1994 heran.\nDamals habe es noch 400 Lungenkrebstodesf\u00e4lle wegen Passivrauchens pro Jahr in Deutschland gegeben.\nDie neue Untersuchung ist im \"International Journal of Public Health\" ver\u00f6ffentlicht.\n",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Weniger Lungenkrebstote durch Passivrauchen\nIn den vergangenen zwei Jahrzehnten sind immer weniger Menschen wegen Passivrauchens an Lungenkrebs gestorben."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Zu diesem Ergebnis kommen Wissenschaftler des Universit\u00e4tsklinikums Hamburg-Eppendorf (UKE) in einer Studie.\n\"Nach unseren Sch\u00e4tzungen sind pro Jahr 167 Lungenkrebstodesf\u00e4lle auf Passivrauchen zur\u00fcckzuf\u00fchren\", sagte Studienleiter Heiko Becher."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Als Vergleich zog er eine eigene Studie zu diesem Thema von 1994 heran.\nDamals habe es noch 400 Lungenkrebstodesf\u00e4lle wegen Passivrauchens pro Jahr in Deutschland gegeben."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Die neue Untersuchung ist im \"International Journal of Public Health\" ver\u00f6ffentlicht.\n"
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-8-de-en",
+        "task": "translation",
+        "document_en": "Home connections prove to be very complex\nThe building works in Villinger Stra\u00dfe are in full throw and \"are more or less on schedule,\" according to the manager of the construction yard, Fred Heinze.\nIn terms of home connections, the situation is more complicated than expected, since lots of things are hidden in the substrate that were not noted in the plans.\nThe traffic, which always disrupts building works, poses a big problem for the Stumpp company construction crew.\n\"The ignorance of car drivers around red lights and barriers is really huge,\" reports Heinze.\nThe street is closed off and only the public busses are allowed to drive through.\nAngelo Caruso, Marvin Kostorz and Tim Kostorz from the Stumpp company have been engaged in the works on the bridges for weeks.\n\"The hot days were pretty exhausting, for sure.\nBut luckily we were supplied with cold mineral water by our friend Fritz Matt,\" explained Marvin Kostorz.\n",
+        "document_de": "Hausanschl\u00fcsse erweisen sich als sehr komplex\nDie Bauarbeiten in der Villinger Stra\u00dfe sind in vollem Gange und \"liegen einigerma\u00dfen in der Zeit\", so der Leiter des Bauhofs Fred Heinze.\nIm Bereich der Hausanschl\u00fcsse sei die Lage komplizierter als vermutet, da sich im Untergrund viel verberge, was nicht in den Pl\u00e4nen vermerkt sei.\nDer Verkehr, der immer wieder die Bauarbeiten behindert, stellt f\u00fcr den Bautrupp der Firma Stumpp ein gro\u00dfes Problem dar.\n\"Die Ignoranz der Autofahrer vor roten Ampeln und Absperrgittern ist schon enorm\", berichtet Heinze.\nDie Stra\u00dfe sei gesperrt und nur die Linienbusse seien zur Durchfahrt berechtigt.\nAngelo Caruso, Marvin Kostorz und Tim Kostorz von der Firma Stumpp sind seit Wochen mit den Arbeiten an der Br\u00fccke besch\u00e4ftigt.\n\"Die hei\u00dfen Tage waren schon ganz sch\u00f6n anstrengend.\nAber zum Gl\u00fcck wurden wir von unserem Freund Fritz Matt mit k\u00fchlem Mineralwasser versorgt\", erz\u00e4hlt Marvin Kostorz.\n",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Hausanschl\u00fcsse erweisen sich als sehr komplex\nDie Bauarbeiten in der Villinger Stra\u00dfe sind in vollem Gange und \"liegen einigerma\u00dfen in der Zeit\", so der Leiter des Bauhofs Fred Heinze."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Im Bereich der Hausanschl\u00fcsse sei die Lage komplizierter als vermutet, da sich im Untergrund viel verberge, was nicht in den Pl\u00e4nen vermerkt sei.\nDer Verkehr, der immer wieder die Bauarbeiten behindert, stellt f\u00fcr den Bautrupp der Firma Stumpp ein gro\u00dfes Problem dar."
+            },
+            {
+                "shard_id": 3,
+                "shard": "\"Die Ignoranz der Autofahrer vor roten Ampeln und Absperrgittern ist schon enorm\", berichtet Heinze.\nDie Stra\u00dfe sei gesperrt und nur die Linienbusse seien zur Durchfahrt berechtigt."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Angelo Caruso, Marvin Kostorz und Tim Kostorz von der Firma Stumpp sind seit Wochen mit den Arbeiten an der Br\u00fccke besch\u00e4ftigt.\n\"Die hei\u00dfen Tage waren schon ganz sch\u00f6n anstrengend."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Aber zum Gl\u00fcck wurden wir von unserem Freund Fritz Matt mit k\u00fchlem Mineralwasser versorgt\", erz\u00e4hlt Marvin Kostorz.\n"
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-9-de-en",
+        "task": "translation",
+        "document_en": "Poverty and Death in Indonesia's Land of Gold\nWhen Bardina Degei cooks dinner, she doesn't use a stove.\nShe rarely even uses a pot.\nIn her wooden home in Enarotali, the capital of Paniai regency in the restive Indonesian province of Papua, the housewife usually just places a sweet potato - known locally as \"nota\" - directly into the fireplace.\nAfter half-an-hour, the charred tuber is retrieved and devoured with eager, unwashed hands.\nDegei sits on the mud floor - she has no furniture - which is where she also performs her daily chores, such as washing clothes with murky water from the nearby swamp.\nA bucket in a roofless room serves as a latrine.\nAs the youngest of her husband's four wives, she has been assigned no fields to tend.\nPolygamy is common here.\nOf course, working late can be dangerous: Most of the village men are unemployed and many drink heavily, plus there are the soldiers.",
+        "document_de": "Armut und Tod im indonesischen Goldland\nWenn Bardina Degei das Abendessen kocht, benutzt sie keinen Herd.\nSie benutzt sogar nur selten einen Topf.\nIn ihrem Holzhaus in Enarotali, der Hauptstadt der Paniai-Regentschaft in der unruhigen indonesischen Provinz Papua, legt die Hausfrau normalerweise eine S\u00fc\u00dfkartoffel - lokal als \"nota\" bezeichnet - direkt in den Kamin.\nNach einer halben Stunde wird die verkohlte Knolle mit eifrigen, ungewaschenen H\u00e4nden entnommen und verschlungen.\nDegei sitzt auf dem Lehmboden - sie hat keine M\u00f6bel - wo sie auch ihre t\u00e4gliche Arbeit ausf\u00fchrt, z. B. Kleider mit tr\u00fcbem Wasser aus dem nahe gelegenen Sumpf zu waschen.\nEin Eimer in einem dachlosen Raum dient als Latrine.\nAls j\u00fcngste der vier Ehefrauen ihres Mannes wurden ihr keine Felder zugewiesen.\nPolygamie ist hier \u00fcblich.\nNat\u00fcrlich kann sp\u00e4t zu arbeiten gef\u00e4hrlich sein: Die meisten Dorfm\u00e4nner sind arbeitslos, und viele trinken schwer, und es gibt hier die Soldaten.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Armut und Tod im indonesischen Goldland\nWenn Bardina Degei das Abendessen kocht, benutzt sie keinen Herd."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Sie benutzt sogar nur selten einen Topf.\nIn ihrem Holzhaus in Enarotali, der Hauptstadt der Paniai-Regentschaft in der unruhigen indonesischen Provinz Papua, legt die Hausfrau normalerweise eine S\u00fc\u00dfkartoffel - lokal als \"nota\" bezeichnet - direkt in den Kamin."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Nach einer halben Stunde wird die verkohlte Knolle mit eifrigen, ungewaschenen H\u00e4nden entnommen und verschlungen.\nDegei sitzt auf dem Lehmboden - sie hat keine M\u00f6bel - wo sie auch ihre t\u00e4gliche Arbeit ausf\u00fchrt, z. B. Kleider mit tr\u00fcbem Wasser aus dem nahe gelegenen Sumpf zu waschen."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Ein Eimer in einem dachlosen Raum dient als Latrine.\nAls j\u00fcngste der vier Ehefrauen ihres Mannes wurden ihr keine Felder zugewiesen."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Polygamie ist hier \u00fcblich.\nNat\u00fcrlich kann sp\u00e4t zu arbeiten gef\u00e4hrlich sein: Die meisten Dorfm\u00e4nner sind arbeitslos, und viele trinken schwer, und es gibt hier die Soldaten."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-10-de-en",
+        "task": "translation",
+        "document_en": "Fire engulfs Dubai's 'Torch' skyscraper for second time\nA fire ripped through one of the world's tallest residential towers in Dubai on Friday, forcing hundreds of occupants to flee the 337 metre-tall, 79-storey structure.\nIt's the second blaze to sweep through the high-rise - which happens to be called the Torch tower - in just two years.\nThe building was evacuated, no injuries were reported, and there was no immediate word on the cause of the blaze.\n\"We were sleeping and we woke up to the fire alarm and people screaming.\nWe ran down the stairs and it took us about 10 minutes to reach from the 50th floor,\" a resident who gave his name as George told Reuters.\nDubai's civil defence authorities said firefighting squads put out the blaze at around 4.00 am local time (0000 GMT) and were cooling the building.\nThe government said it was working on providing shelter for those affected.\nThe incident may revive questions about the safety of materials used on the exteriors of tall buildings across the world.\nAn investigation by the management of the Torch after its 2015 fire found that most of the damage was to the cladding, exterior panelling used for decoration or insulation.",
+        "document_de": "Feuer erfassen den 'Torch' Wolkenkratzer von Dubai zum zweiten Mal\nEin Feuer fand am Freitag in einem der h\u00f6chsten Wohnt\u00fcrme der Welt in Dubai seinen Durchbuch und zwang Hunderte von Bewohnern, aus dem 337 Meter hohen, 79-st\u00f6ckigen Geb\u00e4ude zu fliehen.\nEs ist der zweite Brand, der in nur zwei Jahren durch das Hochhaus fegt, das man zuf\u00e4lligerweise den Torch-Tower (Fackel-Turm) nennt.\nDas Geb\u00e4ude wurde evakuiert, Verletzungen wurden keine gemeldet, und es gab kein direktes Wort \u00fcber die Ursache der Flamme.\n\"Wir haben geschlafen und wir sind beim Feueralarm und beim Schreien der Leute aufgestanden.\nWir rannten die Treppe hinunter, und es dauerte etwa 10 Minuten, um von der 50. Etage nach unten zu kommen\", erz\u00e4hlte ein Bewohner, der seinen Namen als George angab, Reuters.\nDubais Zivilschutzbeh\u00f6rden sagten, dass die Einheiten der Brandbek\u00e4mpfung gegen 4.00 Uhr Ortszeit (00.00 Uhr GMT) das Feuer l\u00f6schten und das Geb\u00e4ude abk\u00fchlten.\nDie Regierung sagte, sie arbeite an der Bereitstellung von Unterk\u00fcnften f\u00fcr die Betroffenen.\nDer Vorfall kann Fragen zur Sicherheit von Materialien, die in Au\u00dfenbereichen von Hochh\u00e4usern auf der ganzen Welt verwendet werden, wiederbeleben.\nEine Untersuchung durch das Management des Torch-Geb\u00e4udes nach dessen Brand im Jahr 2015 ergab, dass der gr\u00f6\u00dfte Teil der Sch\u00e4den von der Verkleidung, der Au\u00dfenverkleidung zur Dekoration oder Isolierung, kam.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Feuer erfassen den 'Torch' Wolkenkratzer von Dubai zum zweiten Mal\nEin Feuer fand am Freitag in einem der h\u00f6chsten Wohnt\u00fcrme der Welt in Dubai seinen Durchbuch und zwang Hunderte von Bewohnern, aus dem 337 Meter hohen, 79-st\u00f6ckigen Geb\u00e4ude zu fliehen."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Es ist der zweite Brand, der in nur zwei Jahren durch das Hochhaus fegt, das man zuf\u00e4lligerweise den Torch-Tower (Fackel-Turm) nennt.\nDas Geb\u00e4ude wurde evakuiert, Verletzungen wurden keine gemeldet, und es gab kein direktes Wort \u00fcber die Ursache der Flamme."
+            },
+            {
+                "shard_id": 3,
+                "shard": "\"Wir haben geschlafen und wir sind beim Feueralarm und beim Schreien der Leute aufgestanden.\nWir rannten die Treppe hinunter, und es dauerte etwa 10 Minuten, um von der 50. Etage nach unten zu kommen\", erz\u00e4hlte ein Bewohner, der seinen Namen als George angab, Reuters."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Dubais Zivilschutzbeh\u00f6rden sagten, dass die Einheiten der Brandbek\u00e4mpfung gegen 4.00 Uhr Ortszeit (00.00 Uhr GMT) das Feuer l\u00f6schten und das Geb\u00e4ude abk\u00fchlten.\nDie Regierung sagte, sie arbeite an der Bereitstellung von Unterk\u00fcnften f\u00fcr die Betroffenen."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Der Vorfall kann Fragen zur Sicherheit von Materialien, die in Au\u00dfenbereichen von Hochh\u00e4usern auf der ganzen Welt verwendet werden, wiederbeleben.\nEine Untersuchung durch das Management des Torch-Geb\u00e4udes nach dessen Brand im Jahr 2015 ergab, dass der gr\u00f6\u00dfte Teil der Sch\u00e4den von der Verkleidung, der Au\u00dfenverkleidung zur Dekoration oder Isolierung, kam."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-11-de-en",
+        "task": "translation",
+        "document_en": "No Davis Cup reform: Best-of-five continues\nThe president of the International Tennis Federation has failed with his big Davis Cup coup in the general assembly.\nAt the meeting in Ho Chi Minh City, the (for this sport) revolutionary suggestion to from now on play the Davis Cup singles over only best-of-three sets received just shy \u2013 by a whisker \u2013 of the necessary two-thirds majority in support.\nThe admittedly often very long, but for that reason also greatly treasured, five-set classics are therefore surviving in the traditional competition.\n63.54 per cent of the member countries voted in favour of the reform; ITF president David Haggerty's objective was therefore only just missed.\n\"We respect the decision, but are disappointed that our member nations have not accepted the entire reform package for the Davis Cup and Fed Cup.\nWe need change in order to secure the long-term future of this iconic and historic competition,\" said Haggerty.\nThere will continue to be work done to improve the competition.\nAfter many objections beforehand already, the suggestion to hold the final at a neutral location did not even make it to the vote.\nNew from 2018 are only comparatively small details: so, in future, the finalists of the David Cup and Fed Cup will have the right to host in the first round the following year.",
+        "document_de": "Keine Davis-Cup-Reform: Weiter Best-of-five\nDer Pr\u00e4sident des Internationalen Tennisverbands (ITF) ist mit seinem gro\u00dfen Davis-Cup-Coup bei der Generalversammlung durchgefallen.\nBei der Sitzung in Ho-Chi-Minh-Stadt wurde der f\u00fcr diesen Sport revolution\u00e4re Vorschlag, Davis-Cup-Einzel nur noch auf zwei Gewinns\u00e4tze zu spielen, hauchd\u00fcnn nicht von der erforderlichen Zwei-Drittel-Mehrheit unterst\u00fctzt.\nDie zwar oft sehr langen, aber eben auch deshalb sehr gesch\u00e4tzten F\u00fcnf-Satz-Klassiker bleiben dem Traditionsbewerb also erhalten.\n63,54 Prozent der Mitgliedsl\u00e4nder stimmten f\u00fcr die Reform, das Ziel des ITF-Pr\u00e4sidenten David Haggerty wurde daher nur knapp verfehlt.\n\"Wir respektieren diese Entscheidung, aber sind entt\u00e4uscht, dass unsere Mitgliedernationen nicht das gesamte Reformpaket f\u00fcr den Davis Cup und Fed Cup angenommen haben.\nWir brauchen eine \u00c4nderung, um die langfristige Zukunft dieser ikonischen und historischen Wettbewerbe zu sichern\", sagte Haggerty.\nMan werde weiterhin daran arbeiten, die Bewerbe zu verbessern.\nGar nicht erst zur Abstimmung war nach vielen Einspr\u00fcchen schon davor der Vorschlag gekommen, das Finale an einem neutralen Ort auszutragen.\nNeu ab 2018 sind nur vergleichsweise kleinere Details: So werden die Finalisten im Davis Cup und Fed Cup k\u00fcnftig im darauffolgenden Jahr in der ersten Runde das Gastgeber-Recht haben.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Keine Davis-Cup-Reform: Weiter Best-of-five\nDer Pr\u00e4sident des Internationalen Tennisverbands (ITF) ist mit seinem gro\u00dfen Davis-Cup-Coup bei der Generalversammlung durchgefallen."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Bei der Sitzung in Ho-Chi-Minh-Stadt wurde der f\u00fcr diesen Sport revolution\u00e4re Vorschlag, Davis-Cup-Einzel nur noch auf zwei Gewinns\u00e4tze zu spielen, hauchd\u00fcnn nicht von der erforderlichen Zwei-Drittel-Mehrheit unterst\u00fctzt.\nDie zwar oft sehr langen, aber eben auch deshalb sehr gesch\u00e4tzten F\u00fcnf-Satz-Klassiker bleiben dem Traditionsbewerb also erhalten."
+            },
+            {
+                "shard_id": 3,
+                "shard": "63,54 Prozent der Mitgliedsl\u00e4nder stimmten f\u00fcr die Reform, das Ziel des ITF-Pr\u00e4sidenten David Haggerty wurde daher nur knapp verfehlt.\n\"Wir respektieren diese Entscheidung, aber sind entt\u00e4uscht, dass unsere Mitgliedernationen nicht das gesamte Reformpaket f\u00fcr den Davis Cup und Fed Cup angenommen haben."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Wir brauchen eine \u00c4nderung, um die langfristige Zukunft dieser ikonischen und historischen Wettbewerbe zu sichern\", sagte Haggerty.\nMan werde weiterhin daran arbeiten, die Bewerbe zu verbessern."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Gar nicht erst zur Abstimmung war nach vielen Einspr\u00fcchen schon davor der Vorschlag gekommen, das Finale an einem neutralen Ort auszutragen.\nNeu ab 2018 sind nur vergleichsweise kleinere Details: So werden die Finalisten im Davis Cup und Fed Cup k\u00fcnftig im darauffolgenden Jahr in der ersten Runde das Gastgeber-Recht haben."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-12-de-en",
+        "task": "translation",
+        "document_en": "More than 1 in 5 US travellers carry prohibited items onto aircraft, survey finds\nA survey of airline passengers found that more than 20 per cent had knowingly or unknowingly smuggled prohibited items past the US Transportation Security Administration checkpoints onto the aircraft, including at least 6 per cent who boarded the plane while unintentionally carrying prohibited knives or other bladed objects.\nLess than 1 per cent claimed that they discovered belatedly that they had mistakenly travelled with firearms, ammunition or explosives.\nThe survey of more than 1000 people - which was conducted by a jet-chartering service Stratos Jet Charters Inc. - also found that younger travellers were more likely to flout the rules.\nOf the respondents who admitted knowingly trying to fly with something banned by the TSA, 19.7 per cent were millennials, compared with less than 15 per cent who were members of Generation X.\nThe most common items whisked past TSA agents on purpose were food and liquids.\nMore than 3 per cent admitted knowingly carrying bladed items past security, while 2.2 per cent of female respondents and 3.7 per cent of male respondents also acknowledged intentionally carrying prohibited drugs onto the aircraft.\nThe company said it surveyed travellers around the country to find out how many had accidentally brought contraband through airport security and how many had done so on purpose.\nIt's no surprise that the people most likely to haul contraband past security - knowingly or unknowingly - were those who fly the most.\nAs the company points out, however, the TSA guidelines are somewhat complicated and confusing.",
+        "document_de": "Mehr als 1 von 5 US-Reisenden bringt verbotene Gegenst\u00e4nde ins Flugzeug, findet eine Umfrage heraus\nEine Umfrage unter Flugpassagieren ergab, dass mehr als 20 Prozent bewusst oder unbewusst verbotene Gegenst\u00e4nde an den Kontrollpunkten der US Transportation Security Administration vorbei schmuggelten, darunter mindestens 6 Prozent, die das Flugzeug betraten, w\u00e4hrend sie versehentlich verbotene Messer oder andere Gegenst\u00e4nde mit Klingen trugen.\nWeniger als 1 Prozent behaupteten, sie h\u00e4tten versp\u00e4tet entdeckt, dass sie irrt\u00fcmlich mit Schusswaffen, Munition oder Sprengstoff gereist seien.\nDie Umfrage bei mehr als 1.000 Personen - die von einem Jet-Charterservice, dem Stratos Jet Charters Inc., durchgef\u00fchrt wurde - stellte auch fest, dass j\u00fcngere Reisende eher die Regeln missachten.\nVon den Befragten, die zugaben, dass sie wissentlich versucht haben, mit etwas zu fliegen, das von der TSA verboten wurde, waren 19,7 Prozent Millennials, verglichen mit weniger als 15 Prozent, die Mitglieder der Generation X waren.\nDie h\u00e4ufigsten Gegenst\u00e4nde, die an TSA-Agenten absichtlich vorbeigeschleust wurden, waren Lebensmittel und Fl\u00fcssigkeiten.\nMehr als 3 Prozent gaben zu, wissentlich Gegenst\u00e4nde mit Klingen durch die Sicherheitskontrolle getragen zu haben, w\u00e4hrend 2,2 Prozent der weiblichen Befragten und 3,7 Prozent der m\u00e4nnlichen Befragten auch best\u00e4tigten, dass sie absichtlich verbotene Drogen in das Flugzeug gebracht h\u00e4tten.\nDas Unternehmen sagte, es habe Reisende im ganzen Land befragt, um herauszufinden, wie viele versehentlich Schmuggelware durch die Flughafensicherheit gebracht h\u00e4tten und wie viele es absichtlich getan h\u00e4tten.\nEs ist keine \u00dcberraschung, dass die Menschen, die am ehesten Schmuggelware - wissentlich oder unwissentlich - durch die Sicherheit tragen, diejenigen waren, die am h\u00e4ufigsten fliegen.\nDas Unternehmen weist jedoch darauf hin, dass die TSA-Richtlinien etwas kompliziert und verwirrend sind.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Mehr als 1 von 5 US-Reisenden bringt verbotene Gegenst\u00e4nde ins Flugzeug, findet eine Umfrage heraus\nEine Umfrage unter Flugpassagieren ergab, dass mehr als 20 Prozent bewusst oder unbewusst verbotene Gegenst\u00e4nde an den Kontrollpunkten der US Transportation Security Administration vorbei schmuggelten, darunter mindestens 6 Prozent, die das Flugzeug betraten, w\u00e4hrend sie versehentlich verbotene Messer oder andere Gegenst\u00e4nde mit Klingen trugen."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Weniger als 1 Prozent behaupteten, sie h\u00e4tten versp\u00e4tet entdeckt, dass sie irrt\u00fcmlich mit Schusswaffen, Munition oder Sprengstoff gereist seien.\nDie Umfrage bei mehr als 1.000 Personen - die von einem Jet-Charterservice, dem Stratos Jet Charters Inc., durchgef\u00fchrt wurde - stellte auch fest, dass j\u00fcngere Reisende eher die Regeln missachten."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Von den Befragten, die zugaben, dass sie wissentlich versucht haben, mit etwas zu fliegen, das von der TSA verboten wurde, waren 19,7 Prozent Millennials, verglichen mit weniger als 15 Prozent, die Mitglieder der Generation X waren.\nDie h\u00e4ufigsten Gegenst\u00e4nde, die an TSA-Agenten absichtlich vorbeigeschleust wurden, waren Lebensmittel und Fl\u00fcssigkeiten."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Mehr als 3 Prozent gaben zu, wissentlich Gegenst\u00e4nde mit Klingen durch die Sicherheitskontrolle getragen zu haben, w\u00e4hrend 2,2 Prozent der weiblichen Befragten und 3,7 Prozent der m\u00e4nnlichen Befragten auch best\u00e4tigten, dass sie absichtlich verbotene Drogen in das Flugzeug gebracht h\u00e4tten.\nDas Unternehmen sagte, es habe Reisende im ganzen Land befragt, um herauszufinden, wie viele versehentlich Schmuggelware durch die Flughafensicherheit gebracht h\u00e4tten und wie viele es absichtlich getan h\u00e4tten."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Es ist keine \u00dcberraschung, dass die Menschen, die am ehesten Schmuggelware - wissentlich oder unwissentlich - durch die Sicherheit tragen, diejenigen waren, die am h\u00e4ufigsten fliegen.\nDas Unternehmen weist jedoch darauf hin, dass die TSA-Richtlinien etwas kompliziert und verwirrend sind."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-13-de-en",
+        "task": "translation",
+        "document_en": "Elon Musk doesn't care: Tens of thousands of Tesla customers cancel their orders\nElectronics-multi-talent Elon Musk likes to brag about the huge number of pre-orders for his new Tesla \"Model 3\".\nUp until now, he has withheld the fact that a portion of these customers have already cancelled their non-binding reservations.\nAlongside the always triumphant figures for sales increases and the even more gigantic sales targets, with the announcement of the most recent quarterly financial statement, Tesla boss Elon Musk has for the first time had to reveal another, less glamorous number: that of the cancellations for the new mass-market Model 3.\nIn recent months, Musk had frequently used those more than 500,000 pre-orders to talk up the new car, for which distribution is just starting.\nMusk now concedes that of the 518,000 total pre-orders, 63,000 have already been retracted.\nCritics had time and again pointed out that they were only non-binding reservations.\nIn cases of cancellation, Tesla pays the 1000-euro (in the USA, 1000-US-dollar, and in Great Britain, 1000-pound) \"reservation deposit\" back in its entirety.\nThere are currently 455,000 such non-binding reservations, conceded Musk in a conference call with analysts.\nHowever, the Tesla boss does not believe that the cancellation of as of yet 12 per cent of all orders could become a problem.",
+        "document_de": "Elon Musk ist es egal: Zehntausende Tesla-Kunden stornieren Order\nElektro-Tausendsassa Elon Musk gibt gern mit der riesigen Zahl von Vorbestellungen f\u00fcr seinen neuen Tesla \"Model 3\" an.\nDabei hat er bisher unterschlagen, dass ein Teil der Kunden ihre unverbindliche Reservierung schon wieder zur\u00fcckgezogen hat.\nNeben den stets triumphalen Zahlen zu Umsatzsteigerungen und noch gigantischeren Absatzzielen hat Tesla-Chef Elon Musk bei der Bekanntgabe der j\u00fcngsten Quartalsbilanz erstmals eine andere, weniger glanzvolle Zahl verraten: die der Stornierungen beim neuen Massenmarkt-Modell 3.\nMusk hatte in den vergangenen Monaten h\u00e4ufig mit den mehr als 500.000 Vorbestellungen f\u00fcr das neue Auto geworben, dessen Auslieferung gerade beginnt.\nNun r\u00e4umt Musk ein: Von den insgesamt 518.000 Vorbestellungen sind 63.000 schon wieder zur\u00fcckgezogen worden.\nKritiker hatten immer wieder darauf hingewiesen, dass es sich lediglich um unverbindliche Reservierungen handelt.\nBei einer Stornierung zahlt Tesla die 1000 Euro (in den USA 1000 US-Dollar und in Gro\u00dfbritannien 1000 Pfund) \"Reservierungsanzahlung\" vollst\u00e4ndig zur\u00fcck.\nDerzeit l\u00e4gen 455.000 solcher unverbindlichen Reservierungen vor, r\u00e4umte Musk in einer Telefonkonferenz mit Analysten ein.\nDass die Stornierung von bislang rund zw\u00f6lf Prozent aller Bestellungen zum Problem werden k\u00f6nnte, glaubt der Tesla-Chef jedoch nicht.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Elon Musk ist es egal: Zehntausende Tesla-Kunden stornieren Order\nElektro-Tausendsassa Elon Musk gibt gern mit der riesigen Zahl von Vorbestellungen f\u00fcr seinen neuen Tesla \"Model 3\" an."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Dabei hat er bisher unterschlagen, dass ein Teil der Kunden ihre unverbindliche Reservierung schon wieder zur\u00fcckgezogen hat.\nNeben den stets triumphalen Zahlen zu Umsatzsteigerungen und noch gigantischeren Absatzzielen hat Tesla-Chef Elon Musk bei der Bekanntgabe der j\u00fcngsten Quartalsbilanz erstmals eine andere, weniger glanzvolle Zahl verraten: die der Stornierungen beim neuen Massenmarkt-Modell 3."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Musk hatte in den vergangenen Monaten h\u00e4ufig mit den mehr als 500.000 Vorbestellungen f\u00fcr das neue Auto geworben, dessen Auslieferung gerade beginnt.\nNun r\u00e4umt Musk ein: Von den insgesamt 518.000 Vorbestellungen sind 63.000 schon wieder zur\u00fcckgezogen worden."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Kritiker hatten immer wieder darauf hingewiesen, dass es sich lediglich um unverbindliche Reservierungen handelt.\nBei einer Stornierung zahlt Tesla die 1000 Euro (in den USA 1000 US-Dollar und in Gro\u00dfbritannien 1000 Pfund) \"Reservierungsanzahlung\" vollst\u00e4ndig zur\u00fcck."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Derzeit l\u00e4gen 455.000 solcher unverbindlichen Reservierungen vor, r\u00e4umte Musk in einer Telefonkonferenz mit Analysten ein.\nDass die Stornierung von bislang rund zw\u00f6lf Prozent aller Bestellungen zum Problem werden k\u00f6nnte, glaubt der Tesla-Chef jedoch nicht."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-14-de-en",
+        "task": "translation",
+        "document_en": "EPA Chief Pruitt Backtracks on Delaying Obama-Era Rules to Reduce Emissions\nOne day after getting sued by 15 states, Environmental Protection Agency chief Scott Pruitt reversed his earlier decision to delay implementation of Obama-era rules reducing emissions of smog-causing air pollutants.\nPruitt presented the change as his agency being more responsive than past administrations to the needs of state environmental regulators.\nHe made no mention of the legal challenge filed against his prior position in a federal appeals court.\nAt issue is an Oct. 1 deadline for states to begin meeting 2015 standards for ground-level ozone.\nPruitt announced in June he would delay compliance by one year to give his agency more time to study the plan and avoid \"interfering with local decisions or impeding economic growth.\"\nPruitt, who was Oklahoma's state attorney general prior to his appointment by President Donald Trump, has long served as a reliable opponent of stricter environmental regulations.\nSince arriving in Washington, Pruitt has repeatedly moved to block or delay regulations opposed by the chemical and fossil-fuel industries.\nWednesday's sudden reversal is the latest legal setback for Pruitt's regulatory rollback agenda.\nLast month, a federal appeals court in Washington ruled the EPA administrator overstepped his authority in trying to delay implementation of an Obama administration rule requiring oil and gas companies to monitor and reduce methane leaks.",
+        "document_de": "EPA-Chef Pruitt zieht sich wegen des Hinausz\u00f6gerns der Regeln der Obama-Era zur Verringerung der Emissionen zur\u00fcck\nEinen Tag, nachdem er von 15 Staaten verklagt worden war, nahm Scott Pruitt, der Chef der Umweltschutzbeh\u00f6rde, seine fr\u00fchere Entscheidung zur\u00fcck, die Umsetzung der Regeln der Obama-\u00c4ra zu verz\u00f6gern, um die Emissionen Smog verursachender Luftschadstoffe zu reduzieren.\nPruitt pr\u00e4sentierte den Wandel, als seine Agentur sich den Bed\u00fcrfnissen der staatlichen Umweltbeh\u00f6rden gegen\u00fcber reaktionsschneller als bisherige Verwaltungen erwies.\nEr erw\u00e4hnte die Klage nicht, die gegen seine vorherige Stelle in einem Bundesberufungsgericht erhoben worden war.\nEs geht um eine Frist, die am 1. Oktober f\u00fcr Staaten ablief, um die Standards von 2015 f\u00fcr bodennahes Ozon einzuhalten.\nPruitt verk\u00fcndete im Juni, dass er die Einhaltung um ein Jahr hinausz\u00f6gern werde, um seiner Beh\u00f6rde mehr Zeit zu geben, den Plan zu studieren und um zu vermeiden, \"sich in lokale Entscheidungen einzumischen oder das Wirtschaftswachstum zu behindern\".\nPruitt, der vor seiner Ernennung durch Pr\u00e4sident Donald Trump Staatsanwalt von Oklahoma war, war lange Zeit ein zuverl\u00e4ssiger Gegner strengerer Umweltschutzvorschriften.\nSeit seiner Ankunft in Washington ist Pruitt wiederholt dazu \u00fcbergegangen, Regulierungen zu blockieren oder zu verz\u00f6gern, denen sich die chemische Industrie und die Industrie der fossilen Brennstoffe widersetzen.\nDie pl\u00f6tzliche Umkehr vom Mittwoch ist der j\u00fcngste rechtliche R\u00fcckschlag f\u00fcr die Pruitts regulatorische Rollback-Agenda.\nLetzten Monat hat ein Bundesberufungsgericht in Washington entschieden, dass der EPA-Verwalter seine Autorit\u00e4t \u00fcberschritten hat, als er versuchte, die Umsetzung einer Regel der Obama-Administration, die \u00d6l- und Gasunternehmen zur \u00dcberwachung und Reduzierung von Methanlecks verpflichtete, zu verz\u00f6gern.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "EPA-Chef Pruitt zieht sich wegen des Hinausz\u00f6gerns der Regeln der Obama-Era zur Verringerung der Emissionen zur\u00fcck\nEinen Tag, nachdem er von 15 Staaten verklagt worden war, nahm Scott Pruitt, der Chef der Umweltschutzbeh\u00f6rde, seine fr\u00fchere Entscheidung zur\u00fcck, die Umsetzung der Regeln der Obama-\u00c4ra zu verz\u00f6gern, um die Emissionen Smog verursachender Luftschadstoffe zu reduzieren."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Pruitt pr\u00e4sentierte den Wandel, als seine Agentur sich den Bed\u00fcrfnissen der staatlichen Umweltbeh\u00f6rden gegen\u00fcber reaktionsschneller als bisherige Verwaltungen erwies.\nEr erw\u00e4hnte die Klage nicht, die gegen seine vorherige Stelle in einem Bundesberufungsgericht erhoben worden war."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Es geht um eine Frist, die am 1. Oktober f\u00fcr Staaten ablief, um die Standards von 2015 f\u00fcr bodennahes Ozon einzuhalten.\nPruitt verk\u00fcndete im Juni, dass er die Einhaltung um ein Jahr hinausz\u00f6gern werde, um seiner Beh\u00f6rde mehr Zeit zu geben, den Plan zu studieren und um zu vermeiden, \"sich in lokale Entscheidungen einzumischen oder das Wirtschaftswachstum zu behindern\"."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Pruitt, der vor seiner Ernennung durch Pr\u00e4sident Donald Trump Staatsanwalt von Oklahoma war, war lange Zeit ein zuverl\u00e4ssiger Gegner strengerer Umweltschutzvorschriften.\nSeit seiner Ankunft in Washington ist Pruitt wiederholt dazu \u00fcbergegangen, Regulierungen zu blockieren oder zu verz\u00f6gern, denen sich die chemische Industrie und die Industrie der fossilen Brennstoffe widersetzen."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Die pl\u00f6tzliche Umkehr vom Mittwoch ist der j\u00fcngste rechtliche R\u00fcckschlag f\u00fcr die Pruitts regulatorische Rollback-Agenda.\nLetzten Monat hat ein Bundesberufungsgericht in Washington entschieden, dass der EPA-Verwalter seine Autorit\u00e4t \u00fcberschritten hat, als er versuchte, die Umsetzung einer Regel der Obama-Administration, die \u00d6l- und Gasunternehmen zur \u00dcberwachung und Reduzierung von Methanlecks verpflichtete, zu verz\u00f6gern."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-15-de-en",
+        "task": "translation",
+        "document_en": "Tumlingen is celebrating 750 years of the St. Hilarius Church\n750 years of the St. Hilarius Church: To mark the anniversary of the mountain church, invitations are being issued to a serenade in the old cemetery grounds in Tumlingen on Sunday 16th July at 4.30pm.\nDue to its idyllic setting and beautiful view over the village, the historical site of St. Hilarius is a beloved place to tarry a while.\nVisitors to the sixth benefit serenade can let themselves be enchanted by this powerful place.\nThe Friends and Supporters of Tumlingen have made the rescue and preservation of the oldest building in the area their concern.\nWalter Martini stresses: \"It is a one-of-a-kind rural jewel\".\nThe St. Hilarius chapel was first mentioned in records in 1267 in the W\u00fcrttemberg register: Count Hermann von Sulz sold \"the mountain with the parish church for Tumlingen on it, together with the Bailiwick\" to Master Eberhard von Horb and his brother Dietrich for 20 silver marks.\nAccording to the text of the official document, aside from the former parish church, a lordly farm also stood on the Tumlingen mountain, which itself owned the church, or the right of patronage, and not the other way around.\nPeople therefore also lived there too.\nAs is apparent from the upper administrative office for Freudenstadt's description in 1858, the \"mountain\" was, alongside the lower village and the upper village that can just about be made out still in the appearance of Tumlingen today, the village's third, grand centre of settlement.",
+        "document_de": "Tumlingen feiert 750 Jahre St. Hilarius-Kirche\n750 Jahre St. Hilarius-Kirche: Anl\u00e4sslich des Jubil\u00e4ums der Bergkirche wird auf das alte Friedhof-Areal in Tumlingen am Sonntag, 16. Juli, um 16.30 Uhr zu einer Serenade eingeladen.\nOb seiner idyllischen Lage und sch\u00f6ner Aussicht auf die Ortschaft ist die historische St. Hilarius-Anlage ein beliebter Ort zum Verweilen.\nDie Besucher der sechsten Benefiz-Serenade k\u00f6nnen sich von diesem kraftvollen Ort verzaubern lassen.\nDie Rettung und Erhaltung des \u00e4ltesten Geb\u00e4udes im Ort haben die Freunde und F\u00f6rderer Tumlingens zu ihrem Anliegen gemacht.\nWalter Martini betont: \"Es ist ein einzigartiges d\u00f6rfliches Kleinod\".\nIm Jahr 1267 ist die St. Hilariuskapelle erstmals im W\u00fcrttembergischen Urkundenbuch urkundlich erw\u00e4hnt worden: Graf Hermann von Sulz verkaufte \"den Berg mit der darauf befindlichen Pfarrkirche zu Tumlingen samt der Vogtei\" an Magister Eberhard von Horb und an seinen Bruder Dietrich f\u00fcr 20 Mark Silber.\nDem Wortlaut der Urkunde nach stand auf dem Tumlinger Berg au\u00dfer der einstigen Pfarrkirche auch ein herrschaftlicher Hof, zu dem die Kirche oder das Patronatsrecht geh\u00f6rte und nicht umgekehrt.\nEs wohnten also auch Menschen dort.\nWie aus der Beschreibung des Oberamtes Freudenstadt von 1858 hervorgeht, war neben dem Unterdorf und dem Oberdorf, die heute im Ortsbild von Tumlingen gerade noch zu erkennen sind, der \"Berg\" der dritte, der herrschaftliche Siedlungskern des Dorfes.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Tumlingen feiert 750 Jahre St. Hilarius-Kirche\n750 Jahre St. Hilarius-Kirche: Anl\u00e4sslich des Jubil\u00e4ums der Bergkirche wird auf das alte Friedhof-Areal in Tumlingen am Sonntag, 16. Juli, um 16.30 Uhr zu einer Serenade eingeladen."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Ob seiner idyllischen Lage und sch\u00f6ner Aussicht auf die Ortschaft ist die historische St. Hilarius-Anlage ein beliebter Ort zum Verweilen.\nDie Besucher der sechsten Benefiz-Serenade k\u00f6nnen sich von diesem kraftvollen Ort verzaubern lassen."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Die Rettung und Erhaltung des \u00e4ltesten Geb\u00e4udes im Ort haben die Freunde und F\u00f6rderer Tumlingens zu ihrem Anliegen gemacht.\nWalter Martini betont: \"Es ist ein einzigartiges d\u00f6rfliches Kleinod\"."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Im Jahr 1267 ist die St. Hilariuskapelle erstmals im W\u00fcrttembergischen Urkundenbuch urkundlich erw\u00e4hnt worden: Graf Hermann von Sulz verkaufte \"den Berg mit der darauf befindlichen Pfarrkirche zu Tumlingen samt der Vogtei\" an Magister Eberhard von Horb und an seinen Bruder Dietrich f\u00fcr 20 Mark Silber.\nDem Wortlaut der Urkunde nach stand auf dem Tumlinger Berg au\u00dfer der einstigen Pfarrkirche auch ein herrschaftlicher Hof, zu dem die Kirche oder das Patronatsrecht geh\u00f6rte und nicht umgekehrt."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Es wohnten also auch Menschen dort.\nWie aus der Beschreibung des Oberamtes Freudenstadt von 1858 hervorgeht, war neben dem Unterdorf und dem Oberdorf, die heute im Ortsbild von Tumlingen gerade noch zu erkennen sind, der \"Berg\" der dritte, der herrschaftliche Siedlungskern des Dorfes."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-16-de-en",
+        "task": "translation",
+        "document_en": "Association wants to have wind turbine approval examined\n\"Boisheim wehrt sich\", sees no legal basis for the construction and has therefore turned to the District Administrator.\nThe association \"Boisheim wehrt sich\" has called on District Administrator Andreas Coenen (CDU) to retract his approval for the construction of planned wind turbines in Boisheimer Nette.\nThey say it was unlawful.\nThe association argues that at the time the approval was given on 30th December 2016, no wind turbines could have been approved in Bosheimer Nette, since at that time only one wind energy concentration zone existed in Viersen, on the city boundary with Schwalmtal.\nConstruction and operation of wind energy plants are in principle possible within this concentration zone, but at the same time, the concentration zone has an exclusion against the use of wind energy for the rest of the city area.\nSuch zones are said to prevent \"asparagusisation\" of the landscape.\nThe city of Viersen had in fact passed a resolution for a second wind energy concentration zone in Boisheimer Nette a few days earlier, through an amendment to the local land-use plan \u2013 but the D\u00fcsseldorf regional government had not approved it due to a formal error.\n\"Due to the lack of legal planning requirements, the approval decision that was issued is still unlawful, and should therefore be retracted as well,\" said Christoph Erkens, chairman of \"Boisheim wehrt sich\".\nThe current state of affairs: the city council once again passed a resolution for the wind concentration zone in Boisheimer Nette before the summer break; approval from the regional government is still pending.",
+        "document_de": "Verein will Genehmigung von Windr\u00e4dern pr\u00fcfen lassen\n\"Boisheim wehrt sich\" sieht keine rechtliche Voraussetzung f\u00fcr den Bau und hat sich daher an den Landrat gewandt.\nDer Verein \"Boisheim wehrt sich\" hat Landrat Andreas Coenen (CDU) aufgefordert, seine Genehmigung f\u00fcr die Errichtung von geplanten Windkraftanlagen in der Boisheimer Nette zur\u00fcckzunehmen.\nSie sei rechtswidrig erfolgt.\nDer Verein argumentiert, dass zum Zeitpunkt der Genehmigung am 30. Dezember 2016 in der Boisheimer Nette gar keine Windkraftanlagen h\u00e4tten genehmigt werden k\u00f6nnen, da zu dem Zeitpunkt in Viersen lediglich an der Stadtgrenze zu Schwalmtal eine Windkraft-Konzentrationszone existiert habe.\nInnerhalb dieser Konzentrationszone sind Bau und Betrieb von Windenergieanlagen grunds\u00e4tzlich m\u00f6glich, zugleich bewirkt die Konzentrationszone aber einen Ausschluss der Windenergienutzung f\u00fcr das \u00fcbrige Stadtgebiet.\nDerlei Zonen sollen eine \"Verspargelung\" der Landschaft verhindern.\nDie Stadt Viersen hatte zwar wenige Tage zuvor durch eine \u00c4nderung des Fl\u00e4chennutzungsplans eine zweite Windkraftkonzentrationszone in der Boisheimer Nette beschlossen - die aber hatte die Bezirksregierung D\u00fcsseldorf nicht genehmigt, wegen eines Formfehlers.\n\"Durch die fehlende planungsrechtliche Voraussetzung ist der erteilte Genehmigungsbescheid nach wie vor rechtswidrig und deswegen auch zur\u00fcckzunehmen\", sagte Christoph Erkens, Vorsitzender von \"Boisheim wehrt sich\".\nAktueller Stand der Dinge: Der Stadtrat hat vor der Sommerpause erneut die Windkonzentrationszone in der Boisheimer Nette beschlossen; eine Genehmigung der Bezirksregierung steht noch aus.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Verein will Genehmigung von Windr\u00e4dern pr\u00fcfen lassen\n\"Boisheim wehrt sich\" sieht keine rechtliche Voraussetzung f\u00fcr den Bau und hat sich daher an den Landrat gewandt."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Der Verein \"Boisheim wehrt sich\" hat Landrat Andreas Coenen (CDU) aufgefordert, seine Genehmigung f\u00fcr die Errichtung von geplanten Windkraftanlagen in der Boisheimer Nette zur\u00fcckzunehmen.\nSie sei rechtswidrig erfolgt."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Der Verein argumentiert, dass zum Zeitpunkt der Genehmigung am 30. Dezember 2016 in der Boisheimer Nette gar keine Windkraftanlagen h\u00e4tten genehmigt werden k\u00f6nnen, da zu dem Zeitpunkt in Viersen lediglich an der Stadtgrenze zu Schwalmtal eine Windkraft-Konzentrationszone existiert habe.\nInnerhalb dieser Konzentrationszone sind Bau und Betrieb von Windenergieanlagen grunds\u00e4tzlich m\u00f6glich, zugleich bewirkt die Konzentrationszone aber einen Ausschluss der Windenergienutzung f\u00fcr das \u00fcbrige Stadtgebiet."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Derlei Zonen sollen eine \"Verspargelung\" der Landschaft verhindern.\nDie Stadt Viersen hatte zwar wenige Tage zuvor durch eine \u00c4nderung des Fl\u00e4chennutzungsplans eine zweite Windkraftkonzentrationszone in der Boisheimer Nette beschlossen - die aber hatte die Bezirksregierung D\u00fcsseldorf nicht genehmigt, wegen eines Formfehlers."
+            },
+            {
+                "shard_id": 5,
+                "shard": "\"Durch die fehlende planungsrechtliche Voraussetzung ist der erteilte Genehmigungsbescheid nach wie vor rechtswidrig und deswegen auch zur\u00fcckzunehmen\", sagte Christoph Erkens, Vorsitzender von \"Boisheim wehrt sich\".\nAktueller Stand der Dinge: Der Stadtrat hat vor der Sommerpause erneut die Windkonzentrationszone in der Boisheimer Nette beschlossen; eine Genehmigung der Bezirksregierung steht noch aus."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-17-de-en",
+        "task": "translation",
+        "document_en": "Car and tractor crash together: woman dies in terrible accident\nA terrible accident occurred on Friday morning at around 10am on the L 333 between Niederwallmenach and Bogel (Rhein-Lahn district).\nIn it, a woman was fatally injured.\nTwo other people were mildly injured.\nThe road remained closed for hours.\nAccording to police information, a 17-year-old woman from Bornich, practising accompanied driving in her car with her 53-year old mother, the accompanying driver, was using the L 333 in the direction of Bogel.\n",
+        "document_de": "Auto und Traktor krachen zusammen: Frau stirbt bei schrecklichem Unfall\nEins schrecklicher Verkehrsunfall hat sich am Freitagvormittag gegen 10 Uhr auf der L 333 zwischen Niederwallmenach und Bogel (Rhein-Lahn-Kreis) ereignet.\nEine Frau wurde dabei t\u00f6dlich verletzt.\nZwei weitere Personen wurden leicht verletzt.\nDie Landesstra\u00dfe blieb \u00fcber Stunden gesperrt.\nNach Polizeiangaben befuhr eine 17-j\u00e4hrige junge Frau aus Bornich mit ihrem Pkw im Rahmen des begleiteten Fahrens mit ihrer 53-j\u00e4hrigen Mutter als Begleitperson die L 333 in Richtung Bogel.\n",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Auto und Traktor krachen zusammen: Frau stirbt bei schrecklichem Unfall\nEins schrecklicher Verkehrsunfall hat sich am Freitagvormittag gegen 10 Uhr auf der L 333 zwischen Niederwallmenach und Bogel (Rhein-Lahn-Kreis) ereignet."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Eine Frau wurde dabei t\u00f6dlich verletzt.\nZwei weitere Personen wurden leicht verletzt."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Die Landesstra\u00dfe blieb \u00fcber Stunden gesperrt.\nNach Polizeiangaben befuhr eine 17-j\u00e4hrige junge Frau aus Bornich mit ihrem Pkw im Rahmen des begleiteten Fahrens mit ihrer 53-j\u00e4hrigen Mutter als Begleitperson die L 333 in Richtung Bogel."
+            },
+            {
+                "shard_id": 4,
+                "shard": ""
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-18-de-en",
+        "task": "translation",
+        "document_en": "Town and dealers plan \"hometown shopping\" weekend\nBad Langensalzaer and people from the region are to newly discover the shopping opportunities in their town centre in September.\nThe trade association and town authorities want to use the weekend of the 8th and 9th September to entice residents to a shopping spree in the town centre.\nAs chairman of the trade association Christian K\u00f6nig announced, the \"home-town shopping\" weekend is meant to make customers aware of what offers their own town has available aside from the usual supermarket goods.\nA market with local suppliers is thus planned, similar to the weekly market.\nIn addition, homegrown companies are to give showcases, with their apprenticeship places.\nFurthermore, the businesses in the town centre are to invite people to come \"midnight shopping\".\nThe campaign is not only for residents of the town and the nearby region.\nAdverts on the radio, an online video and printed bags that allude to the campaign weekend are in preparation, Christian K\u00f6nig tells us.\nTown authorities and the trade association are cooperating with the Chamber of Industry and Commerce.",
+        "document_de": "Stadt und H\u00e4ndler planen \"Heimat-Shoppen\"-Wochenende\nBad Langensalzaer und Menschen aus der Region sollen im September die Einkaufsm\u00f6glichkeiten in der Innenstadt neu entdecken.\nDer Gewerbeverein und die Stadtverwaltung wollen das Wochenende am 8. und 9. September nutzen, um die Einwohner zum Einkaufsbummel in die Innenstadt zu locken.\nWie der Vorsitzende des Gewerbevereins, Christian K\u00f6nig, ank\u00fcndigte, soll das \"Heimat-Shoppen\"-Wochenende die Kunden daf\u00fcr sensibilisieren, welche Angebote die eigene Stadt abseits der \u00fcblichen Supermarkt-Ware bereith\u00e4lt.\nGeplant ist demnach ein Markt mit regionalen Anbietern, \u00e4hnlich dem Wochenmarkt.\nZudem sollen sich heimische Firmen mit ihren Ausbildungspl\u00e4tzen pr\u00e4sentieren.\nDar\u00fcber hinaus sollen die Gesch\u00e4fte der Innenstadt zum \"Mitternachts-Shoppen\" einladen.\nDabei ziele die Aktion nicht nur auf Bewohner der Stadt und der n\u00e4heren Region.\nIn Vorbereitung seien Werbespots im Radio, ein Internet-Video und bedruckte Beutel, die auf das Aktions-Wochenende hinweisen, so Christian K\u00f6nig.\nStadtverwaltung und Gewerbeverein kooperieren dabei mit der Industrie- und Handelskammer.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Stadt und H\u00e4ndler planen \"Heimat-Shoppen\"-Wochenende\nBad Langensalzaer und Menschen aus der Region sollen im September die Einkaufsm\u00f6glichkeiten in der Innenstadt neu entdecken."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Der Gewerbeverein und die Stadtverwaltung wollen das Wochenende am 8. und 9. September nutzen, um die Einwohner zum Einkaufsbummel in die Innenstadt zu locken.\nWie der Vorsitzende des Gewerbevereins, Christian K\u00f6nig, ank\u00fcndigte, soll das \"Heimat-Shoppen\"-Wochenende die Kunden daf\u00fcr sensibilisieren, welche Angebote die eigene Stadt abseits der \u00fcblichen Supermarkt-Ware bereith\u00e4lt."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Geplant ist demnach ein Markt mit regionalen Anbietern, \u00e4hnlich dem Wochenmarkt.\nZudem sollen sich heimische Firmen mit ihren Ausbildungspl\u00e4tzen pr\u00e4sentieren."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Dar\u00fcber hinaus sollen die Gesch\u00e4fte der Innenstadt zum \"Mitternachts-Shoppen\" einladen.\nDabei ziele die Aktion nicht nur auf Bewohner der Stadt und der n\u00e4heren Region."
+            },
+            {
+                "shard_id": 5,
+                "shard": "In Vorbereitung seien Werbespots im Radio, ein Internet-Video und bedruckte Beutel, die auf das Aktions-Wochenende hinweisen, so Christian K\u00f6nig.\nStadtverwaltung und Gewerbeverein kooperieren dabei mit der Industrie- und Handelskammer."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-19-de-en",
+        "task": "translation",
+        "document_en": "Two dead and several injured after explosion in US school\nDuring construction works, there was a huge gas explosion in the school building.\nAnother nine people were wounded.\nAt a gas explosion in the US city of Minneapolis, two people have died and nine others have been injured, some of which seriously.\nAccording to information from the fire department, one injured person was still in a critical condition on Wednesday (local time).\nOne person died as a part of the school building collapsed during the explosion.\nSomeone initially classed as missing was later also recovered dead.\nThe dead were employees at the school.\nAuthorities suspected works on a gas pipe to be the cause of the accident.\nBeing holiday time, only a few people were in the Minnehaha Academy building.",
+        "document_de": "Zwei Tote und mehrere Verletzte nach Explosion an US-Schule\nW\u00e4hrend Bauarbeiten kam es zu einer Gasexplosion im Schulgeb\u00e4ude.\nNeuen weitere Menschen wurden verletzt.\nBei einer Gasexplosion in der US-Stadt Minneapolis sind zwei Menschen get\u00f6tet und neun weitere verletzt worden, einige von ihnen schwer.\nNach Angaben der Feuerwehr war am Mittwoch (Ortszeit) noch ein Verletzter in kritischem Zustand.\nEin Mensch starb, als ein Teil eines Schulgeb\u00e4udes bei der Explosion einst\u00fcrzte.\nEin zun\u00e4chst Vermisster wurde sp\u00e4ter ebenfalls tot geborgen.\nBei den Toten handelte es sich um Angestellte der Schule.\nAls Ungl\u00fccksursache vermuteten die Beh\u00f6rden Arbeiten an einer Gasleitung.\nZur Ferienzeit hielten sich nur wenige Menschen in dem Geb\u00e4ude der Minnehaha Academy auf.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Zwei Tote und mehrere Verletzte nach Explosion an US-Schule\nW\u00e4hrend Bauarbeiten kam es zu einer Gasexplosion im Schulgeb\u00e4ude."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Neuen weitere Menschen wurden verletzt.\nBei einer Gasexplosion in der US-Stadt Minneapolis sind zwei Menschen get\u00f6tet und neun weitere verletzt worden, einige von ihnen schwer."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Nach Angaben der Feuerwehr war am Mittwoch (Ortszeit) noch ein Verletzter in kritischem Zustand.\nEin Mensch starb, als ein Teil eines Schulgeb\u00e4udes bei der Explosion einst\u00fcrzte."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Ein zun\u00e4chst Vermisster wurde sp\u00e4ter ebenfalls tot geborgen.\nBei den Toten handelte es sich um Angestellte der Schule."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Als Ungl\u00fccksursache vermuteten die Beh\u00f6rden Arbeiten an einer Gasleitung.\nZur Ferienzeit hielten sich nur wenige Menschen in dem Geb\u00e4ude der Minnehaha Academy auf."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-20-de-en",
+        "task": "translation",
+        "document_en": "Trump pressured Mexico on border wall payment according to leaked phone call transcripts\nTranscripts of phone calls between US President Donald Trump and leaders of Mexico and Australia have been leaked by the Washington Post.\nOn 27th January in a phone call to Mexican president, Enrique Pena Nieto, Trump urged him to stop publicly saying he would not pay for a proposed border wall.\nThe US President berated him for publicly denouncing the wall, reportedly saying to him \"You cannot say that to the press.\"\nTrump launched his presidential campaign on a promise to build a wall along the US southern border and vowed to make Mexico pay for the project.\nTranscripts of his first call with Australian Prime Minister Malcolm Turnbull were also published revealing a tense exchange.\nMr Trump told Mr Turnbull a deal for the US to take on refugees headed for Australia was \"ridiculous,\" \"rotten\" and \"stupid,\" insisting the deal, brokered under the Obama administration, would make him look like \"a dope\" after he had proposed a ban on refugee resettlement in the US.\nMr Trump ended the call after telling Mr Turnbull \"this is the most unpleasant call all day.\"\n",
+        "document_de": "Trump setzte nach durchgesickerten Transkripten von Telefonanrufen Mexiko unter Druck wegen der Zahlung der Grenzmauer\nTranskripte von Telefonanrufen zwischen US-Pr\u00e4sident Donald Trump und F\u00fchrern von Mexiko und Australien wurden von der Washington Post ver\u00f6ffentlicht.\nAm 27. Januar forderte Trump in einem Telefonat mit dem mexikanischen Pr\u00e4sidenten Enrique Pena Nieto auf, aufzuh\u00f6ren, \u00f6ffentlich zu sagen, dass er f\u00fcr eine geplante Grenzmauer nicht bezahlen w\u00fcrde.\nDer US-Pr\u00e4sident beschimpfte ihn, weil er die Mauer \u00f6ffentlich angeprangert hatte. Berichten zufolge sagte er zu ihm: \"Das k\u00f6nnen Sie der Presse nicht sagen.\"\nTrump startete seine Pr\u00e4sidentschaftskampagne mit dem Versprechen, an der s\u00fcdlichen Grenze der USA eine Mauer zu errichten, und schwor, Mexiko f\u00fcr das Projekt zahlen zu lassen.\nTranskripte seines ersten Anrufs mit dem australischen Premierminister Malcolm Turnbull wurden ebenfalls ver\u00f6ffentlicht und enth\u00fcllten einen angespannten Austausch.\nMr. Trump sagte Mr. Turnbull, dass ein Handel f\u00fcr die USA Fl\u00fcchtlinge, die nach Australien auswanderten, zu \u00fcbernehmen \"l\u00e4cherlich\", \"mies\" und \"dumm\" sei und dass das Bestehen auf dem Handel, der von der Regierung Obama vermittelt wurde, ihn wie ein \"Depp\" aussehen lassen w\u00fcrde, nachdem er ein Verbot der Umsiedlung von Fl\u00fcchtlingen in die USA vorgeschlagen hatte.\nMr. Trump beendete den Anruf, nachdem er Herrn Turnbull gesagt hatte, \"das ist der unangenehmste Anruf f\u00fcr den ganzen Tag.\"\n",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Trump setzte nach durchgesickerten Transkripten von Telefonanrufen Mexiko unter Druck wegen der Zahlung der Grenzmauer\nTranskripte von Telefonanrufen zwischen US-Pr\u00e4sident Donald Trump und F\u00fchrern von Mexiko und Australien wurden von der Washington Post ver\u00f6ffentlicht."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Am 27. Januar forderte Trump in einem Telefonat mit dem mexikanischen Pr\u00e4sidenten Enrique Pena Nieto auf, aufzuh\u00f6ren, \u00f6ffentlich zu sagen, dass er f\u00fcr eine geplante Grenzmauer nicht bezahlen w\u00fcrde.\nDer US-Pr\u00e4sident beschimpfte ihn, weil er die Mauer \u00f6ffentlich angeprangert hatte. Berichten zufolge sagte er zu ihm: \"Das k\u00f6nnen Sie der Presse nicht sagen.\""
+            },
+            {
+                "shard_id": 3,
+                "shard": "Trump startete seine Pr\u00e4sidentschaftskampagne mit dem Versprechen, an der s\u00fcdlichen Grenze der USA eine Mauer zu errichten, und schwor, Mexiko f\u00fcr das Projekt zahlen zu lassen.\nTranskripte seines ersten Anrufs mit dem australischen Premierminister Malcolm Turnbull wurden ebenfalls ver\u00f6ffentlicht und enth\u00fcllten einen angespannten Austausch."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Mr. Trump sagte Mr. Turnbull, dass ein Handel f\u00fcr die USA Fl\u00fcchtlinge, die nach Australien auswanderten, zu \u00fcbernehmen \"l\u00e4cherlich\", \"mies\" und \"dumm\" sei und dass das Bestehen auf dem Handel, der von der Regierung Obama vermittelt wurde, ihn wie ein \"Depp\" aussehen lassen w\u00fcrde, nachdem er ein Verbot der Umsiedlung von Fl\u00fcchtlingen in die USA vorgeschlagen hatte.\nMr. Trump beendete den Anruf, nachdem er Herrn Turnbull gesagt hatte, \"das ist der unangenehmste Anruf f\u00fcr den ganzen Tag.\""
+            },
+            {
+                "shard_id": 5,
+                "shard": ""
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-21-de-en",
+        "task": "translation",
+        "document_en": "Moore's Ford Massacre: Activists Reenact Racist Lynching as a Call for Justice\nA 1948 Ford Mercury passed through a group of onlookers in rural Monroe, Georgia, and rumbled toward the small Moore's Ford Bridge.\nBefore the car, which had four black passengers and a white driver, could reach the bridge, a group of white men with guns stepped forward to block its path.\nThe leader of the mob - a middle aged man in a pinstriped suit - took a long drag on his cigar and peered through the windshield.\nInside, the occupants reeled in fear.\n\"We want that n----r Roger!\" the man barked.\n\"Get him out of the car!\"\nScreams ripped through the silence as a young black man was dragged from the front passenger seat.\nFortunately, this horrific scene, which played out on July 22, is just a reenactment.\nBut when a noose is thrown around the neck of \"Roger,\" nearly everyone in the audience let out very real gasps.",
+        "document_de": "Moores Ford-Massaker: Aktivisten f\u00fchren rassistischen Lynchakt als Aufruf f\u00fcr Gerechtigkeit wieder auf\nEin 1948-er Ford Mercury fuhr durch eine Gruppe von Zuschauern im l\u00e4ndlichen Monroe, Georgia, und rumpelte auf die Ford-Br\u00fccke von Moore zu.\nBevor das Auto, das vier schwarze Passagiere und einen wei\u00dfen Fahrer hatte, die Br\u00fccke erreichen konnte, trat eine Gruppe wei\u00dfer M\u00e4nner mit Gewehren hervor, um seinen Weg zu blockieren.\nDer Anf\u00fchrer des Mobs - ein Mann mittleren Alters in einem Nadelstreifenanzug - nahm einen langen Zug an seiner Zigarre und blickte pr\u00fcfend durch die Windschutzscheibe.\nDrinnen schwebten die Insassen in Furcht.\n\"Wir wollen diesen n ---- r Roger!\" br\u00fcllte der Mann.\n\"Hol ihn aus dem Auto!\"\nSchreie zerrissen die Stille, als ein junger schwarzer Mann vom Beifahrersitz gezerrt wurde.\nZum Gl\u00fcck ist diese schreckliche Szene, die am 22. Juli gespielt wurde, nur eine Nachstellung.\nAber wenn dann eine Schlinge um den Hals von \"Roger\" geworfen wird, stie\u00dfen fast alle im Publikum sehr echte Seufzer aus.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Moores Ford-Massaker: Aktivisten f\u00fchren rassistischen Lynchakt als Aufruf f\u00fcr Gerechtigkeit wieder auf\nEin 1948-er Ford Mercury fuhr durch eine Gruppe von Zuschauern im l\u00e4ndlichen Monroe, Georgia, und rumpelte auf die Ford-Br\u00fccke von Moore zu."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Bevor das Auto, das vier schwarze Passagiere und einen wei\u00dfen Fahrer hatte, die Br\u00fccke erreichen konnte, trat eine Gruppe wei\u00dfer M\u00e4nner mit Gewehren hervor, um seinen Weg zu blockieren.\nDer Anf\u00fchrer des Mobs - ein Mann mittleren Alters in einem Nadelstreifenanzug - nahm einen langen Zug an seiner Zigarre und blickte pr\u00fcfend durch die Windschutzscheibe."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Drinnen schwebten die Insassen in Furcht.\n\"Wir wollen diesen n ---- r Roger!\" br\u00fcllte der Mann."
+            },
+            {
+                "shard_id": 4,
+                "shard": "\"Hol ihn aus dem Auto!\"\nSchreie zerrissen die Stille, als ein junger schwarzer Mann vom Beifahrersitz gezerrt wurde."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Zum Gl\u00fcck ist diese schreckliche Szene, die am 22. Juli gespielt wurde, nur eine Nachstellung.\nAber wenn dann eine Schlinge um den Hals von \"Roger\" geworfen wird, stie\u00dfen fast alle im Publikum sehr echte Seufzer aus."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-22-de-en",
+        "task": "translation",
+        "document_en": "\"G\u00f6tterd\u00e4mmerung\" propitiates Wagnerians in Bayreuth\nIn the fourth part of Richard Wagner's monumental work, director Frank Castorf again focusses on a colourful and frivolous production, set against a giant, six-storey backdrop.\nThe revolving stage (designed by Aleksandar Denic) shows either a shabby street corner, complete with remains of the Wall and kebab shop in Berlin, a \"Plaste und Elaste\" logo from the DDR times, or the New York stock exchange.\nIn front is parked an open vintage Mercedes car, in which the Rhinemaidens pose like rocker girls, or alternatively, an Isetta.\nStacked oil barrels are reminiscent of Castorf's leitmotif \u2013 gold, power and greed \u2013 that runs through his production of the \"Ring\".\nThe three Rhinemaidens \u2013 sung by Stephanie Houtzeel, Wiebke Lehmkuhl and Alexandra Steiner \u2013 work wonderfully together, as they did already in \"Rheingold\".\nThey saucily seduce Siegfried (Stefan Vinke), lug a body in the boot in Hollywood manner, and play the riotous clique.\nStephen Milling sings the part of the superbly nasty Hagen, who has the aura of a heavy-weight boxer.\nThe scene where he slays Siegfried is brutal.\nLater, Gunther (Markus Eiche) cops it too.",
+        "document_de": "\"G\u00f6tterd\u00e4mmerung\" vers\u00f6hnte die Wagnerianer in Bayreuth\nAuch im vierten Teil von Richard Wagners monumentalem Werk setzt Regisseur Frank Castorf auf eine bunt-frivole Inszenierung vor gigantischer, sechsst\u00f6ckiger Kulisse.\nDie Drehb\u00fchne (gestaltet von Aleksandar Denic) zeigt wahlweise eine sch\u00e4bige Stra\u00dfenecke samt Mauerrest und D\u00f6nerbude in Berlin, ein \"Plaste und Elaste\"-Logo aus DDR-Zeiten oder die New Yorker B\u00f6rse.\nDavor parkt ein offener Mercedes-Oldtimer, in dem die Rheint\u00f6chter als Rockergirls posieren, oder alternativ eine Isetta.\nGestapelte \u00d6lf\u00e4sser erinnern an Castorfs Leitmotiv - Geld, Macht und Gier - das sich durch seine \"Ring\"-Inszenierung zieht.\nDie drei Rheint\u00f6chter - gesungen von Stephanie Houtzeel, Wiebke Lehmkuhl und Alexandra Steiner - harmonieren wie schon im \"Rheingold\" wunderbar.\nKess verf\u00fchren sie Siegfried (Stefan Vinke), zerren in Hollywood-Manier eine Leiche in den Kofferraum und geben die Krawallo-Clique.\nStephen Milling singt den herrlich fiesen Hagen, den die Aura eines Schwergewichtsboxers umgibt.\nBrutal die Szene, als er Siegfried erschl\u00e4gt.\nSp\u00e4ter muss auch noch Gunther (Markus Eiche) dran glauben.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "\"G\u00f6tterd\u00e4mmerung\" vers\u00f6hnte die Wagnerianer in Bayreuth\nAuch im vierten Teil von Richard Wagners monumentalem Werk setzt Regisseur Frank Castorf auf eine bunt-frivole Inszenierung vor gigantischer, sechsst\u00f6ckiger Kulisse."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Die Drehb\u00fchne (gestaltet von Aleksandar Denic) zeigt wahlweise eine sch\u00e4bige Stra\u00dfenecke samt Mauerrest und D\u00f6nerbude in Berlin, ein \"Plaste und Elaste\"-Logo aus DDR-Zeiten oder die New Yorker B\u00f6rse.\nDavor parkt ein offener Mercedes-Oldtimer, in dem die Rheint\u00f6chter als Rockergirls posieren, oder alternativ eine Isetta."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Gestapelte \u00d6lf\u00e4sser erinnern an Castorfs Leitmotiv - Geld, Macht und Gier - das sich durch seine \"Ring\"-Inszenierung zieht.\nDie drei Rheint\u00f6chter - gesungen von Stephanie Houtzeel, Wiebke Lehmkuhl und Alexandra Steiner - harmonieren wie schon im \"Rheingold\" wunderbar."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Kess verf\u00fchren sie Siegfried (Stefan Vinke), zerren in Hollywood-Manier eine Leiche in den Kofferraum und geben die Krawallo-Clique.\nStephen Milling singt den herrlich fiesen Hagen, den die Aura eines Schwergewichtsboxers umgibt."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Brutal die Szene, als er Siegfried erschl\u00e4gt.\nSp\u00e4ter muss auch noch Gunther (Markus Eiche) dran glauben."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-23-de-en",
+        "task": "translation",
+        "document_en": "Max Menge works as volunteer\nDuring your voluntary service year, you're working at many locations simultaneously.\nWhat are all the different places?\nMenge: Normally in Steinfurt in the furniture exchange, and once a week I help out here in Greven in the M\u00f6belbr\u00fccke.\nAnd I have also worked at the full-day school in their supplementary activities.\nWhat are your experiences of that?\nMenge: It is a nice, broad spectrum that I see here.\nI deal with different people: with adolescents, with refugees, with young adults.\nYou are 26 years old now, so a volunteer with a late-calling.\nHow did that come about?",
+        "document_de": "Max Menge arbeitet als Freiwilliger\nSie arbeiten in ihrem Freiwilligenjahr gleich an mehreren Orten.\nWo \u00fcberall?\nMenge: Normalerweise in Steinfurt in der M\u00f6belb\u00f6rse, einmal in der Woche helfe ich hier in Greven in der M\u00f6belbr\u00fccke aus.\nUnd ich habe auch schon im offenen Ganztag an der Schule gearbeitet.\nWie sind Ihre Erfahrungen damit?\nMenge: Es ist ein sch\u00f6nes, breites Spektrum, das ich hier sehe.\nIch habe mit unterschiedlichen Leuten zu tun, mit Jugendlichen, mit Fl\u00fcchtlingen, mit jungen Erwachsenen.\nSie sind jetzt 26 Jahre, also ein sp\u00e4tberufener Freiwilliger.\nWie kommt das?",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Max Menge arbeitet als Freiwilliger\nSie arbeiten in ihrem Freiwilligenjahr gleich an mehreren Orten."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Wo \u00fcberall?\nMenge: Normalerweise in Steinfurt in der M\u00f6belb\u00f6rse, einmal in der Woche helfe ich hier in Greven in der M\u00f6belbr\u00fccke aus."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Und ich habe auch schon im offenen Ganztag an der Schule gearbeitet.\nWie sind Ihre Erfahrungen damit?"
+            },
+            {
+                "shard_id": 4,
+                "shard": "Menge: Es ist ein sch\u00f6nes, breites Spektrum, das ich hier sehe.\nIch habe mit unterschiedlichen Leuten zu tun, mit Jugendlichen, mit Fl\u00fcchtlingen, mit jungen Erwachsenen."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Sie sind jetzt 26 Jahre, also ein sp\u00e4tberufener Freiwilliger.\nWie kommt das?"
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-24-de-en",
+        "task": "translation",
+        "document_en": "Pearson cuts another 3,000 jobs, slashes dividend to revive business\nBritish education group Pearson said on Friday it would cut another 3,000 jobs and slash its interim dividend by 72 per cent as it started another restructuring programme to tackle the pressures facing its business.\nThe job cuts, which Chief Executive John Fallon said will mostly come late in 2018 and in early 2019, are in addition to 4,000 roles lost in its previous restructuring.\nPearson announced a plan to cut costs by another 300 million pounds ($394-million U.S.) in May in a third cost-cutting programme to try to revive a business hit by the rapid move to digital learning.\nThe company, which agreed to sell its stake in Penguin Random House to partner Bertelsmann last month, said its outlook for the year was unchanged after it reported a 1 per cent rise in underlying sales in the first half to 2.05 billion pounds.\n",
+        "document_de": "Pearson k\u00fcrzt weitere 3.000 Arbeitspl\u00e4tze und k\u00fcrzt die Dividende, um das Gesch\u00e4ft wiederzubeleben\nDie britische Bildungsgruppe Pearson sagte am Freitag, sie werde weitere 3.000 Arbeitspl\u00e4tze abbauen und ihre Zwischendividende um 72 Prozent k\u00fcrzen, da ein weiteres Restrukturierungsprogramm gestartet werde, um den Druck zu \u00fcberwinden, mit dem das Unternehmen konfrontiert sei.\nDer Stellenabbau, den Generaldirektor John Fallon \u00fcberwiegend f\u00fcr Ende 2018 und Anfang 2019 ank\u00fcndigte, kommt zus\u00e4tzlich zu seiner vorherigen Umstrukturierung, bei der bereits 4.000 Stellen verloren gingen.\nPearson k\u00fcndigte im Mai in einem dritten Kostensenkungsprogramm einen Plan zur Kostensenkung um weitere 300 Millionen Pfund (394 Millionen US-Dollar) an, um ein Gesch\u00e4ft wieder zu beleben, das durch den schnellen Schritt zum digitalen Lernen getroffen wurde.\nDas Unternehmen, das im vergangenen Monat seine Beteiligung an Penguin Random House an den Partner Bertelsmann ver\u00e4u\u00dfert hatte, sagte, dass der Ausblick f\u00fcr das Gesch\u00e4ftsjahr unver\u00e4ndert sei, nachdem es im ersten Halbjahr einen Zuwachs von 1 Prozent auf 2,05 Milliarden Pfund erzielt habe.\n",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Pearson k\u00fcrzt weitere 3.000 Arbeitspl\u00e4tze und k\u00fcrzt die Dividende, um das Gesch\u00e4ft wiederzubeleben\nDie britische Bildungsgruppe Pearson sagte am Freitag, sie werde weitere 3.000 Arbeitspl\u00e4tze abbauen und ihre Zwischendividende um 72 Prozent k\u00fcrzen, da ein weiteres Restrukturierungsprogramm gestartet werde, um den Druck zu \u00fcberwinden, mit dem das Unternehmen konfrontiert sei."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Der Stellenabbau, den Generaldirektor John Fallon \u00fcberwiegend f\u00fcr Ende 2018 und Anfang 2019 ank\u00fcndigte, kommt zus\u00e4tzlich zu seiner vorherigen Umstrukturierung, bei der bereits 4.000 Stellen verloren gingen.\nPearson k\u00fcndigte im Mai in einem dritten Kostensenkungsprogramm einen Plan zur Kostensenkung um weitere 300 Millionen Pfund (394 Millionen US-Dollar) an, um ein Gesch\u00e4ft wieder zu beleben, das durch den schnellen Schritt zum digitalen Lernen getroffen wurde."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Das Unternehmen, das im vergangenen Monat seine Beteiligung an Penguin Random House an den Partner Bertelsmann ver\u00e4u\u00dfert hatte, sagte, dass der Ausblick f\u00fcr das Gesch\u00e4ftsjahr unver\u00e4ndert sei, nachdem es im ersten Halbjahr einen Zuwachs von 1 Prozent auf 2,05 Milliarden Pfund erzielt habe.\n"
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-25-de-en",
+        "task": "translation",
+        "document_en": "Kabul convoy attack: Nato soldier killed in suicide blast\nA suicide bomber has attacked a military convoy in the Afghan capital, Kabul, killing a Nato soldier and wounding several others, officials say.\nFive soldiers and an interpreter were injured, a Nato statement said.\nUnconfirmed local reports say three civilians also died in the incident in the city's Qarabagh district.\nThe bombing is the latest violence to have hit Afghanistan this month - on Tuesday more than 30 people were killed in a mosque blast in Herat.\nOn Monday a suicide bomber killed two people near the Iraqi embassy in Kabul.\nA Nato statement said that Thursday evening's blast happened when a joint patrol with the Afghan army was attacked by a \"personnel-borne improvised explosive device.\"\nThe statement said that all those injured are in a stable condition and are being treated at the US military hospital at Bagram airfield.\nCorrespondents say the growing strength of the Taliban and the group known as so-called Islamic State (IS) in Qarabagh is a major source of concern to Nato forces based in nearby Bagram.\nAccording to the United Nations, Afghanistan saw at least 1,662 civilian deaths in the first half of 2017, with about 20% of those in the capital.",
+        "document_de": "Konvoi-Angriff von Kabul: Nato-Soldat bei Selbstmordanschlag get\u00f6tet\nEin Selbstmordattent\u00e4ter hat einen Milit\u00e4rkonvoi in der afghanischen Hauptstadt Kabul angegriffen, einen Soldaten der Nato get\u00f6tet und mehrere andere verletzt, sagen Beamte.\nF\u00fcnf Soldaten und ein Dolmetscher seien verletzt worden, teilte eine Erkl\u00e4rung der Nato mit.\nUnbest\u00e4tigten lokalen Berichten zufolge starben bei dem Vorfall im Stadtteil Qarabagh auch drei Zivilisten.\nDie Bombardierung ist die letzte Gewalttat, die Afghanistan diesen Monat getroffen hat - am Dienstag wurden mehr als 30 Menschen in einer Moschee in Herat get\u00f6tet.\nAm Montag t\u00f6tete ein Selbstmordattent\u00e4ter zwei Menschen in der N\u00e4he der irakischen Botschaft in Kabul.\nIn einer Stellungnahme der Nato hei\u00dft es, die Explosion am Donnerstagabend sei geschehen, als eine gemeinsame Patrouille mit der afghanischen Armee von einem \"von Personen getragenen improvisierten Sprengsatz\" angegriffen wurde\".\nDie Aussage besagt, dass sich alle Verletzten in einem stabilen Zustand befinden und im US-Milit\u00e4rkrankenhaus auf dem Flugplatz Bagram behandelt werden.\nKorrespondenten sagen, dass die wachsende St\u00e4rke der Taliban und der Gruppe, die als sogenannter Islamischer Staat (IS) in Qarabagh bekannt ist, eine gro\u00dfe Sorge f\u00fcr die NATO-Truppen im nahe gelegenen Bagram ist.\nNach Angaben der Vereinten Nationen gab es in Afghanistan im ersten Halbjahr 2017 mindestens 1.662 zivile Todesopfer, davon etwa 20 % in der Hauptstadt.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Konvoi-Angriff von Kabul: Nato-Soldat bei Selbstmordanschlag get\u00f6tet\nEin Selbstmordattent\u00e4ter hat einen Milit\u00e4rkonvoi in der afghanischen Hauptstadt Kabul angegriffen, einen Soldaten der Nato get\u00f6tet und mehrere andere verletzt, sagen Beamte."
+            },
+            {
+                "shard_id": 2,
+                "shard": "F\u00fcnf Soldaten und ein Dolmetscher seien verletzt worden, teilte eine Erkl\u00e4rung der Nato mit.\nUnbest\u00e4tigten lokalen Berichten zufolge starben bei dem Vorfall im Stadtteil Qarabagh auch drei Zivilisten."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Die Bombardierung ist die letzte Gewalttat, die Afghanistan diesen Monat getroffen hat - am Dienstag wurden mehr als 30 Menschen in einer Moschee in Herat get\u00f6tet.\nAm Montag t\u00f6tete ein Selbstmordattent\u00e4ter zwei Menschen in der N\u00e4he der irakischen Botschaft in Kabul."
+            },
+            {
+                "shard_id": 4,
+                "shard": "In einer Stellungnahme der Nato hei\u00dft es, die Explosion am Donnerstagabend sei geschehen, als eine gemeinsame Patrouille mit der afghanischen Armee von einem \"von Personen getragenen improvisierten Sprengsatz\" angegriffen wurde\".\nDie Aussage besagt, dass sich alle Verletzten in einem stabilen Zustand befinden und im US-Milit\u00e4rkrankenhaus auf dem Flugplatz Bagram behandelt werden."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Korrespondenten sagen, dass die wachsende St\u00e4rke der Taliban und der Gruppe, die als sogenannter Islamischer Staat (IS) in Qarabagh bekannt ist, eine gro\u00dfe Sorge f\u00fcr die NATO-Truppen im nahe gelegenen Bagram ist.\nNach Angaben der Vereinten Nationen gab es in Afghanistan im ersten Halbjahr 2017 mindestens 1.662 zivile Todesopfer, davon etwa 20 % in der Hauptstadt."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-26-de-en",
+        "task": "translation",
+        "document_en": "EPA reverses decision to delay smog rule after lawsuits\nThe U.S. Environmental Protection Agency reversed a decision to delay an Obama-era rule requiring states to curb smog-causing emissions, one day after 15 states sued the agency over the move.\nThe EPA announced the decision to go ahead with the so-called \"2015 Ozone Designations\" late on Wednesday, saying it showed the agency's commitment to working with states.\n\"We believe in dialogue with, and being responsive to, our state partners,\" EPA Chief Scott Pruitt said in a statement.\nPruitt in June had announced the EPA's intention to delay the ozone designations - in which existing smog pollution is measured in parts of the country to determine where cuts must be made to meet tougher air quality standard - by one year to October 2018.\nA group of 15 mostly Democratic states, along with the District of Columbia, filed a suit on Tuesday saying the effort was illegal.\nThe administration of President Donald Trump has been seeking to roll back a wide array of environmental regulations imposed by former President Barack Obama, as part of a broader agenda Trump says is aimed at sparking economic growth.\nBut the efforts have triggered pushback by Democratics and conservation groups who are concerned about the impact of greater emissions on public health.\nThe EPA's website says breathing air containing ozone \"can reduce lung function and increase respiratory symptoms\" like asthma.\n",
+        "document_de": "EPA kehrt Entscheidung zur Verz\u00f6gerung der Smog-Regel nach Klagen um\nDie US-amerikanische Umweltschutzbeh\u00f6rde hat eine Entscheidung, eine Regulierung der Regierung von Obama zu verz\u00f6gern, aufgehoben, wonach die Staaten verpflichtet sind, die Smog-verursachenden Emissionen einzud\u00e4mmen. Dies erfolgte ein Tag, nachdem 15 Staaten die Agentur wegen des Schrittes verklagten.\nDie EPA k\u00fcndigte sp\u00e4t am Mittwoch die Entscheidung an, die so genannten \"Ozonbestimmungen 2015\" voranzutreiben, und sagte, sie zeige die Verpflichtung der Agentur, mit Staaten zusammenzuarbeiten.\n\"Wir glauben an den Dialog mit und daran, dass wir auf unsere staatlichen Partner reagieren\", sagte EPA-Chef Scott Pruitt in einer Erkl\u00e4rung.\nPruitt hatte im Juni die Absicht der EPA angek\u00fcndigt, die Ozonbestimmungen - in denen in einem Teil des Landes Schadstoff-Emissionen gemessen werden sollen, um festzulegen, wo Einschnitte gemacht werden m\u00fcssen, um strengere Luftqualit\u00e4ts-Standards einzuhalten - um ein Jahr bis zum Oktober 2018 zu verz\u00f6gern.\nEine Gruppe von 15 gr\u00f6\u00dftenteils demokratischen Staaten, zusammen mit dem Bezirk von Kolumbien, reichte am Dienstag Klage ein und sagte, dass die Bem\u00fchung illegal sei.\nDie Regierung von Pr\u00e4sident Donald Trump hat versucht, eine breite Palette von Umweltauflagen, die der ehemalige Pr\u00e4sident Barack Obama auferlegt hat, als Teil einer breiteren Agenda, die laut Trump das Wirtschaftswachstum ankurbeln soll, zur\u00fcckzufahren.\nDie Bem\u00fchungen haben jedoch den R\u00fcckschlag der Demokraten und Naturschutzgruppen ausgel\u00f6st, die sich Sorgen \u00fcber die Auswirkungen gr\u00f6\u00dferer Emissionen auf die \u00f6ffentliche Gesundheit machen.\nDie Webseite der EPA sagt, dass das Einatmen von Luft, die Ozon enth\u00e4lt \"die Lungenfunktion reduzieren und die Atmungssymptome verst\u00e4rken kann\" wie zum Beispiel Asthma.\n",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "EPA kehrt Entscheidung zur Verz\u00f6gerung der Smog-Regel nach Klagen um\nDie US-amerikanische Umweltschutzbeh\u00f6rde hat eine Entscheidung, eine Regulierung der Regierung von Obama zu verz\u00f6gern, aufgehoben, wonach die Staaten verpflichtet sind, die Smog-verursachenden Emissionen einzud\u00e4mmen. Dies erfolgte ein Tag, nachdem 15 Staaten die Agentur wegen des Schrittes verklagten."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Die EPA k\u00fcndigte sp\u00e4t am Mittwoch die Entscheidung an, die so genannten \"Ozonbestimmungen 2015\" voranzutreiben, und sagte, sie zeige die Verpflichtung der Agentur, mit Staaten zusammenzuarbeiten.\n\"Wir glauben an den Dialog mit und daran, dass wir auf unsere staatlichen Partner reagieren\", sagte EPA-Chef Scott Pruitt in einer Erkl\u00e4rung."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Pruitt hatte im Juni die Absicht der EPA angek\u00fcndigt, die Ozonbestimmungen - in denen in einem Teil des Landes Schadstoff-Emissionen gemessen werden sollen, um festzulegen, wo Einschnitte gemacht werden m\u00fcssen, um strengere Luftqualit\u00e4ts-Standards einzuhalten - um ein Jahr bis zum Oktober 2018 zu verz\u00f6gern.\nEine Gruppe von 15 gr\u00f6\u00dftenteils demokratischen Staaten, zusammen mit dem Bezirk von Kolumbien, reichte am Dienstag Klage ein und sagte, dass die Bem\u00fchung illegal sei."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Die Regierung von Pr\u00e4sident Donald Trump hat versucht, eine breite Palette von Umweltauflagen, die der ehemalige Pr\u00e4sident Barack Obama auferlegt hat, als Teil einer breiteren Agenda, die laut Trump das Wirtschaftswachstum ankurbeln soll, zur\u00fcckzufahren.\nDie Bem\u00fchungen haben jedoch den R\u00fcckschlag der Demokraten und Naturschutzgruppen ausgel\u00f6st, die sich Sorgen \u00fcber die Auswirkungen gr\u00f6\u00dferer Emissionen auf die \u00f6ffentliche Gesundheit machen."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Die Webseite der EPA sagt, dass das Einatmen von Luft, die Ozon enth\u00e4lt \"die Lungenfunktion reduzieren und die Atmungssymptome verst\u00e4rken kann\" wie zum Beispiel Asthma.\n"
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-27-de-en",
+        "task": "translation",
+        "document_en": "Municipal council wants common room\nIn the end, the decision was clear: with two dissenting votes, the municipal council of Fluorn-Winzeln passed a resolution for a common room in the future retirement home.\nAhead of the debate, there is an important piece of information to be had: the purchase contract for the as yet still needed plot section has been signed, reports mayor Bernhard Tjaden.\nAdmittedly it will still be a while until the plot, which up until now has belonged to the church parish, comes into the possession of the municipality, but nevertheless, there are now no longer any planning obstacles for the project that has to be materialised by a private investor.\nThat is why there is a debate concerning a common room.\nOne of the two investors that are still on board has offered to accommodate the municipality.\nFor a special price, it would provide a living space \u2013 of around 55 square metres \u2013 and an adjacent terrace with no less than 70 square metres on the ground floor.\nWhat the management and the majority of the municipal council have in mind is not simply to set aside such a common room as a meeting place only for the residents of the senior citizens' accommodation, but for it to be open to the community.\nTalk of a \"knitting caf\u00e9\" was making the rounds, for example.\nThe decision, which was already pre-determined last Autumn through the allocation of resources for the current budget, is sweetened by funding opportunities.",
+        "document_de": "Gemeinderat will Gemeinschaftsraum\nAm Ende war die Entscheidung deutlich: Bei zwei Gegenstimmen beschlie\u00dft der Gemeinderat von Fluorn-Winzeln die Einrichtung eines Gemeinschaftsraums in der k\u00fcnftigen Seniorenwohnanlage.\nVor der Diskussion gibt es eine wichtige Information: Der Kaufvertrag f\u00fcr den noch fehlenden Grundst\u00fccksteil sei unterschrieben, berichtet B\u00fcrgermeister Bernhard Tjaden.\nZwar werde es noch dauern, bis die bislang der Kirchengemeinde geh\u00f6rende Fl\u00e4che im Gemeindebesitz ist, doch gibt es jetzt kein Planungshindernis f\u00fcr das von einem privaten Investor zu stemmende Projekt mehr.\nDaf\u00fcr gibt es eine Diskussion bez\u00fcglich eines Gemeinschaftsraums.\nEiner der beiden Investoren, die noch im Boot sind, hat angeboten, der Gemeinde entgegen zu kommen.\nIm Erdgeschoss w\u00fcrde er eine Wohnfl\u00e4che - rund 55 Quadratmeter - und eine angrenzende Terrasse mit immerhin 70 Quadratmetern Fl\u00e4che f\u00fcr einen Sonderpreis zur Verf\u00fcgung stellen.\nDer Verwaltung und der Mehrheit des Gemeinderats schwebt vor, solch ein Gemeinschaftsraum eben nicht als Treffpunkt nur f\u00fcr die Bewohner des seniorengerechten Wohnens vorzusehen, sondern offen in die Gemeinde hinein.\nAls Beispiel machte das Wort vom \"Strickcaf\u00e9\" die Runde.\nVers\u00fc\u00dft wird die Entscheidung, die durch die Bereitstellung von Mitteln f\u00fcr den laufenden Haushalt bereits im vergangenen Herbst vorentschieden wurde, durch F\u00f6rderm\u00f6glichkeiten.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Gemeinderat will Gemeinschaftsraum\nAm Ende war die Entscheidung deutlich: Bei zwei Gegenstimmen beschlie\u00dft der Gemeinderat von Fluorn-Winzeln die Einrichtung eines Gemeinschaftsraums in der k\u00fcnftigen Seniorenwohnanlage."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Vor der Diskussion gibt es eine wichtige Information: Der Kaufvertrag f\u00fcr den noch fehlenden Grundst\u00fccksteil sei unterschrieben, berichtet B\u00fcrgermeister Bernhard Tjaden.\nZwar werde es noch dauern, bis die bislang der Kirchengemeinde geh\u00f6rende Fl\u00e4che im Gemeindebesitz ist, doch gibt es jetzt kein Planungshindernis f\u00fcr das von einem privaten Investor zu stemmende Projekt mehr."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Daf\u00fcr gibt es eine Diskussion bez\u00fcglich eines Gemeinschaftsraums.\nEiner der beiden Investoren, die noch im Boot sind, hat angeboten, der Gemeinde entgegen zu kommen."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Im Erdgeschoss w\u00fcrde er eine Wohnfl\u00e4che - rund 55 Quadratmeter - und eine angrenzende Terrasse mit immerhin 70 Quadratmetern Fl\u00e4che f\u00fcr einen Sonderpreis zur Verf\u00fcgung stellen.\nDer Verwaltung und der Mehrheit des Gemeinderats schwebt vor, solch ein Gemeinschaftsraum eben nicht als Treffpunkt nur f\u00fcr die Bewohner des seniorengerechten Wohnens vorzusehen, sondern offen in die Gemeinde hinein."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Als Beispiel machte das Wort vom \"Strickcaf\u00e9\" die Runde.\nVers\u00fc\u00dft wird die Entscheidung, die durch die Bereitstellung von Mitteln f\u00fcr den laufenden Haushalt bereits im vergangenen Herbst vorentschieden wurde, durch F\u00f6rderm\u00f6glichkeiten."
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-28-de-en",
+        "task": "translation",
+        "document_en": "Collision with a car: Cyclist hurled onto the road\nThe 82-year-old cyclist was hit by a car whilst crossing the road in Garath on Wednesday and was seriously injured.\nAccording to police reports, the 82-year-old from Langenfeld was travelling on his bicycle on the Schwarzer Weg cycle lane at around 12.20pm, coming from the direction of Hilden.\nThe senior citizen wanted to cross the lane of traffic up where the street Am Buchholzer Busch is.\nA woman driving a car in the same direction gave way to him.\nHowever, as the man from Langenfeld cycled onto the road, he evidently did not pay attention to the oncoming traffic.\nHe collided with a car being driven by a 66-year-old woman from Hilden.\nThe man was hurled onto the road.\nHe suffered serious injuries and was brought to hospital in an ambulance.\n",
+        "document_de": "Kollision mit Auto: Radler wird auf Stra\u00dfe geschleudert\nBeim Queren der Stra\u00dfe ist ein 82-j\u00e4hriger Radfahrer am Mittwoch in Garath von einem Auto erfasst und schwer verletzt worden.\nWie die Polizei mitteilte, war der 82-j\u00e4hrie Langenfelder um 12.20 Uhr mit seinem Fahrrad auf dem Radweg der Stra\u00dfe Schwarzer Weg aus Richtung Hilden kommend unterwegs gewesen.\nDer Senior wollte die Fahrbahn in H\u00f6he der Stra\u00dfe Am Buchholzer Busch \u00fcberqueren.\nEine in die gleiche Richtung fahrende Pkw-F\u00fchrerin gew\u00e4hrte ihm Vorrang.\nAls der Langenfelder auf die Stra\u00dfe fuhr, achtete er aber offenbar nicht auf den Gegenverkehr.\nEr stie\u00df mit einem Auto zusammen, das eine 66-j\u00e4hrige Hildenerin steuerte.\nDer Mann wurde auf die Stra\u00dfe geschleudert.\nEr erlitt schwere Verletzungen und wurde mit einem Rettugnswagen in ein Krankenhaus gebracht.\n",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "Kollision mit Auto: Radler wird auf Stra\u00dfe geschleudert\nBeim Queren der Stra\u00dfe ist ein 82-j\u00e4hriger Radfahrer am Mittwoch in Garath von einem Auto erfasst und schwer verletzt worden."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Wie die Polizei mitteilte, war der 82-j\u00e4hrie Langenfelder um 12.20 Uhr mit seinem Fahrrad auf dem Radweg der Stra\u00dfe Schwarzer Weg aus Richtung Hilden kommend unterwegs gewesen.\nDer Senior wollte die Fahrbahn in H\u00f6he der Stra\u00dfe Am Buchholzer Busch \u00fcberqueren."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Eine in die gleiche Richtung fahrende Pkw-F\u00fchrerin gew\u00e4hrte ihm Vorrang.\nAls der Langenfelder auf die Stra\u00dfe fuhr, achtete er aber offenbar nicht auf den Gegenverkehr."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Er stie\u00df mit einem Auto zusammen, das eine 66-j\u00e4hrige Hildenerin steuerte.\nDer Mann wurde auf die Stra\u00dfe geschleudert."
+            },
+            {
+                "shard_id": 5,
+                "shard": "Er erlitt schwere Verletzungen und wurde mit einem Rettugnswagen in ein Krankenhaus gebracht.\n"
+            }
+        ]
+    },
+    {
+        "task_id": "wmt-news-29-de-en",
+        "task": "translation",
+        "document_en": "FC Bayern Munich have to do without David Alaba and Thiago for the Super Cup against Borussia Dortmund\nThe Super Cup is happening without him: David Alaba has to skip the game against Dortmund.\nWith squad concerns, FC Bayern are travelling to Dortmund for the first competitive match of the new season.\nThe title-defender is missing seven of its pros in the Super Cup against the cup winners.\nThe squad concerns are getting even bigger for the German football record champions Bayern Munich ahead of the Super Cup on Saturday (8.30pm/ZDF and Eurosport) at cup winners Borussia Dortmund.\nCoach Carlo Ancelotti has to also do without David Alaba in the duel with the BVB.\nThe Italian confirmed that on Friday.\nIn addition, the Munich team is missing Manuel Neuer, James, Thiago, Jerome Boateng, Arjen Robben and Juan Bernat.\nAncelotti blamed the physical state of his team and the lack of balance in their game for their five defeats in the past six friendlies.\n\"We know that we are not in the best physical condition,\" said Ancelotti, adding, \"The most important point is the balance in the team.",
+        "document_de": "FC Bayern M\u00fcnchen muss beim Supercup gegen Borussia Dortmund auf David Alaba und Thiago verzichten\nDer Supercup findet ohne ihn statt: David Alaba muss das Spiel gegen Dortmund sausen lassen.\nMit Personalsorgen reist der FC Bayern zum ersten Pflichtspiel der neuen Saison nach Dortmund.\nSieben Profis fehlen dem Titelverteidiger im Supercup gegen den Pokalsieger.\nDie Personalsorgen beim deutschen Fu\u00dfball-Rekordmeister Bayern M\u00fcnchen werden vor dem Supercup am Samstag (20.30 Uhr/ZDF und Eurosport) bei Pokalsieger Borussia Dortmund immer gr\u00f6\u00dfer.\nTrainer Carlo Ancelotti muss im Duell mit dem BVB auch auf David Alaba verzichten.\nDas best\u00e4tigte der Italiener am Freitag.\nZudem fehlen den M\u00fcnchnern Manuel Neuer, James, Thiago, Jerome Boateng, Arjen Robben und Juan Bernat.\nF\u00fcr die f\u00fcnf Niederlagen in den vergangenen sechs Testspielen hat Ancelotti den k\u00f6rperlichen Zustand und die fehlende Balance im Spiel seiner Mannschaft verantwortlich gemacht.\n\"Wir wissen, dass wir nicht in der besten physischen Verfassung sind\", sagte Ancelotti und f\u00fcgte hinzu: \"Der wichtigste Punkt ist die Balance im Team.",
+        "shards": [
+            {
+                "shard_id": 1,
+                "shard": "FC Bayern M\u00fcnchen muss beim Supercup gegen Borussia Dortmund auf David Alaba und Thiago verzichten\nDer Supercup findet ohne ihn statt: David Alaba muss das Spiel gegen Dortmund sausen lassen."
+            },
+            {
+                "shard_id": 2,
+                "shard": "Mit Personalsorgen reist der FC Bayern zum ersten Pflichtspiel der neuen Saison nach Dortmund.\nSieben Profis fehlen dem Titelverteidiger im Supercup gegen den Pokalsieger."
+            },
+            {
+                "shard_id": 3,
+                "shard": "Die Personalsorgen beim deutschen Fu\u00dfball-Rekordmeister Bayern M\u00fcnchen werden vor dem Supercup am Samstag (20.30 Uhr/ZDF und Eurosport) bei Pokalsieger Borussia Dortmund immer gr\u00f6\u00dfer.\nTrainer Carlo Ancelotti muss im Duell mit dem BVB auch auf David Alaba verzichten."
+            },
+            {
+                "shard_id": 4,
+                "shard": "Das best\u00e4tigte der Italiener am Freitag.\nZudem fehlen den M\u00fcnchnern Manuel Neuer, James, Thiago, Jerome Boateng, Arjen Robben und Juan Bernat."
+            },
+            {
+                "shard_id": 5,
+                "shard": "F\u00fcr die f\u00fcnf Niederlagen in den vergangenen sechs Testspielen hat Ancelotti den k\u00f6rperlichen Zustand und die fehlende Balance im Spiel seiner Mannschaft verantwortlich gemacht.\n\"Wir wissen, dass wir nicht in der besten physischen Verfassung sind\", sagte Ancelotti und f\u00fcgte hinzu: \"Der wichtigste Punkt ist die Balance im Team."
+            }
+        ]
+    }
+]

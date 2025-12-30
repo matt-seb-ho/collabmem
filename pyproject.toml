@@ -1,7 +1,31 @@
 [project]
 name = "collabmem"
-version = "0.1.0"
-dependencies = []
+version = "0.0.1"
+dependencies = [
+    "accelerate",
+    "bitsandbytes",
+    "datasets",
+    "huggingface-hub",
+    "litellm",
+    "nltk",
+    "numpy",
+    "openai",
+    "pandas",
+    "peft",
+    "python-dotenv",
+    "rich",
+    "scipy",
+    "tenacity",
+    "tiktoken",
+    "tokenizers",
+    "torch",
+    "tqdm",
+    "trl>0.18",
+    "transformers",
+    "vllm>=0.9",
+    "wandb",
+]
+license = "MIT"
 
 [tool.setuptools.packages.find]
 where = ["src"]
