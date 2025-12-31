@@ -2,6 +2,7 @@
 name = "collabmem"
 version = "0.0.1"
 dependencies = [
+    "GitPython",
     "accelerate",
     "bitsandbytes",
     "datasets",
@@ -12,9 +13,12 @@ dependencies = [
     "openai",
     "pandas",
     "peft",
+    "pymongo",
     "python-dotenv",
     "rich",
+    "sacrebleu",
     "scipy",
+    "sqlparse",
     "tenacity",
     "tiktoken",
     "tokenizers",
@@ -26,6 +30,7 @@ dependencies = [
     "wandb",
 ]
 license = "MIT"
+license-files = ["LICEN[CS]E*"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
