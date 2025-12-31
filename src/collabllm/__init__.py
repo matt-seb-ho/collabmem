@@ -10,6 +10,7 @@ from __future__ import annotations
 import errno
 import logging
 import os
+import tempfile
 from distutils.util import strtobool
 from pathlib import Path
 
@@ -96,7 +97,12 @@ def _resolve_run_user_dir() -> Path:
         return Path(env_val).expanduser()
 
     # 2) fall back to XDG-runtime-style path
-    return Path(_DEFAULT_RUN_DIR.format(uid=os.getuid()))
+    xdg_runtime = os.getenv("XDG_RUNTIME_DIR")
+    if xdg_runtime:
+        return Path(xdg_runtime) / "collabllm"
+
+    # macOS / fallback
+    return Path(tempfile.gettempdir()) / "collabllm"
 
 
 RUN_USER_DIR: Path = _resolve_run_user_dir()
