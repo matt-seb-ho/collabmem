@@ -94,6 +94,7 @@ class InteractivityMetric(BaseMetric):
                         **self.llm_kwargs,
                         messages=[{"role": "user", "content": eval_prompt}],
                         num_retries=1,
+                        drop_params=True,
                     )
                     .choices[0]
                     .message.content

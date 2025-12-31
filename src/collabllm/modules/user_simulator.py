@@ -41,6 +41,7 @@ class UserSimulator(object):
                     **self.llm_kwargs,
                     messages=messages,
                     num_retries=self.num_retries,
+                    drop_params=True,
                 )
                 .choices[0]
                 .message.content

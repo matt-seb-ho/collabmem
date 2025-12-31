@@ -110,7 +110,9 @@ class SingleTurnOrChatMetric:
 
         response = (
             litellm.completion(
-                **self.llm_kwargs, messages=[{"role": "user", "content": prompt}]
+                **self.llm_kwargs,
+                messages=[{"role": "user", "content": prompt}],
+                drop_params=True,
             )
             .choices[0]
             .message.content

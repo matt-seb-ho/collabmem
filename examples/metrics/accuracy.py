@@ -124,6 +124,7 @@ class AccuracyMetric(BaseMetric):
                         **self.llm_kwargs,
                         messages=[{"role": "user", "content": eval_prompt}],
                         num_retries=self.num_retries,
+                        drop_params=True,
                     )
                     .choices[0]
                     .message.content
