@@ -75,7 +75,7 @@ def data_engine(args):
     dataset = dataset_cls().to_hf_dataset()
     train = (
         dataset["train"].select(range(args.train_size))
-        if args.train_size > 0
+        if 0 < args.train_size < len(dataset["train"])
         else dataset["train"]
     )
 

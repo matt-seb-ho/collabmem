@@ -8,6 +8,7 @@ from typing import Any, Dict, List, Optional
 from datasets import load_dataset
 
 from collabllm.datasets.single_turn import SingleTurnDataset
+from collabmem.constants import LIC_DATA_PATH
 
 
 class GSM8K(SingleTurnDataset):
@@ -29,10 +30,10 @@ class GSM8K(SingleTurnDataset):
         self,
         repo_id: str = "openai/gsm8k",
         *,
-        eval_ratio: float = 0.1,
+        eval_ratio: float = 0.5,  # CollabLLM uses 0.1 for default, for LiC (90-120 tasks per category) use 0.5)
         seed: int = 42,
-        load_lic_data: bool = False,
-        lic_json_path: Optional[str | Path] = None,
+        load_lic_data: bool = True,
+        lic_json_path: Optional[str | Path] = LIC_DATA_PATH,
     ):
         if load_lic_data:
             if lic_json_path is None:
