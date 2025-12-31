@@ -11,15 +11,15 @@ from __future__ import annotations
 
 import logging
 import statistics as stats
-from typing import Any, Dict, List, Sequence
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Any, Dict, List, Sequence
 
 from collabllm.metric import SingleTurnOrChatMetric
 from collabllm.simulation import ChatSessionSimulator
 from collabllm.utils.template import strip_system_prompt
 
-
 logger = logging.getLogger(__name__)
+
 
 # --------------------------------------------------------------------------- #
 # Metric helper                                                               #
@@ -40,6 +40,7 @@ def _score_one_metric(
         metadata=metadata,
     )
 
+
 # --------------------------------------------------------------------------- #
 # Helper: pretty summary table                                                #
 # --------------------------------------------------------------------------- #
@@ -56,20 +57,24 @@ def _log_reward_summary(reward_dict: Dict[str, List[float]]) -> None:
 
     try:
         from tabulate import tabulate
+
         table = "\n" + tabulate(rows, headers=header, tablefmt="github")
     except ImportError:
         colw = [max(len(x) for x in col) for col in zip(*([header] + rows))]
         fmt = "  ".join(f"{{:<{w}}}" for w in colw)
-        table = "\n" + fmt.format(*header) + "\n" + "\n".join(fmt.format(*r) for r in rows)
+        table = (
+            "\n" + fmt.format(*header) + "\n" + "\n".join(fmt.format(*r) for r in rows)
+        )
 
     logger.info("Reward statistics:%s", table)
+
 
 # --------------------------------------------------------------------------- #
 # Public API                                                                  #
 # --------------------------------------------------------------------------- #
 def multiturn_aware_reward(
     *,
-    task_desc: str,  
+    task_desc: str,
     single_turn_prompt: str,
     single_turn_completion: str,
     metric_names: Sequence[str],
@@ -78,7 +83,7 @@ def multiturn_aware_reward(
     metric_weights: Sequence[float] | None = None,
     max_metric_workers: int = 16,
     return_details: bool = False,
-    **chat_simulation_kwargs
+    **chat_simulation_kwargs,
 ) -> Dict[str, Any]:
     """
     Compute rewards for `num_samples` conversations returned in one batch.
@@ -94,8 +99,7 @@ def multiturn_aware_reward(
     sessions = ChatSessionSimulator().run_chat_simulation(
         task_desc=task_desc,
         single_turn_prompt=single_turn_prompt,
-        **chat_simulation_kwargs
-
+        **chat_simulation_kwargs,
     )  # → List[List[dict]]
     # strip system message, if any
     sessions = [strip_system_prompt(session) for session in sessions]
@@ -114,7 +118,7 @@ def multiturn_aware_reward(
     for m in metric_names:
         reward_dict[m] = [0.0] * n_conv
     reward_dict["MR"] = [0.0] * n_conv
-    
+
     with ThreadPoolExecutor(max_workers=max_metric_workers) as pool:
         fut_to_ctx = {}
         for conv_idx, messages in enumerate(sessions):
@@ -148,4 +152,3 @@ def multiturn_aware_reward(
     if return_details:
         return reward_dict, sessions
     return reward_dict
-

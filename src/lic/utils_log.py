@@ -1,19 +1,22 @@
 import json
 import os
-import git
 import time
-import pandas as pd
-from bson.objectid import ObjectId
 from collections import Counter
 from datetime import datetime
 
+import git
+import pandas as pd
+from bson.objectid import ObjectId
 
-def get_log_files(conv_type, task_name, assistant_model, force_create=False, log_folder="logs"):
+
+def get_log_files(
+    conv_type, task_name, assistant_model, force_create=False, log_folder="logs"
+):
     # Sanitize the assistant_model name for Windows compatibility
     # Replace characters that are invalid in Windows filenames: < > : " / \ | ? *
     sanitized_model = assistant_model
-    for char in ['<', '>', ':', '"', '/', '\\', '|', '?', '*']:
-        sanitized_model = sanitized_model.replace(char, '_')
+    for char in ["<", ">", ":", '"', "/", "\\", "|", "?", "*"]:
+        sanitized_model = sanitized_model.replace(char, "_")
 
     base_log_file = f"{log_folder}/{task_name}/{conv_type}/{conv_type}_{task_name}_{sanitized_model}.jsonl"
 
@@ -44,24 +47,46 @@ def get_log_files(conv_type, task_name, assistant_model, force_create=False, log
     return sorted(log_files)  # Sort to ensure consistent order
 
 
-def get_run_counts(conv_type, task_name, assistant_model, dataset_fn, log_folder="logs"):
-    dataset_fn = dataset_fn.split("/")[-1] # Remove folders
-    log_files = get_log_files(conv_type, task_name, assistant_model, force_create=False, log_folder=log_folder)
+def get_run_counts(
+    conv_type, task_name, assistant_model, dataset_fn, log_folder="logs"
+):
+    dataset_fn = dataset_fn.split("/")[-1]  # Remove folders
+    log_files = get_log_files(
+        conv_type, task_name, assistant_model, force_create=False, log_folder=log_folder
+    )
     task_id_counts = Counter()
     for log_file in log_files:
         with open(log_file, "r") as f:
             for line in f:
                 d = json.loads(line)
-                if d["dataset_fn"] == dataset_fn and d["assistant_model"] == assistant_model:
+                if (
+                    d["dataset_fn"] == dataset_fn
+                    and d["assistant_model"] == assistant_model
+                ):
                     task_id_counts[d["task_id"]] += 1
     return task_id_counts
 
 
-def log_conversation(conv_type, task_name, task_id, dataset_fn, assistant_model, system_model, user_model, trace, is_correct=None, score=None, additional_info={}, log_folder=None):
-    log_files = get_log_files(conv_type, task_name, assistant_model, force_create=True, log_folder=log_folder)
+def log_conversation(
+    conv_type,
+    task_name,
+    task_id,
+    dataset_fn,
+    assistant_model,
+    system_model,
+    user_model,
+    trace,
+    is_correct=None,
+    score=None,
+    additional_info={},
+    log_folder=None,
+):
+    log_files = get_log_files(
+        conv_type, task_name, assistant_model, force_create=True, log_folder=log_folder
+    )
     log_file = log_files[-1]
 
-    dataset_fn = dataset_fn.split("/")[-1] # Remove folders
+    dataset_fn = dataset_fn.split("/")[-1]  # Remove folders
 
     # if the folders don't exist, create them
     if not os.path.exists(os.path.dirname(log_file)):
@@ -69,14 +94,27 @@ def log_conversation(conv_type, task_name, task_id, dataset_fn, assistant_model,
 
     git_version = git.Repo(search_parent_directories=True).head.object.hexsha
 
-    record = {"conv_id": str(ObjectId()), "conv_type": conv_type, "task": task_name, "task_id": task_id, "dataset_fn": dataset_fn, "assistant_model": assistant_model, "system_model": system_model, "user_model": user_model, "git_version": git_version, "trace": trace, "is_correct": is_correct, "score": score} # , "source_conv_id": source_conv_id
-    record.update(additional_info) # sample-specific, for example for recap
+    record = {
+        "conv_id": str(ObjectId()),
+        "conv_type": conv_type,
+        "task": task_name,
+        "task_id": task_id,
+        "dataset_fn": dataset_fn,
+        "assistant_model": assistant_model,
+        "system_model": system_model,
+        "user_model": user_model,
+        "git_version": git_version,
+        "trace": trace,
+        "is_correct": is_correct,
+        "score": score,
+    }  # , "source_conv_id": source_conv_id
+    record.update(additional_info)  # sample-specific, for example for recap
     with open(log_file, "a") as f:
-        f.write(json.dumps(record)+"\n")
+        f.write(json.dumps(record) + "\n")
 
 
 def clean_model_name(model):
-    if (model.startswith("t-") or model.startswith("l-") or model.startswith("b-")):
+    if model.startswith("t-") or model.startswith("l-") or model.startswith("b-"):
         model = model[2:]
     elif model.startswith("sfr-"):
         model = model[4:]
@@ -84,8 +122,9 @@ def clean_model_name(model):
     bad_ends = ["-instruct", "-17b-16e"]
     for bad_end in bad_ends:
         if model.endswith(bad_end):
-            model = model[:-len(bad_end)]
+            model = model[: -len(bad_end)]
     return model
+
 
 def load_results_from(folder, dataset_fn, merge_trapi=True):
     # TrAPI = internal MSR API to access OpenAI model. If merge_trapi=True, the trapi model acronyms are merged with regular openai models (t-gpt-4o -> gpt-4o)
@@ -115,7 +154,7 @@ def load_results_from(folder, dataset_fn, merge_trapi=True):
             print(f"Removing {num_fail} failed lines from {fn}")
             with open(os.path.join(folder, fn), "w") as f:
                 for d in data:
-                    f.write(json.dumps(d)+"\n")
+                    f.write(json.dumps(d) + "\n")
         data = [d for d in data if d["dataset_fn"] == dataset_fn]
         if len(data) > 0:
             for log in data:
@@ -128,7 +167,15 @@ def load_results_from(folder, dataset_fn, merge_trapi=True):
     return model_data
 
 
-def clean_up_logs(task_name, dataset_fn, ids=None, conv_types="all", models="all", is_mock=False, log_folder="logs"):
+def clean_up_logs(
+    task_name,
+    dataset_fn,
+    ids=None,
+    conv_types="all",
+    models="all",
+    is_mock=False,
+    log_folder="logs",
+):
     assert models == "all" or (type(models) is list)
 
     # we're going to clean the files in the following manner:
@@ -145,14 +192,18 @@ def clean_up_logs(task_name, dataset_fn, ids=None, conv_types="all", models="all
                 all_conversations = [json.loads(line) for line in f]
             for conversation in all_conversations:
                 model = conversation["assistant_model"]
-                if conversation["dataset_fn"] == dataset_fn and (models == "all" or model in models) and (ids is None or conversation["task_id"] in ids):
+                if (
+                    conversation["dataset_fn"] == dataset_fn
+                    and (models == "all" or model in models)
+                    and (ids is None or conversation["task_id"] in ids)
+                ):
                     N_filtered[(conversation["dataset_fn"], conv_type, model)] += 1
                     continue
                 kept_conversations.append(conversation)
             if not is_mock:
                 with open(os.path.join(folder, conv_type, log_file), "w") as f:
                     for conversation in kept_conversations:
-                        f.write(json.dumps(conversation)+"\n")
+                        f.write(json.dumps(conversation) + "\n")
 
     print(f"Filtered {N_filtered.total()} conversations")
     for (dataset_fn, conv_type, model), count in N_filtered.items():
@@ -181,7 +232,14 @@ def check_latest_updates():
     for fn, mod_time in recent_files:
         fn = fn.split("\\")[-1].replace(".jsonl", "")
         conv_type, task_name, model = fn.split("_")
-        dataset.append({"task_name": task_name, "conv_type": conv_type, "model": model, "mod_time": mod_time})
+        dataset.append(
+            {
+                "task_name": task_name,
+                "conv_type": conv_type,
+                "model": model,
+                "mod_time": mod_time,
+            }
+        )
     return pd.DataFrame(dataset)
 
 
@@ -202,7 +260,9 @@ def split_large_file(file_path, max_size_mb=30):
         lines = f.readlines()
 
     total_size = sum(len(line.encode("utf-8")) for line in lines)
-    if total_size < 1.02*max_size_bytes: # the extra bit for the last entry that might have surpassed a tiny bit
+    if (
+        total_size < 1.02 * max_size_bytes
+    ):  # the extra bit for the last entry that might have surpassed a tiny bit
         print(f"{file_path} skipped (under {max_size_mb}MB)")
         return
 
@@ -211,8 +271,12 @@ def split_large_file(file_path, max_size_mb=30):
     for line in lines:
         current_size += len(line.encode("utf-8"))
         if current_size > max_size_bytes:
-            print(f"Creating {os.path.join(folder, f'{base_fn}__{chunk_number}.jsonl')}")
-            with open(os.path.join(folder, f"{base_fn}__{chunk_number}.jsonl"), "w") as f:
+            print(
+                f"Creating {os.path.join(folder, f'{base_fn}__{chunk_number}.jsonl')}"
+            )
+            with open(
+                os.path.join(folder, f"{base_fn}__{chunk_number}.jsonl"), "w"
+            ) as f:
                 f.writelines(current_chunk)
             current_chunk = []
             current_size = 0

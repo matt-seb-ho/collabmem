@@ -43,8 +43,8 @@ Derived field
 
 Converters (all use a uniform random splitter)
 -----------------------------------------------
-• `to_sft_dataset()`   → DatasetDict {text}  
-• `to_dpo_dataset()`   → DatasetDict {prompt, chosen, rejected, score_*}  
+• `to_sft_dataset()`   → DatasetDict {text}
+• `to_dpo_dataset()`   → DatasetDict {prompt, chosen, rejected, score_*}
 • `to_inputs_dataset()`→ DatasetDict {prompt, single_turn_*}
 """
 
@@ -52,10 +52,12 @@ from __future__ import annotations
 
 import os
 import random
-import numpy as np
 from typing import Any, Dict, List, Optional, Sequence, Union
-from collabllm.prompts import SYSTEM_PROMPT
+
+import numpy as np
 from datasets import Dataset, DatasetDict, load_dataset, load_from_disk
+
+from collabllm.prompts import SYSTEM_PROMPT
 
 _REQUIRED: set[str] = {
     "prompt",
@@ -68,6 +70,7 @@ _REQUIRED: set[str] = {
 }
 
 import logging
+
 logger = logging.getLogger(__name__)
 
 
@@ -119,7 +122,9 @@ class MultiturnDataset:
             RNG seed for uniform splitting.
         """
         self.seed = seed
-        self.sys_msg = [{"role": "system", "content": SYSTEM_PROMPT}] if add_system_prompt else []
+        self.sys_msg = (
+            [{"role": "system", "content": SYSTEM_PROMPT}] if add_system_prompt else []
+        )
 
         # 1) Load raw data into `raw_list` of dicts
         if isinstance(data_or_local_dir_or_hf_repo_or_nested, list):
@@ -128,7 +133,9 @@ class MultiturnDataset:
             ds_dict = load_from_disk(str(data_or_local_dir_or_hf_repo_or_nested))  # type: ignore
             raw_list = [dict(r) for r in ds_dict.flatten()]
         else:
-            ds_dict = load_dataset(str(data_or_local_dir_or_hf_repo_or_nested), trust_remote_code=True)  # type: ignore
+            ds_dict = load_dataset(
+                str(data_or_local_dir_or_hf_repo_or_nested), trust_remote_code=True
+            )  # type: ignore
             raw_list = [dict(r) for _, split in ds_dict.items() for r in split]
 
         if not raw_list:
@@ -162,7 +169,6 @@ class MultiturnDataset:
         token: Optional[str] = None,
         split: Optional[str] = None,
     ) -> DatasetDict:
-
         """
         Push the dataset to the Hugging Face Hub.
 
@@ -184,7 +190,6 @@ class MultiturnDataset:
         """
         ds = Dataset.from_dict({k: [row[k] for row in self.data] for k in self.data[0]})
         return ds.push_to_hub(repo_id, private=private, token=token, split=split)
-
 
     def _flatten_nested(self, nested: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
@@ -222,7 +227,12 @@ class MultiturnDataset:
         flat = []
         for base_conv_id, convo in enumerate(nested):
             # Validate presence of required conversation-level keys
-            for key in {"single_turn_prompt", "single_turn_completion", "single_turn_metadata", "turns"}:
+            for key in {
+                "single_turn_prompt",
+                "single_turn_completion",
+                "single_turn_metadata",
+                "turns",
+            }:
                 if key not in convo:
                     raise ValueError(f"Missing key '{key}' in nested conversation.")
             st_prompt = convo["single_turn_prompt"]
@@ -238,7 +248,9 @@ class MultiturnDataset:
                 turn_id = len(prompt_msgs)
                 for resp in turn["responses"]:
                     if "completion" not in resp or "score" not in resp:
-                        raise ValueError("Each response must have 'completion' and 'score'.")
+                        raise ValueError(
+                            "Each response must have 'completion' and 'score'."
+                        )
                     flat.append(
                         {
                             "prompt": prompt_msgs,
@@ -249,7 +261,11 @@ class MultiturnDataset:
                             "single_turn_completion": st_completion,
                             "single_turn_metadata": st_metadata,
                             "turn_id": turn_id,
-                            **{k: resp.get(k) for k in resp if k not in {"completion", "score"}},
+                            **{
+                                k: resp.get(k)
+                                for k in resp
+                                if k not in {"completion", "score"}
+                            },
                         }
                     )
         return flat
@@ -265,14 +281,15 @@ class MultiturnDataset:
         lower_bound_metric: Optional[str] = None,
         lower_bound: Optional[float] = 0.0,
     ) -> DatasetDict:
-
         # Select best example per conversation ID: prefer latest turn, then highest score
         best_examples = {}
         for row in self.data:
             cid = row["conv_id"]
             prev = best_examples.get(cid)
-            if prev is None or row["turn_id"] > prev["turn_id"] or (
-                row["turn_id"] == prev["turn_id"] and row["score"] > prev["score"]
+            if (
+                prev is None
+                or row["turn_id"] > prev["turn_id"]
+                or (row["turn_id"] == prev["turn_id"] and row["score"] > prev["score"])
             ):
                 best_examples[cid] = row
 
@@ -286,7 +303,9 @@ class MultiturnDataset:
                         metric = metric.get(key, {})
                     value = np.asarray(metric).mean().item()
                 except Exception as e:
-                    logger.error(f"Failed to extract metric '{lower_bound_metric}' from row: {row} — {e}")
+                    logger.error(
+                        f"Failed to extract metric '{lower_bound_metric}' from row: {row} — {e}"
+                    )
                     continue
 
                 if value < lower_bound:
@@ -299,7 +318,11 @@ class MultiturnDataset:
             if not isinstance(row["prompt"], list):
                 raise TypeError("Expected `prompt` to be a list of messages.")
 
-            messages = self.sys_msg + row["prompt"] + [{"role": "assistant", "content": row["completion"]}]
+            messages = (
+                self.sys_msg
+                + row["prompt"]
+                + [{"role": "assistant", "content": row["completion"]}]
+            )
             serialized_dialogues.append(messages)
 
         logger.info(
@@ -309,7 +332,9 @@ class MultiturnDataset:
         )
 
         full_dataset = Dataset.from_dict({"messages": serialized_dialogues})
-        return _uniform_split(full_dataset, eval_ratio=eval_ratio, n_eval=n_eval, seed=self.seed)
+        return _uniform_split(
+            full_dataset, eval_ratio=eval_ratio, n_eval=n_eval, seed=self.seed
+        )
 
     # ------------------------------------------------------------------ #
     # DPO                                                                #
@@ -321,7 +346,6 @@ class MultiturnDataset:
         n_eval: Optional[int] = None,
         eval_ratio: Optional[float] = 0.0,
     ) -> DatasetDict:
-
         # Group rows by (conv_id, turn_id)
         grouped: Dict[tuple, List[Dict[str, Any]]] = {}
         for r in self.data:
@@ -344,13 +368,19 @@ class MultiturnDataset:
                 }
             )
 
-        logger.info(f"Converted {len(pairs)} pairs (minimum_gap={minimum_gap}, ratio={len(pairs)/len(self.data):.2f})")
+        logger.info(
+            f"Converted {len(pairs)} pairs (minimum_gap={minimum_gap}, ratio={len(pairs)/len(self.data):.2f})"
+        )
 
         if not pairs:
-            return DatasetDict({"train": Dataset.from_dict({}), "eval": Dataset.from_dict({})})
+            return DatasetDict(
+                {"train": Dataset.from_dict({}), "eval": Dataset.from_dict({})}
+            )
 
         full_ds = Dataset.from_dict({k: [p[k] for p in pairs] for k in pairs[0]})
-        return _uniform_split(full_ds, eval_ratio=eval_ratio, n_eval=n_eval, seed=self.seed)
+        return _uniform_split(
+            full_ds, eval_ratio=eval_ratio, n_eval=n_eval, seed=self.seed
+        )
 
     # ------------------------------------------------------------------ #
     # Inputs                                                             #
@@ -361,14 +391,13 @@ class MultiturnDataset:
         n_eval: Optional[int] = None,
         eval_ratio: Optional[float] = 0.0,
     ) -> DatasetDict:
-
         # Keep exactly one row per (conv_id, turn_id)
         unique: Dict[tuple, Dict[str, Any]] = {}
         for r in self.data:
             key = (r["conv_id"], r["turn_id"])
             if key not in unique:
                 unique[key] = r
-            r['prompt'] = self.sys_msg + r["prompt"]
+            r["prompt"] = self.sys_msg + r["prompt"]
 
         keep_keys = [
             "prompt",
@@ -378,10 +407,14 @@ class MultiturnDataset:
         ]
         records = [{k: row[k] for k in keep_keys} for row in unique.values()]
         if not records:
-            return DatasetDict({"train": Dataset.from_dict({}), "eval": Dataset.from_dict({})})
+            return DatasetDict(
+                {"train": Dataset.from_dict({}), "eval": Dataset.from_dict({})}
+            )
 
         full_ds = Dataset.from_dict({k: [rec[k] for rec in records] for k in keep_keys})
-        return _uniform_split(full_ds, eval_ratio=eval_ratio, n_eval=n_eval, seed=self.seed)
+        return _uniform_split(
+            full_ds, eval_ratio=eval_ratio, n_eval=n_eval, seed=self.seed
+        )
 
     # ------------------------------------------------------------------ #
     # misc                                                               #

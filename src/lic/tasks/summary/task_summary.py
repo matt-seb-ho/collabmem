@@ -1,13 +1,23 @@
-from tasks.summary.eval_summhay import build_ref_insight2docids, compute_single_sample_results, evaluate_insights
+import json
+import math
+import os
+import random
 from collections import Counter
-import os, json, random, math
+
 from task_base import Task
+
+from tasks.summary.eval_summhay import (
+    build_ref_insight2docids,
+    compute_single_sample_results,
+    evaluate_insights,
+)
 
 random.seed(42)
 
+
 def download_summhay():
     for domain in ["news", "conv"]:
-        for i in range(1,6):
+        for i in range(1, 6):
             # https://raw.githubusercontent.com/salesforce/summary-of-a-haystack/refs/heads/master/data/topic_conv1.json
             # save it as data/summhay/topic_{domain}{i}.json
             url = f"https://raw.githubusercontent.com/salesforce/summary-of-a-haystack/refs/heads/master/data/topic_{domain}{i}.json"
@@ -41,35 +51,73 @@ def generate_sharded_summhay_samples():
 
             num_repeats = 2
 
-            while any([insight_id_counts[insight_id] < num_repeats for insight_id in insight_ids]):
+            while any(
+                [
+                    insight_id_counts[insight_id] < num_repeats
+                    for insight_id in insight_ids
+                ]
+            ):
                 random.shuffle(documents)
-                left_insight_ids = set([insight_id for insight_id in insight_ids if insight_id_counts[insight_id] < num_repeats])
-                doc_sorted = sorted(documents, key=lambda x: (len(set(x["insights_included"]) & left_insight_ids) * (0 if x["document_id"] in selected_doc_ids else 1)), reverse=True)
+                left_insight_ids = set(
+                    [
+                        insight_id
+                        for insight_id in insight_ids
+                        if insight_id_counts[insight_id] < num_repeats
+                    ]
+                )
+                doc_sorted = sorted(
+                    documents,
+                    key=lambda x: (
+                        len(set(x["insights_included"]) & left_insight_ids)
+                        * (0 if x["document_id"] in selected_doc_ids else 1)
+                    ),
+                    reverse=True,
+                )
                 selected_doc = doc_sorted[0]
                 selected_doc_ids.append(selected_doc["document_id"])
                 insight_id_counts.update(selected_doc["insights_included"])
 
-            distractor_doc_ids = [id for id, score in oracle_scores.items() if score == 0 and id in real_doc_ids]
-            distractor_doc_ids = random.sample(distractor_doc_ids, max(len(selected_doc_ids), 6))
+            distractor_doc_ids = [
+                id
+                for id, score in oracle_scores.items()
+                if score == 0 and id in real_doc_ids
+            ]
+            distractor_doc_ids = random.sample(
+                distractor_doc_ids, max(len(selected_doc_ids), 6)
+            )
             selected_doc_ids = distractor_doc_ids + selected_doc_ids
 
             for doc_idx, doc in enumerate(topic["documents"]):
-                doc["document_index"] = doc_idx+1
+                doc["document_index"] = doc_idx + 1
 
-            docs = [doc for doc in topic["documents"] if doc["document_id"] in selected_doc_ids]
+            docs = [
+                doc
+                for doc in topic["documents"]
+                if doc["document_id"] in selected_doc_ids
+            ]
 
-            doc_keep_keys = ["document_id", "document_index", "document_text", "insights_included"]
+            doc_keep_keys = [
+                "document_id",
+                "document_index",
+                "document_text",
+                "insights_included",
+            ]
             docs = [{k: doc[k] for k in doc_keep_keys} for doc in docs]
 
             final_doc_idxs = [doc["document_index"] for doc in docs]
-            assert sorted(final_doc_idxs) == final_doc_idxs, "Document indices are not sorted"
+            assert (
+                sorted(final_doc_idxs) == final_doc_idxs
+            ), "Document indices are not sorted"
             N_turns = 10
 
             # split the doc ids into N_turns
             random.shuffle(final_doc_idxs)
             per_batch = math.ceil(len(final_doc_idxs) / N_turns)
             # print(N_turns, per_batch)
-            doc_idxs_batches = [final_doc_idxs[i:i+per_batch] for i in range(0, len(final_doc_idxs), per_batch)]
+            doc_idxs_batches = [
+                final_doc_idxs[i : i + per_batch]
+                for i in range(0, len(final_doc_idxs), per_batch)
+            ]
             insightid2ref_citations = build_ref_insight2docids(topic)
 
             sample = {
@@ -82,8 +130,9 @@ def generate_sharded_summhay_samples():
                 "insights": subtopic["insights"],
                 "insightid2ref_citations": insightid2ref_citations,
                 "shards": [
-                    {"shard_id": i, "shard": "", "doc_idxs": doc_idxs_batches[i]} for i in range(len(doc_idxs_batches))
-                ]
+                    {"shard_id": i, "shard": "", "doc_idxs": doc_idxs_batches[i]}
+                    for i in range(len(doc_idxs_batches))
+                ],
             }
             samples.append(sample)
             # return
@@ -97,6 +146,7 @@ def generate_sharded_summhay_samples():
 
     with open(f"data/sharded_summary_tmp.json", "w") as f:
         json.dump(samples, f, indent=4)
+
 
 class TaskSummary(Task):
     def __init__(self):
@@ -127,51 +177,95 @@ class TaskSummary(Task):
         samples = [d for d in samples if d["task"] == "summary"]
         return samples
 
-
     def evaluator_function(self, extracted_answer, sample):
-        evaluator_model_card = "t-gpt-4o" if os.environ.get("USE_TRAPI", "0") == "1" else "gpt-4o"
-        evals = evaluate_insights(sample["insights"], extracted_answer, evaluator_model_card, "prompts/summary/summhay_evaluation.txt")
+        evaluator_model_card = (
+            "t-gpt-4o" if os.environ.get("USE_TRAPI", "0") == "1" else "gpt-4o"
+        )
+        evals = evaluate_insights(
+            sample["insights"],
+            extracted_answer,
+            evaluator_model_card,
+            "prompts/summary/summhay_evaluation.txt",
+        )
         # eval should likely be cached somewhere, so results can be explained if needed
-        results = compute_single_sample_results(extracted_answer, evals, sample["insightid2ref_citations"])
+        results = compute_single_sample_results(
+            extracted_answer, evals, sample["insightid2ref_citations"]
+        )
         # results["score"] = results["coverage_score"]
-        results["score"] = results["joint_score"] # we save this as the main score we anchor on
+        results["score"] = results[
+            "joint_score"
+        ]  # we save this as the main score we anchor on
         return results
 
     def populate_fully_specific_prompt(self, sample):
-        prompt = self.fully_specified_prompt_conv if sample["domain"] == "conv" else self.fully_specified_prompt_news
+        prompt = (
+            self.fully_specified_prompt_conv
+            if sample["domain"] == "conv"
+            else self.fully_specified_prompt_news
+        )
 
         documents_txt = ""
         for document in sample["documents"]:
             documents_txt += f"Document {document['document_index']}:\n{document['document_text']}\n\n"
 
-        prompt = prompt.replace("[[TOPIC]]", sample["topic"]).replace("[[DOCUMENTS]]", documents_txt).replace("[[QUERY]]", sample["query"]).replace("[[N_DOCS]]", str(len(sample["documents"]))).replace("[[N_INSIGHTS]]", str(len(sample["insights"])))
+        prompt = (
+            prompt.replace("[[TOPIC]]", sample["topic"])
+            .replace("[[DOCUMENTS]]", documents_txt)
+            .replace("[[QUERY]]", sample["query"])
+            .replace("[[N_DOCS]]", str(len(sample["documents"])))
+            .replace("[[N_INSIGHTS]]", str(len(sample["insights"])))
+        )
         return prompt
 
     def populate_concat_prompt(self, sample):
-        prompt = self.fully_specified_prompt_conv if sample["domain"] == "conv" else self.fully_specified_prompt_news
+        prompt = (
+            self.fully_specified_prompt_conv
+            if sample["domain"] == "conv"
+            else self.fully_specified_prompt_news
+        )
         documents_txt = "The documents were received in multiple chunks, you can disregard the chunking information, and consider all documents equally."
-        doc_idx2doc = {doc["document_index"]: doc["document_text"] for doc in sample["documents"]}
+        doc_idx2doc = {
+            doc["document_index"]: doc["document_text"] for doc in sample["documents"]
+        }
 
         for i, shard in enumerate(sample["shards"]):
             documents_txt += f"Document Chunk {i+1}:\n"
             for doc_idx in shard["doc_idxs"]:
                 documents_txt += f"Document {doc_idx}:\n{doc_idx2doc[doc_idx]}\n\n"
 
-        prompt = prompt.replace("[[TOPIC]]", sample["topic"]).replace("[[DOCUMENTS]]", documents_txt).replace("[[QUERY]]", sample["query"]).replace("[[N_DOCS]]", str(len(sample["documents"]))).replace("[[N_INSIGHTS]]", str(len(sample["insights"])))
+        prompt = (
+            prompt.replace("[[TOPIC]]", sample["topic"])
+            .replace("[[DOCUMENTS]]", documents_txt)
+            .replace("[[QUERY]]", sample["query"])
+            .replace("[[N_DOCS]]", str(len(sample["documents"])))
+            .replace("[[N_INSIGHTS]]", str(len(sample["insights"])))
+        )
         return prompt
-    
+
     def populate_sharded_prompt(self, sample, turn_index):
-        doc_idx2doc = {doc["document_index"]: doc["document_text"] for doc in sample["documents"]}
+        doc_idx2doc = {
+            doc["document_index"]: doc["document_text"] for doc in sample["documents"]
+        }
         if turn_index == 0:
             shard = sample["shards"][0]
-            prompt = self.fully_specified_prompt_conv if sample["domain"] == "conv" else self.fully_specified_prompt_news
+            prompt = (
+                self.fully_specified_prompt_conv
+                if sample["domain"] == "conv"
+                else self.fully_specified_prompt_news
+            )
             documents_txt = ""
             for doc_idx in shard["doc_idxs"]:
                 documents_txt += f"Document {doc_idx}:\n{doc_idx2doc[doc_idx]}\n\n"
-            prompt = prompt.replace("[[TOPIC]]", sample["topic"]).replace("[[DOCUMENTS]]", documents_txt).replace("[[QUERY]]", sample["query"]).replace("[[N_DOCS]]", str(len(sample["documents"]))).replace("[[N_INSIGHTS]]", str(len(sample["insights"])))
+            prompt = (
+                prompt.replace("[[TOPIC]]", sample["topic"])
+                .replace("[[DOCUMENTS]]", documents_txt)
+                .replace("[[QUERY]]", sample["query"])
+                .replace("[[N_DOCS]]", str(len(sample["documents"])))
+                .replace("[[N_INSIGHTS]]", str(len(sample["insights"])))
+            )
             return prompt, shard["shard_id"], 0.0
         elif turn_index <= len(sample["shards"]):
-            shard = sample["shards"][(turn_index-1)]
+            shard = sample["shards"][(turn_index - 1)]
             documents_txt = ""
             for doc_idx in shard["doc_idxs"]:
                 documents_txt += f"Document {doc_idx}:\n{doc_idx2doc[doc_idx]}\n\n"
@@ -180,15 +274,15 @@ class TaskSummary(Task):
         else:
             return None, -1, 0.0
 
-    
     def process_original_sample(self, sample):
         return {
             "task_id": sample["task_id"],
             "topic": sample["topic"],
             "query": sample["query"],
             "documents": sample["documents"],
-            "insights": sample["insights"]
+            "insights": sample["insights"],
         }
+
 
 if __name__ == "__main__":
     generate_sharded_summhay_samples()

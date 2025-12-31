@@ -1,20 +1,21 @@
-from datetime import datetime
 import os
+from datetime import datetime
 
-def load_env_vars(filepath='.env'):
+
+def load_env_vars(filepath=".env"):
     with open(filepath) as f:
         for line in f:
             line = line.strip()
-            if line and not line.startswith('#'):
+            if line and not line.startswith("#"):
                 # Remove 'export' if present and any leading/trailing whitespace
-                if line.startswith('export '):
+                if line.startswith("export "):
                     line = line[7:].strip()
 
                 # Split on first '=' only
-                if '=' in line:
-                    key, value = line.split('=', 1)
+                if "=" in line:
+                    key, value = line.split("=", 1)
                     # Remove any quotes around the value
-                    value = value.strip('\'"')
+                    value = value.strip("'\"")
                     os.environ[key.strip()] = value
 
 
@@ -31,21 +32,32 @@ def print_colored(text, color):
         raise Exception(f"Unknown color: {color}")
 
 
-def extract_conversation(simulation_trace, to_str=False, skip_system=False, only_last_turn=False):
-    keep_roles = ["system", "assistant", "user"] if not skip_system else ["assistant", "user"]
+def extract_conversation(
+    simulation_trace, to_str=False, skip_system=False, only_last_turn=False
+):
+    keep_roles = (
+        ["system", "assistant", "user"] if not skip_system else ["assistant", "user"]
+    )
     real_conversation = [msg for msg in simulation_trace if msg["role"] in keep_roles]
     if only_last_turn:
         # get all the user turns
-        user_turn_idxs = [i for i, msg in enumerate(real_conversation) if msg["role"] == "user"]
+        user_turn_idxs = [
+            i for i, msg in enumerate(real_conversation) if msg["role"] == "user"
+        ]
         last_user_turn_idx = user_turn_idxs[-1]
-        real_conversation = real_conversation[last_user_turn_idx + 1:]
+        real_conversation = real_conversation[last_user_turn_idx + 1 :]
 
-    real_conversation = [{"role": msg["role"], "content": msg["content"]} for msg in real_conversation] # only keep role and content
+    real_conversation = [
+        {"role": msg["role"], "content": msg["content"]} for msg in real_conversation
+    ]  # only keep role and content
 
     if to_str:
-        return "\n\n".join([f"[{msg['role']}] {msg['content']}" for msg in real_conversation])
+        return "\n\n".join(
+            [f"[{msg['role']}] {msg['content']}" for msg in real_conversation]
+        )
     else:
         return real_conversation
+
 
 def date_str():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")

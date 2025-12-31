@@ -3,9 +3,10 @@ import logging
 from typing import Any, Dict, List, Optional, Tuple
 
 import litellm
+
 from collabllm.prompts import EXTRACT_MULTITURN_COMPLETION_PROMPT
-from collabllm.utils.template import parse_messages
 from collabllm.utils.extract_json_reliable import extract_json
+from collabllm.utils.template import parse_messages
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +81,9 @@ class SingleTurnOrChatMetric:
         else:
             completion = None
 
-        return self.metric.score(single_turn_prompt, single_turn_completion, completion, messages, metadata)
+        return self.metric.score(
+            single_turn_prompt, single_turn_completion, completion, messages, metadata
+        )
 
     # -------------------------- helpers ------------------------------------ #
     @staticmethod
@@ -93,16 +96,25 @@ class SingleTurnOrChatMetric:
         metadata: Optional[Dict[str, Any]] = None,
     ) -> str:
         """Ask an LLM to distil the final artefact from `messages`."""
-        prefix_msg = "Addtional requirement:\n" if metadata and "extraction_requirement" in metadata else ""
+        prefix_msg = (
+            "Addtional requirement:\n"
+            if metadata and "extraction_requirement" in metadata
+            else ""
+        )
         prompt = EXTRACT_MULTITURN_COMPLETION_PROMPT.format(
             extract_type=self.extract_type,
             chat_history=parse_messages(messages, strip_sys_prompt=True),
-            extraction_requirement=prefix_msg + metadata.get("extraction_requirement", ""),
+            extraction_requirement=prefix_msg
+            + metadata.get("extraction_requirement", ""),
         )
 
-        response = litellm.completion(
-            **self.llm_kwargs, messages=[{"role": "user", "content": prompt}]
-        ).choices[0].message.content
+        response = (
+            litellm.completion(
+                **self.llm_kwargs, messages=[{"role": "user", "content": prompt}]
+            )
+            .choices[0]
+            .message.content
+        )
 
         try:
             payload = (
@@ -138,4 +150,3 @@ class SingleTurnOrChatMetric:
             return metric_cls
 
         return _decorator
-

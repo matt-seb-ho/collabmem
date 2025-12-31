@@ -1,7 +1,7 @@
 import json
 import random
-
 from dataclasses import asdict
+
 from llmplus import GenerationConfig, LLMClient, Provider
 
 from collabmem.compose_q import CodeRepresentation, QAExample

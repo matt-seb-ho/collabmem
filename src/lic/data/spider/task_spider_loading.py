@@ -1,8 +1,9 @@
 from datasets import load_dataset
-from task_spider_process_sql import Schema, get_schema_from_json_obj, get_sql
 from task_spider_eval_old import SpiderEvaluator
+from task_spider_process_sql import Schema, get_schema_from_json_obj, get_sql
 
 spider_evaluator = SpiderEvaluator()
+
 
 def load_spider_seeds(difficulties=["hard", "extra"]):
     dataset = load_dataset("spider")
@@ -10,7 +11,9 @@ def load_spider_seeds(difficulties=["hard", "extra"]):
     spider_schemas = load_dataset("iknow-lab/spider-schema")["train"]
     db_id2raw_schema = {d["db_id"]: d for d in spider_schemas}
 
-    db_id2schema = {d["db_id"]: get_schema_from_json_obj(d["tables"]) for d in spider_schemas}
+    db_id2schema = {
+        d["db_id"]: get_schema_from_json_obj(d["tables"]) for d in spider_schemas
+    }
 
     eval_dataset = list(dataset["validation"])
     for i, d in enumerate(eval_dataset):

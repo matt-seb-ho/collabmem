@@ -1,15 +1,15 @@
-import json
-import platform
 import contextlib
 import faulthandler
 import io
+import json
 import multiprocessing
 import os
+import platform
 import signal
 import tempfile
 from typing import Any, Dict, List, Optional
 
-from collabllm.metric import SingleTurnOrChatMetric, BaseMetric
+from collabllm.metric import BaseMetric, SingleTurnOrChatMetric
 
 
 @SingleTurnOrChatMetric.register_metric("pass_rate")
@@ -34,6 +34,7 @@ class PassRateMetric(BaseMetric):
             raise ValueError("`completion` (candidate code) must be provided.")
 
         from bigcodebench.eval import untrusted_check
+
         res = untrusted_check(
             completion,
             metadata["test"],
@@ -42,7 +43,7 @@ class PassRateMetric(BaseMetric):
             max_data_limit=300 * 1024,
             max_stack_limit=300 * 1024,
             min_time_limit=60,
-            gt_time_limit=60
+            gt_time_limit=60,
         )
         passed, info = res[0] == "pass", res[1]
 
@@ -55,7 +56,10 @@ if __name__ == "__main__":
     metric = PassRateMetric()
     messages = [
         {"role": "user", "content": "Write a function to add two numbers."},
-        {"role": "assistant", "content": "Here is a Python function that adds two numbers: \n```python\ndef add(a, b):\n    return a + b\n```"},
+        {
+            "role": "assistant",
+            "content": "Here is a Python function that adds two numbers: \n```python\ndef add(a, b):\n    return a + b\n```",
+        },
     ]
     completion = """import itertools
 from random import shuffle
@@ -78,7 +82,9 @@ def task_func(numbers=list(range(1, 3))):
         groundtruth="",
         completion=completion,
         messages=messages,
-        metadata={"entry_point": "task_func", "test": """import unittest
+        metadata={
+            "entry_point": "task_func",
+            "test": """import unittest
 from unittest.mock import patch
 from random import seed, shuffle
 import itertools
@@ -144,8 +150,7 @@ class TestCases(unittest.TestCase):
             result1 = task_func([1, 2, 3])
         with patch('random.shuffle', side_effect=lambda x: seed(1) or shuffle(x)):
             result2 = task_func([1, 2, 4])
-        self.assertNotEqual(result1, result2)"""},
+        self.assertNotEqual(result1, result2)""",
+        },
     )
     print("Pass Rate Score:", score)
-
-    

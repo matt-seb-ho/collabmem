@@ -1,8 +1,9 @@
 # sentence_bleu_metric.py
 from typing import Any, Dict, List, Optional
+
 from nltk.translate.bleu_score import sentence_bleu
 
-from collabllm.metric import SingleTurnOrChatMetric, BaseMetric
+from collabllm.metric import BaseMetric, SingleTurnOrChatMetric
 
 
 @SingleTurnOrChatMetric.register_metric("bleu")
@@ -32,10 +33,16 @@ if __name__ == "__main__":
     # Example usage
     conv_metric = SingleTurnOrChatMetric("document->bleu", model="gpt-4o-mini")
     messages = [
-        {"role": "user", "content": "Please write a document about optimism and its benefits."},
+        {
+            "role": "user",
+            "content": "Please write a document about optimism and its benefits.",
+        },
         {"role": "assistant", "content": "Optimism is a positive outlook on life..."},
         {"role": "user", "content": "What are the benefits of optimism?"},
-        {"role": "assistant", "content": "Optimism can lead to better mental health, increased resilience, and improved physical health."}
+        {
+            "role": "assistant",
+            "content": "Optimism can lead to better mental health, increased resilience, and improved physical health.",
+        },
     ]
     score = conv_metric(
         messages=messages,

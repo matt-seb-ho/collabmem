@@ -3,9 +3,10 @@ from __future__ import annotations
 
 import json
 import random
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 from datasets import load_dataset
+
 from collabllm.datasets.single_turn import SingleTurnDataset
 
 
@@ -59,7 +60,9 @@ class BigCodeBench(SingleTurnDataset):
         random.shuffle(indices)
 
         # map index ➝ split
-        split_map = {idx: ("train" if i < n_train else "test") for i, idx in enumerate(indices)}
+        split_map = {
+            idx: ("train" if i < n_train else "test") for i, idx in enumerate(indices)
+        }
 
         processed = []
         for idx, row in enumerate(raw_ds):
@@ -84,7 +87,7 @@ class BigCodeBench(SingleTurnDataset):
                     "task_id": row["task_id"],
                     "entry_point": row["entry_point"],
                     "test": row["test"],
-                    "extraction_requirement": f"Your extraction should be executable code without any the need of processing. You should start with the following code:\n\n{row['code_prompt']}\n"
+                    "extraction_requirement": f"Your extraction should be executable code without any the need of processing. You should start with the following code:\n\n{row['code_prompt']}\n",
                 }
             )
 

@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional
 
 import litellm
 
-from collabllm.metric import SingleTurnOrChatMetric, BaseMetric
+from collabllm.metric import BaseMetric, SingleTurnOrChatMetric
 from collabllm.utils.extract_json_reliable import extract_json
 
 logger = logging.getLogger(__name__)
@@ -89,11 +89,18 @@ class InteractivityMetric(BaseMetric):
 
         for i in range(self.num_retries):
             try:
-                full_response = litellm.completion(
-                    **self.llm_kwargs, messages=[{"role": "user", "content": eval_prompt}], num_retries=1
-                ).choices[0].message.content
+                full_response = (
+                    litellm.completion(
+                        **self.llm_kwargs,
+                        messages=[{"role": "user", "content": eval_prompt}],
+                        num_retries=1,
+                    )
+                    .choices[0]
+                    .message.content
+                )
             except Exception as e:
                 import time
+
                 time.sleep(self.retry_after)
                 logger.error(f"[retry={i + 1}] Error during LLM call: {e}")
                 continue
@@ -110,8 +117,8 @@ class InteractivityMetric(BaseMetric):
 
             if isinstance(full_response, dict):
                 keys = full_response.keys()
-                if {'thought', 'interactivity'}.issubset(keys):
-                    interactivity = full_response.pop('interactivity')
+                if {"thought", "interactivity"}.issubset(keys):
+                    interactivity = full_response.pop("interactivity")
                     break
                 else:
                     logger.error(f"Keys {keys} do not match expected keys. Retrying...")

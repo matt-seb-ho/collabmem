@@ -2,30 +2,27 @@
 #
 
 import ast
-import json
-import sys
 import faulthandler
+import json
+import multiprocessing
 import platform
-
-# used for debugging to time steps
-from datetime import datetime
 
 # to run the solution files we're using a timing based approach
 import signal
+import sys
+import time
 
+# used for debugging to time steps
+from datetime import datetime
+from decimal import Decimal
+from enum import Enum
 from io import StringIO
-
-# used for testing the code that reads from input
-from unittest.mock import patch, mock_open
 
 # from pyext import RuntimeModule
 from types import ModuleType
 
-from enum import Enum
-from decimal import Decimal
-import time
-
-import multiprocessing
+# used for testing the code that reads from input
+from unittest.mock import mock_open, patch
 
 import_string = "from string import *\nfrom re import *\nfrom datetime import *\nfrom collections import *\nfrom heapq import *\nfrom bisect import *\nfrom copy import *\nfrom math import *\nfrom random import *\nfrom statistics import *\nfrom itertools import *\nfrom functools import *\nfrom operator import *\nfrom io import *\nfrom sys import *\nfrom json import *\nfrom builtins import *\nfrom typing import *\nimport string\nimport re\nimport datetime\nimport collections\nimport heapq\nimport bisect\nimport copy\nimport math\nimport random\nimport statistics\nimport itertools\nimport functools\nimport operator\nimport io\nimport sys\nimport json\nsys.setrecursionlimit(50000)\n"
 
@@ -122,7 +119,6 @@ def make_function(code: str) -> str:
 
 
 def call_method(method, inputs):
-
     if isinstance(inputs, list):
         inputs = "\n".join(inputs)
 
@@ -565,7 +561,9 @@ def reliability_guard(maximum_memory_bytes=None):
 
 
 def _temp_run(sample, generation, tests, debug, result, metadata_list, timeout):
-    res, metadata = run_test(sample, tests, test=generation, debug=debug, timeout=timeout)
+    res, metadata = run_test(
+        sample, tests, test=generation, debug=debug, timeout=timeout
+    )
     result.append(res)
     metadata_list.append(metadata)
 
@@ -583,9 +581,7 @@ def check_correctness(sample, generation, tests, timeout, debug=False):
         args=(sample, generation, tests, debug, result, metadata_list, timeout),
     )
     p.start()
-    p.join(
-        timeout=(timeout + 1) * len(json.loads(tests)["inputs"]) + 5
-    )
+    p.join(timeout=(timeout + 1) * len(json.loads(tests)["inputs"]) + 5)
     if p.is_alive():
         p.kill()
     if not result:
@@ -595,5 +591,3 @@ def check_correctness(sample, generation, tests, timeout, debug=False):
         if debug:
             print("global timeout")
     return result[0], metadata_list[0]
-
-

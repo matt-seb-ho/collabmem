@@ -1,14 +1,14 @@
-from typing import List, Dict, Any, Tuple
+import ast
+import base64
 import json
+import pickle
 import random
 import re
-import pickle
 import zlib
-import base64
-import ast
-
+from typing import Any, Dict, List, Tuple
 
 from task_base import Task
+
 from tasks.code.eval_code import check_correctness
 
 
@@ -42,10 +42,12 @@ class TaskCode(Task):
 
     # merged answer description for LCB and HumanEval
     def get_answer_description(self) -> str:
-        return ("A final answer must be a valid Python function that is defined (def ...) and returns "
-                "something. The function should handle multiple test cases according to the problem specification. "
-                "If the answer is just a natural language explanation, it is not a valid answer. "
-                "Special symbols like newlines and quotes must be escaped.")
+        return (
+            "A final answer must be a valid Python function that is defined (def ...) and returns "
+            "something. The function should handle multiple test cases according to the problem specification. "
+            "If the answer is just a natural language explanation, it is not a valid answer. "
+            "Special symbols like newlines and quotes must be escaped."
+        )
 
     # use LCB system prompt for all samples
     def generate_system_prompt(self, sample: Dict[str, Any]) -> str:
@@ -61,7 +63,9 @@ class TaskCode(Task):
                 private_test_cases = json.loads(
                     pickle.loads(
                         zlib.decompress(
-                            base64.b64decode(sample["private_test_cases"].encode("utf-8"))  # type: ignore
+                            base64.b64decode(
+                                sample["private_test_cases"].encode("utf-8")
+                            )  # type: ignore
                         )
                     )
                 )  # type: ignore
@@ -70,13 +74,9 @@ class TaskCode(Task):
 
         return json.dumps(
             {
-                "inputs": [
-                    t["input"]
-                    for t in public_test_cases + private_test_cases
-                ],
+                "inputs": [t["input"] for t in public_test_cases + private_test_cases],
                 "outputs": [
-                    t["output"]
-                    for t in public_test_cases + private_test_cases
+                    t["output"] for t in public_test_cases + private_test_cases
                 ],
                 "fn_name": sample["metadata"].get("func_name", None),
             }
@@ -103,23 +103,34 @@ class TaskCode(Task):
 
         # Force update the function name with the true function name
         old_func_name = pred_python_code.split("def ")[1].split("(")[0].strip()
-        pred_python_code = pred_python_code.replace(old_func_name, sample["metadata"]["func_name"])
+        pred_python_code = pred_python_code.replace(
+            old_func_name, sample["metadata"]["func_name"]
+        )
 
         # load tests
         testcases = self.load_test_cases(sample)
 
-        output, metadata = check_correctness(sample, pred_python_code, testcases, timeout=6)
+        output, metadata = check_correctness(
+            sample, pred_python_code, testcases, timeout=6
+        )
         all_test_cases_passed = all(o is True for o in output)
 
         score = 1 if all_test_cases_passed else 0
-        return {"is_correct": all_test_cases_passed, "pass@1": 1 if all_test_cases_passed else 0, "score": score}
+        return {
+            "is_correct": all_test_cases_passed,
+            "pass@1": 1 if all_test_cases_passed else 0,
+            "score": score,
+        }
 
     def get_formatting_preamble(self, sample: Dict[str, Any]) -> Tuple[str, str]:
         """Outputs the formatting preamble and the starter code block"""
         # https://github.com/LiveCodeBench/LiveCodeBench/blob/main/lcb_runner/prompts/code_generation.py#L33
         call_preamble = "You will use the following starter code to write the solution to the problem and enclose your code within delimiters."
 
-        return call_preamble, f"```python\n{sample['starter_code'] if sample['starter_code'] else '# YOUR CODE HERE'}\n```"
+        return (
+            call_preamble,
+            f"```python\n{sample['starter_code'] if sample['starter_code'] else '# YOUR CODE HERE'}\n```",
+        )
 
     def populate_fully_specific_prompt(self, sample: Dict[str, Any]) -> str:
         if sample.get("source") in ["lcb_easy", "lcb_medium"]:
@@ -133,14 +144,19 @@ class TaskCode(Task):
         query = sample["question_content"]
         formatting_preamble, starter_code = self.get_formatting_preamble(sample)
 
-        return self.fully_specified_prompt_lcb.replace("[[QUESTION]]", query) \
-            .replace("[[FORMATTING_PREAMBLE]]", formatting_preamble) \
+        return (
+            self.fully_specified_prompt_lcb.replace("[[QUESTION]]", query)
+            .replace("[[FORMATTING_PREAMBLE]]", formatting_preamble)
             .replace("[[FORMATTING]]", starter_code)
+        )
 
     def _populate_fully_specific_prompt_humaneval(self, sample: Dict[str, Any]) -> str:
         user_query = sample["prompt"]
         # wrap with python code block
-        return self.fully_specified_prompt_humaneval.replace("[[INSTRUCTION]]", f"Complete the following incomplete function signature:\n```python\n{user_query}\n```")
+        return self.fully_specified_prompt_humaneval.replace(
+            "[[INSTRUCTION]]",
+            f"Complete the following incomplete function signature:\n```python\n{user_query}\n```",
+        )
 
     def populate_concat_prompt(self, sample: Dict[str, Any]) -> str:
         if sample.get("source") in ["lcb_easy", "lcb_medium"]:
@@ -157,9 +173,11 @@ class TaskCode(Task):
 
         formatting_preamble, starter_code = self.get_formatting_preamble(sample)
 
-        return self.fully_specified_prompt_lcb.replace("[[QUESTION]]", query) \
-            .replace("[[FORMATTING_PREAMBLE]]", formatting_preamble) \
+        return (
+            self.fully_specified_prompt_lcb.replace("[[QUESTION]]", query)
+            .replace("[[FORMATTING_PREAMBLE]]", formatting_preamble)
             .replace("[[FORMATTING]]", starter_code)
+        )
 
     def _populate_concat_prompt_humaneval(self, sample: Dict[str, Any]) -> str:
         query = sample["shards"][0]["shard"] + "\n"
@@ -191,7 +209,7 @@ class TaskCode(Task):
             The complete function definition as a string, or empty string if no function found
         """
         # First try to extract Python code blocks from markdown
-        code_blocks = re.findall(r'```(?:python)?\s*(.*?)\s*```', text, re.DOTALL)
+        code_blocks = re.findall(r"```(?:python)?\s*(.*?)\s*```", text, re.DOTALL)
 
         if "class Solution" in text:
             # the task_python_eval.py handles the function extraction.
@@ -208,7 +226,7 @@ class TaskCode(Task):
         # If no code blocks found, try to find the last function definition in the text
         text = text.strip()
         if text.startswith("```") or text.startswith("`"):
-            text = text[text.find("\n"):].strip()
+            text = text[text.find("\n") :].strip()
         import_idx = text.rfind("import")
         def_idx = text.rfind("def")
         start_idx = import_idx if import_idx >= 0 else def_idx
@@ -232,13 +250,19 @@ class TaskCode(Task):
             self._add_parent_info(tree)
 
             # Find all import statements
-            import_nodes = [node for node in ast.walk(tree) if isinstance(node, (ast.Import, ast.ImportFrom))]
+            import_nodes = [
+                node
+                for node in ast.walk(tree)
+                if isinstance(node, (ast.Import, ast.ImportFrom))
+            ]
             imports = []
             for node in import_nodes:
                 imports.append(ast.unparse(node))
 
             # Find all function definitions
-            function_nodes = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
+            function_nodes = [
+                node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)
+            ]
 
             if not function_nodes:
                 return ""  # No functions found
@@ -259,17 +283,19 @@ class TaskCode(Task):
 
             # Function spans from its first line to the last line of its body
             # If there are decorators, start from the first decorator
-            start_line = (last_function.decorator_list[0].lineno - 1
-                         if last_function.decorator_list
-                         else last_function.lineno - 1)  # ast line numbers are 1-based
+            start_line = (
+                last_function.decorator_list[0].lineno - 1
+                if last_function.decorator_list
+                else last_function.lineno - 1
+            )  # ast line numbers are 1-based
             end_line = last_function.end_lineno
 
             # Extract the complete function text
-            function_text = '\n'.join(source_lines[start_line:end_line])
+            function_text = "\n".join(source_lines[start_line:end_line])
 
             # Prepend imports if any were found
             if imports:
-                return '\n'.join(imports) + '\n\n' + function_text
+                return "\n".join(imports) + "\n\n" + function_text
             return function_text
         except Exception:
             return ""
@@ -291,7 +317,9 @@ class TaskCode(Task):
             self._add_parent_info(tree)
 
             # Find all function definitions
-            function_nodes = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
+            function_nodes = [
+                node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)
+            ]
 
             if not function_nodes:
                 print("No functions found")
@@ -320,16 +348,18 @@ class TaskCode(Task):
             body_lines = source_lines[start_line:end_line]
 
             # Find the minimum indentation level in the body
-            min_indent = float('inf')
+            min_indent = float("inf")
             for line in body_lines:
                 if line.strip():  # Skip empty lines
                     indent = len(line) - len(line.lstrip())
                     min_indent = min(min_indent, indent)
 
             # Remove only the initial indentation level from each line
-            body_lines = [line[min_indent:] if line.strip() else line for line in body_lines]
+            body_lines = [
+                line[min_indent:] if line.strip() else line for line in body_lines
+            ]
 
-            return '\n'.join(body_lines)
+            return "\n".join(body_lines)
         except Exception as e:
             print("Error extracting function body")
             print(e)

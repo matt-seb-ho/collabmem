@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
-from collabllm.metric import SingleTurnOrChatMetric, BaseMetric
+from collabllm.metric import BaseMetric, SingleTurnOrChatMetric
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +52,9 @@ class RewardModelMetric(BaseMetric):
         dtype: str = "bfloat16",
         **hf_kwargs,
     ):
-        self.model, self.tokenizer = _load_reward_model(model_name, device, dtype, **hf_kwargs)
+        self.model, self.tokenizer = _load_reward_model(
+            model_name, device, dtype, **hf_kwargs
+        )
 
     # --------------------------------------------------------------------- #
     def score(
@@ -82,7 +84,7 @@ if __name__ == "__main__":
     metric = RewardModelMetric(
         model_name="Skywork/Skywork-Reward-Llama-3.1-8B-v0.2",
         attn_implementation="flash_attention_2",
-        num_labels=1
+        num_labels=1,
     )
     result = metric.score(
         prompt="What is the capital of France?",
@@ -90,7 +92,7 @@ if __name__ == "__main__":
         completion=None,
         messages=[
             {"role": "user", "content": "What is the capital of France?"},
-            {"role": "assistant", "content": "The capital of France is Paris."}
-        ]
+            {"role": "assistant", "content": "The capital of France is Paris."},
+        ],
     )
     print(result)

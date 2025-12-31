@@ -71,17 +71,19 @@ NESTED_CONVERSION_TYPE_LIST = ["Array", "ArrayList", "array"]
 
 def ast_parse(input_str, language="Python"):
     input_str = input_str.strip()
-    bad_starts = sorted(["```tool_code", "```python", "```json", "```", "`"], key=len, reverse=True) # gemini insists on having tool_code, force longer ones first
+    bad_starts = sorted(
+        ["```tool_code", "```python", "```json", "```", "`"], key=len, reverse=True
+    )  # gemini insists on having tool_code, force longer ones first
     bad_ends = sorted(["```", "`"], key=len, reverse=True)
     for bad_start in bad_starts:
         if input_str.startswith(bad_start):
-            input_str = input_str[len(bad_start):]
+            input_str = input_str[len(bad_start) :]
     for bad_end in bad_ends:
         if input_str.endswith(bad_end):
-            input_str = input_str[:-len(bad_end)]
+            input_str = input_str[: -len(bad_end)]
 
     input_str = input_str.strip().replace("\n", " ")
-    
+
     if language == "Python":
         cleaned_input = input_str.strip("[]'")
         parsed = ast.parse(cleaned_input, mode="eval")
@@ -188,7 +190,6 @@ def is_function_calling_format_output(decoded_output):
     return True
 
 
-
 # https://github.com/ShishirPatil/gorilla/blob/c5ffaf09fd3556e88aed947a3aefde173ca31611/berkeley-function-call-leaderboard/bfcl/eval_checker/ast_eval/ast_checker.py
 #### Main function ####
 def ast_checker(
@@ -198,12 +199,12 @@ def ast_checker(
         return parallel_function_checker_no_order(
             func_description, model_output, possible_answer, language, model_name
         )
-        
+
     elif "multiple" in test_category:
         return multiple_function_checker(
             func_description, model_output, possible_answer, language, model_name
         )
-        
+
     else:
         if len(model_output) != 1:
             return {
@@ -213,7 +214,11 @@ def ast_checker(
             }
 
         return simple_function_checker(
-            func_description[0], model_output[0], possible_answer[0], language, model_name
+            func_description[0],
+            model_output[0],
+            possible_answer[0],
+            language,
+            model_name,
         )
 
 
@@ -395,7 +400,6 @@ def dict_checker(param: str, model_output: dict, possible_answers: list):
 
     result = {"valid": False, "error": [], "error_type": "dict_checker:unclear"}
     for i in range(len(possible_answers)):
-
         if possible_answers[i] == "":
             continue
 
@@ -405,7 +409,7 @@ def dict_checker(param: str, model_output: dict, possible_answers: list):
 
         possible_answer = possible_answers[i]
         # possible_anwer is a single dictionary
-        
+
         for key, value in model_output.items():
             if key not in possible_answer:
                 result["valid"] = False
@@ -418,7 +422,7 @@ def dict_checker(param: str, model_output: dict, possible_answers: list):
             # If the value is a string, we need to standardize it
             if type(value) == str:
                 standardize_value = standardize_string(value)
-                
+
             # We also need to standardize the possible answers if they are string
             standardize_possible_answer = []
             for i in range(len(possible_answer[key])):
@@ -437,7 +441,7 @@ def dict_checker(param: str, model_output: dict, possible_answers: list):
                 result["error_type"] = "value_error:dict_value"
                 flag = False
                 break
-        
+
         for key, value in possible_answer.items():
             if key not in model_output and "" not in value:
                 result["valid"] = False
@@ -445,7 +449,7 @@ def dict_checker(param: str, model_output: dict, possible_answers: list):
                 result["error_type"] = "value_error:dict_key"
                 flag = False
                 break
-            
+
         if flag:
             return {"valid": True, "error": []}
 
@@ -691,7 +695,7 @@ def parallel_function_checker_enforce_order(
 
     for i in range(len(possible_answers_list)):
         func_description = find_description(func_descriptions, func_name_list[i])
-        
+
         result = simple_function_checker(
             func_description,
             model_output[i],
@@ -727,7 +731,6 @@ def parallel_function_checker_no_order(
         # possible_answers[i] is a dictionary with only one key
         func_name_expected = list(possible_answers[i].keys())[0]
         func_description = find_description(func_descriptions, func_name_expected)
-
 
         all_errors = []
 

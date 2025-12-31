@@ -16,14 +16,15 @@ from pathlib import Path
 # --------------------------------------------------------------------------- #
 # Public package metadata                                                     #
 # --------------------------------------------------------------------------- #
-__version__ = "0.1.0"          # update as needed
-__author__  = "Shirley Wu & the CollabLLM team"
+__version__ = "0.1.0"  # update as needed
+__author__ = "Shirley Wu & the CollabLLM team"
 
 __all__ = [
     "__version__",
     "ENABLE_COLLABLLM_LOGGING",
     "RUN_USER_DIR",
 ]
+
 
 # --------------------------------------------------------------------------- #
 # Utility: boolean env-var parser                                             #
@@ -87,6 +88,7 @@ _pkg_logger.info("Disable LiteLLM cache and logging by default. ")
 # --------------------------------------------------------------------------- #
 _DEFAULT_RUN_DIR = "/run/user/{uid}/collabllm"
 
+
 def _resolve_run_user_dir() -> Path:
     # 1) honour explicit env-var
     env_val = os.getenv("RUN_USER_DIR")
@@ -96,8 +98,9 @@ def _resolve_run_user_dir() -> Path:
     # 2) fall back to XDG-runtime-style path
     return Path(_DEFAULT_RUN_DIR.format(uid=os.getuid()))
 
+
 RUN_USER_DIR: Path = _resolve_run_user_dir()
-os.environ["RUN_USER_DIR"] = str(RUN_USER_DIR) 
+os.environ["RUN_USER_DIR"] = str(RUN_USER_DIR)
 
 try:
     RUN_USER_DIR.mkdir(parents=True, exist_ok=True)

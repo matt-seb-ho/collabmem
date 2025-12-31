@@ -1,12 +1,12 @@
 # medium_dataset.py
 from __future__ import annotations
 
-import os
 import json
+import os
 import random
-from typing import List, Dict, Any
-import tiktoken
+from typing import Any, Dict, List
 
+import tiktoken
 from datasets import load_dataset
 from tqdm import tqdm
 
@@ -18,15 +18,15 @@ def num_tokens_from_string(string: str, encoding_name: str = "cl100k_base") -> i
     encoding = tiktoken.get_encoding(encoding_name)
     num_tokens = len(encoding.encode(string, disallowed_special=()))
     return num_tokens
-    
+
 
 class Medium(SingleTurnDataset):
     """
     Medium-Articles → SingleTurnDataset adaptor.
 
-    • Keeps only articles ≤ `max_tokens` tokens.  
+    • Keeps only articles ≤ `max_tokens` tokens.
     • Creates fresh train / test splits from the most recent articles
-      (based on timestamp) according to `train_ratio` & `test_ratio`.  
+      (based on timestamp) according to `train_ratio` & `test_ratio`.
     • Each example exposes:
         prompt      – “Write an article … about <title>”
         completion  – the full article text
@@ -50,7 +50,9 @@ class Medium(SingleTurnDataset):
 
         raw = load_dataset(repo_id, trust_remote_code=True)
         processed = self._preprocess(raw)
-        super().__init__(processed, eval_ratio=test_ratio, seed=seed)  # eval_ratio unused because we set `split`
+        super().__init__(
+            processed, eval_ratio=test_ratio, seed=seed
+        )  # eval_ratio unused because we set `split`
 
     # ------------------------------------------------------------------ #
     # helpers                                                            #
@@ -71,7 +73,7 @@ class Medium(SingleTurnDataset):
         recent = full[-(n_train + n_test) :]
         random.Random(self.seed).shuffle(recent)
 
-        test_set = recent[: n_test]
+        test_set = recent[:n_test]
         train_set = recent[n_test:]
 
         split_map = {id(row): "test" for row in test_set}

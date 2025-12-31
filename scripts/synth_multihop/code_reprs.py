@@ -4,8 +4,8 @@ from llmplus import GenerationConfig, LLMClient, Provider
 
 from collabmem.compose_q import (
     QAExample,
-    generate_code_representations,
     compose_problems,
+    generate_code_representations,
 )
 from collabmem.constants import REPO_ROOT
 

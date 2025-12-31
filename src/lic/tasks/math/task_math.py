@@ -1,6 +1,10 @@
-from typing import List, Dict, Any
+import json
+import random
+import re
+from typing import Any, Dict, List
+
 from task_base import Task
-import json, random, re
+
 
 class TaskMath(Task):
     def __init__(self):
@@ -23,15 +27,14 @@ class TaskMath(Task):
 
     def get_task_name(self):
         return "math"
-    
+
     def get_answer_description(self) -> str:
         return "The answer should be a single number (it could be decimal, or negative, or a fraction, etc.)."
-    
+
     def generate_system_prompt(self, sample: Dict[str, Any]) -> str:
         return self.system_prompt
 
     def evaluator_function(self, extracted_answer: str, sample: Dict[str, Any]) -> bool:
-
         regexes_to_ignore = [",", "\\$", "(?s).*#### ", "\\.$"]
 
         # ground truth
@@ -43,15 +46,20 @@ class TaskMath(Task):
             # strict
             # extracted_answer = re.findall(r"(\-?[0-9\.\,]+)", extracted_answer)[0]
             # flexible
-            extracted_answer = re.findall(r"(-?[$0-9.,]{2,})|(-?[0-9]+)", extracted_answer)[-1]
+            extracted_answer = re.findall(
+                r"(-?[$0-9.,]{2,})|(-?[0-9]+)", extracted_answer
+            )[-1]
             extracted_answer = [m for m in extracted_answer if m][0]
         except:
-            return {"score": 0.0, "error": f"Answer could not be extracted: {repr(extracted_answer)}"}
+            return {
+                "score": 0.0,
+                "error": f"Answer could not be extracted: {repr(extracted_answer)}",
+            }
 
         # custom formatting fix
         # if dollar mark is in the answer, check for the cents and trim if necessary
-        if re.search(r'\$', extracted_answer) and extracted_answer.endswith(".00"):
-            extracted_answer = extracted_answer.rstrip(".00")                
+        if re.search(r"\$", extracted_answer) and extracted_answer.endswith(".00"):
+            extracted_answer = extracted_answer.rstrip(".00")
 
         # ref: https://github.com/EleutherAI/lm-evaluation-harness/blob/52df63b7b30da53c481ed9090598d9189fab1d91/lm_eval/api/metrics.py#L198
         # further normalize $ and , for both extracted_answer and gold
@@ -70,7 +78,9 @@ class TaskMath(Task):
             query += f"- {shard['shard']}\n"
         return self.fully_specified_prompt.replace("[[QUESTION]]", query)
 
-    def extract_fully_specific_response(self, response: str, sample: Dict[str, Any]) -> str:
+    def extract_fully_specific_response(
+        self, response: str, sample: Dict[str, Any]
+    ) -> str:
         # FIXME(hiro): "completion" is not the best name for the field because we ask for a full function
         return response["answer"]
 

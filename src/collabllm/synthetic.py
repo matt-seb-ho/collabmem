@@ -1,13 +1,14 @@
 import json
-import numpy as np
+import logging
 from typing import Any, Dict, List, Optional
+
+import numpy as np
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-from collabllm.simulation import ChatSessionSimulator
 from collabllm.reward import multiturn_aware_reward
+from collabllm.simulation import ChatSessionSimulator
 from collabllm.utils.template import strip_system_prompt
 
-import logging
 logger = logging.getLogger(__name__)
 
 
@@ -78,7 +79,12 @@ def generate_multiturn_dataset(
 
     # 1) initial user turn
     first_user_msg = sim.run_chat_simulation(
-        **base_sim_args, num_samples=1, chat_history=chat_history, max_new_turns=1, max_workers=1, verbose=False
+        **base_sim_args,
+        num_samples=1,
+        chat_history=chat_history,
+        max_new_turns=1,
+        max_workers=1,
+        verbose=False,
     )[0][-1]
     chat_history.append(first_user_msg)
 
@@ -119,23 +125,35 @@ def generate_multiturn_dataset(
                 verbose=False,
             )
             score = np.array(rewards["MR"]).mean()
-            responses_with_scores.append({
-                "completion": completion,
-                "score": score,
-                "sessions": sessions,
-                "rewards": rewards,
-            })
+            responses_with_scores.append(
+                {
+                    "completion": completion,
+                    "score": score,
+                    "sessions": sessions,
+                    "rewards": rewards,
+                }
+            )
             scores.append(score)
 
         logger.info(f"\n\nResponses and scores (Turn {len(chat_history) // 2}):")
         logger.info(
             json.dumps(
-                [{"completion": r["completion"], "rewards": {k: np.mean(r["rewards"][k]) for k in r["rewards"]}} for r in responses_with_scores], 
-                indent=2)
+                [
+                    {
+                        "completion": r["completion"],
+                        "rewards": {k: np.mean(r["rewards"][k]) for k in r["rewards"]},
+                    }
+                    for r in responses_with_scores
+                ],
+                indent=2,
+            )
         )
 
         multiturn_data["turns"].append(
-            {"prompt": strip_system_prompt(turn_prompt.copy()), "responses": responses_with_scores}
+            {
+                "prompt": strip_system_prompt(turn_prompt.copy()),
+                "responses": responses_with_scores,
+            }
         )
 
         # c) pick best assistant response
@@ -148,12 +166,14 @@ def generate_multiturn_dataset(
 
         # d) select one user response
         # get session with the max number of length
-        sessions = sorted(responses_with_scores[best_idx]['sessions'].copy(), key=lambda x: len(x))
+        sessions = sorted(
+            responses_with_scores[best_idx]["sessions"].copy(), key=lambda x: len(x)
+        )
         next_user_msg = sessions[-1][len(chat_history)]["content"]
         chat_history.append({"role": "user", "content": next_user_msg})
 
         if sim._should_terminate_conversation(next_user_msg):
             logger.info("Conversation terminated by user.")
             break
-        
+
     return multiturn_data

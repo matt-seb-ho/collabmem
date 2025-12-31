@@ -40,20 +40,23 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 WANDB__SERVICE_WAIT=300 torchrun --master_port=5650
 
 from __future__ import annotations
 
-import argparse, os, json
-from typing import Tuple, Optional
+import argparse
+import json
+import os
+from typing import Optional, Tuple
 
 import torch
+import torch.distributed as dist
+import wandb
+from peft import LoraConfig, PeftConfig, PeftModel, get_peft_model
 from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
     BitsAndBytesConfig,
 )
-import torch.distributed as dist
-from peft import PeftConfig, PeftModel, LoraConfig, get_peft_model
-from collabllm.datasets.multiturn import MultiturnDataset
 from trl import DPOConfig, DPOTrainer
-import wandb
+
+from collabllm.datasets.multiturn import MultiturnDataset
 
 
 # --------------------------------------------------------------------------- #
@@ -64,17 +67,20 @@ def parse_args() -> argparse.Namespace:
 
     # Data / paths
     p.add_argument("--dataset_repo", type=str, required=True)
-    p.add_argument("--eval_ratio",   type=float, default=0.1)
-    p.add_argument("--output_dir",   type=str, required=True)
+    p.add_argument("--eval_ratio", type=float, default=0.1)
+    p.add_argument("--output_dir", type=str, required=True)
     p.add_argument("--resume_ckpt_dir", type=str, default=None)
 
     # Base / adapter models
     p.add_argument("--model_name", type=str, required=True)
-    p.add_argument("--peft_r",     type=int,   default=32)
-    p.add_argument("--peft_alpha", type=int,   default=16)
+    p.add_argument("--peft_r", type=int, default=32)
+    p.add_argument("--peft_alpha", type=int, default=16)
     p.add_argument("--peft_dropout", type=float, default=0.1)
-    p.add_argument("--target_modules",
-                   type=str, default="q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj")
+    p.add_argument(
+        "--target_modules",
+        type=str,
+        default="q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj",
+    )
 
     # Optim & schedule
     p.add_argument("--learning_rate", type=float, default=1e-5)
@@ -85,11 +91,11 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--eval_steps", type=int, default=500)
     p.add_argument("--save_total_limit", type=int, default=3)
     p.add_argument("--max_seq_length", type=int, default=4096)
-    p.add_argument("--warmup_ratio", type=float, default=0)        
-    p.add_argument("--logging_steps", type=int, default=1)           
-    p.add_argument("--max_prompt_length", type=int, default=4096) 
-    p.add_argument("--max_new_tokens", type=int, default=2048) 
-    p.add_argument("--minimum_gap", type=float, default=0.02) 
+    p.add_argument("--warmup_ratio", type=float, default=0)
+    p.add_argument("--logging_steps", type=int, default=1)
+    p.add_argument("--max_prompt_length", type=int, default=4096)
+    p.add_argument("--max_new_tokens", type=int, default=2048)
+    p.add_argument("--minimum_gap", type=float, default=0.02)
 
     # Precision / hardware
     p.add_argument("--device", type=str, default="cuda")
@@ -98,9 +104,9 @@ def parse_args() -> argparse.Namespace:
 
     # Tracking
     p.add_argument("--wandb_project", type=str)
-    p.add_argument("--wandb_entity",  type=str)
-    p.add_argument("--push_to_hub",   action="store_true")
-    p.add_argument("--hf_org",        type=str)
+    p.add_argument("--wandb_entity", type=str)
+    p.add_argument("--push_to_hub", action="store_true")
+    p.add_argument("--hf_org", type=str)
 
     # Optional JSON/YAML override
     p.add_argument("--config_file", type=str)
@@ -108,11 +114,15 @@ def parse_args() -> argparse.Namespace:
     args = p.parse_args()
     if args.config_file:
         with open(args.config_file) as f:
-            override = json.load(f) if args.config_file.endswith(".json") else \
-                       __import__("yaml").safe_load(f)
+            override = (
+                json.load(f)
+                if args.config_file.endswith(".json")
+                else __import__("yaml").safe_load(f)
+            )
         for k, v in override.items():
             setattr(args, k, v)
     return args
+
 
 # --------------------------------------------------------------------------- #
 # Utilities
@@ -133,7 +143,9 @@ def load_model_and_tokenizer(
             trust_remote_code=True,
         )
         model = PeftModel.from_pretrained(base, model_name, is_trainable=not is_eval)
-        tok = AutoTokenizer.from_pretrained(pc.base_model_name_or_path, trust_remote_code=True)
+        tok = AutoTokenizer.from_pretrained(
+            pc.base_model_name_or_path, trust_remote_code=True
+        )
     except Exception:
         model = AutoModelForCausalLM.from_pretrained(
             model_name,
@@ -147,11 +159,12 @@ def load_model_and_tokenizer(
 
     tok.padding_side, tok.pad_token = ("left" if is_eval else "right"), tok.eos_token
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    total     = sum(p.numel() for p in model.parameters())
+    total = sum(p.numel() for p in model.parameters())
     print(f"Trainable params: {trainable:,}/{total:,} ({trainable/total:.2%})")
-    
+
     print(model.device)
     return model, tok
+
 
 # --------------------------------------------------------------------------- #
 # Main
@@ -160,32 +173,42 @@ def main() -> None:
     args = parse_args()
     os.makedirs(args.output_dir, exist_ok=True)
 
-    local_rank = int(os.environ['LOCAL_RANK'])
-    dist.init_process_group(backend='nccl', init_method=None)
+    local_rank = int(os.environ["LOCAL_RANK"])
+    dist.init_process_group(backend="nccl", init_method=None)
     torch.cuda.set_device(local_rank)
     dist.barrier()
 
     # Dataset
-    ds = MultiturnDataset(args.dataset_repo).to_dpo_dataset(eval_ratio=args.eval_ratio, minimum_gap=args.minimum_gap)
+    ds = MultiturnDataset(args.dataset_repo).to_dpo_dataset(
+        eval_ratio=args.eval_ratio, minimum_gap=args.minimum_gap
+    )
 
     # Bits-and-bytes
-    bnb_cfg = BitsAndBytesConfig(
-        load_in_4bit=args.use_4bit,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_use_double_quant=False,
-        bnb_4bit_compute_dtype=torch.bfloat16,
-    ) if args.use_4bit else None
+    bnb_cfg = (
+        BitsAndBytesConfig(
+            load_in_4bit=args.use_4bit,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_use_double_quant=False,
+            bnb_4bit_compute_dtype=torch.bfloat16,
+        )
+        if args.use_4bit
+        else None
+    )
 
     # LoRA
-    lora_cfg = LoraConfig(
-        r=args.peft_r,
-        lora_alpha=args.peft_alpha,
-        bias="none",
-        task_type="CAUSAL_LM",
-        init_lora_weights="gaussian",
-        target_modules=args.target_modules.split(","),
-    ) if args.use_lora else None
-    
+    lora_cfg = (
+        LoraConfig(
+            r=args.peft_r,
+            lora_alpha=args.peft_alpha,
+            bias="none",
+            task_type="CAUSAL_LM",
+            init_lora_weights="gaussian",
+            target_modules=args.target_modules.split(","),
+        )
+        if args.use_lora
+        else None
+    )
+
     # Load model
     model, tok = load_model_and_tokenizer(
         args.model_name,
@@ -220,10 +243,10 @@ def main() -> None:
         optim="adamw_torch",
         report_to="wandb",
         do_eval=True,
-        eval_steps=args.eval_steps, 
-        save_strategy='epoch',
+        eval_steps=args.eval_steps,
+        save_strategy="epoch",
         eval_strategy="steps",
-        gradient_checkpointing=True,  
+        gradient_checkpointing=True,
         lr_scheduler_type="cosine",
         metric_for_best_model="eval_loss",
         warmup_ratio=args.warmup_ratio,
@@ -231,15 +254,15 @@ def main() -> None:
         logging_steps=args.logging_steps,
         num_train_epochs=args.num_train_epochs,
         save_total_limit=args.save_total_limit,
-        gradient_checkpointing_kwargs={'use_reentrant': False},
-        max_length=args.max_new_tokens, 
-        max_prompt_length=args.max_prompt_length, 
+        gradient_checkpointing_kwargs={"use_reentrant": False},
+        max_length=args.max_new_tokens,
+        max_prompt_length=args.max_prompt_length,
         per_device_train_batch_size=args.per_device_train_batch_size,
         gradient_accumulation_steps=args.gradient_accumulation_steps,
         run_name=args.output_dir,
         output_dir=args.output_dir,
-        deepspeed=ds_cfg, 
-        fp16=not torch.cuda.is_bf16_supported(), 
+        deepspeed=ds_cfg,
+        fp16=not torch.cuda.is_bf16_supported(),
         bf16=torch.cuda.is_bf16_supported(),
     )
 
@@ -253,12 +276,17 @@ def main() -> None:
             save_code=True,
             job_type="train",
         )
-    
+
     def process(row):
-        reference = tok.apply_chat_template(row["prompt"] + [{'role': 'assistant', 'content': row["chosen"]}], tokenize=False)
-        row["prompt"] = tok.apply_chat_template(row["prompt"], tokenize=False, add_generation_prompt=True)
+        reference = tok.apply_chat_template(
+            row["prompt"] + [{"role": "assistant", "content": row["chosen"]}],
+            tokenize=False,
+        )
+        row["prompt"] = tok.apply_chat_template(
+            row["prompt"], tokenize=False, add_generation_prompt=True
+        )
         row["chosen"] = row["chosen"].strip() + tok.eos_token
-        row["rejected"] = row["rejected"].strip() +  tok.eos_token
+        row["rejected"] = row["rejected"].strip() + tok.eos_token
         assert row["prompt"] + row["chosen"] == reference
         return row
 
@@ -285,6 +313,7 @@ def main() -> None:
 
     if args.wandb_project:
         wandb.finish()
+
 
 if __name__ == "__main__":
     main()

@@ -1,8 +1,9 @@
 # token_amount_metric.py
 from typing import Any, Dict, List, Optional
+
 import tiktoken
 
-from collabllm.metric import SingleTurnOrChatMetric, BaseMetric
+from collabllm.metric import BaseMetric, SingleTurnOrChatMetric
 
 
 def num_tokens_from_string(string: str, encoding_name: str = "cl100k_base") -> int:
@@ -32,13 +33,18 @@ class TokenAmountMetric(BaseMetric):
         if messages is None:
             raise ValueError("`messages` must be provided for TokenAmountMetric.")
 
-        assistant_text = " ".join(m["content"] for m in messages if m["role"] == "assistant")
+        assistant_text = " ".join(
+            m["content"] for m in messages if m["role"] == "assistant"
+        )
         user_text = " ".join(m["content"] for m in messages if m["role"] == "user")
 
-        full_results =  {
-            "num_tokens_read(k)": num_tokens_from_string(assistant_text, self.encoding_name) / 1000.0,
-            "num_tokens_typed(k)": num_tokens_from_string(user_text, self.encoding_name) / 1000.0,
+        full_results = {
+            "num_tokens_read(k)": num_tokens_from_string(
+                assistant_text, self.encoding_name
+            )
+            / 1000.0,
+            "num_tokens_typed(k)": num_tokens_from_string(user_text, self.encoding_name)
+            / 1000.0,
             "num_turns": float(len(messages) // 2),
         }
         return full_results["num_tokens_read(k)"]
-

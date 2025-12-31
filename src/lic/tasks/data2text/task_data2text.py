@@ -1,6 +1,9 @@
-from typing import Dict, Any, List
+import json
+from typing import Any, Dict, List
+
+import sacrebleu
 from task_base import Task
-import json, sacrebleu
+
 
 class TaskData2Text(Task):
     def __init__(self):
@@ -13,7 +16,6 @@ class TaskData2Text(Task):
 
     def get_dataset_file(self):
         return "data/sharded_instructions_600.json"
-
 
     def get_samples(self):
         with open(self.get_dataset_file(), "r") as f:
@@ -33,29 +35,35 @@ class TaskData2Text(Task):
     def evaluator_function(self, extracted_answer, sample):
         # ToTTo has multiple references per example
         references = sample["references"]
-        bleu = sacrebleu.corpus_bleu([extracted_answer.strip()], [[ref.strip()] for ref in references])
+        bleu = sacrebleu.corpus_bleu(
+            [extracted_answer.strip()], [[ref.strip()] for ref in references]
+        )
         return {"score": bleu.score / 100.0}
 
     def populate_fully_specific_prompt(self, sample: Dict[str, Any]) -> str:
         # Replace placeholders with table HTML and metadata
         prompt = self.fully_specified_prompt
         prompt = prompt.replace("[[TABLE_HTML]]", sample["table_highlighted_html"])
-        prompt = prompt.replace("[[FEWSHOT_DESCRIPTIONS]]", sample["fewshot_descriptions"])
-        
+        prompt = prompt.replace(
+            "[[FEWSHOT_DESCRIPTIONS]]", sample["fewshot_descriptions"]
+        )
+
         # Add metadata if available
         metadata_str = ""
         for key, value in sample["metadata"].items():
             metadata_str += f"{key}: {value}\n"
         prompt = prompt.replace("[[CONTEXT]]", metadata_str)
-        
+
         return prompt
 
     def populate_concat_prompt(self, sample: Dict[str, Any]) -> str:
         prompt = self.fully_specified_prompt
 
         # both of these are defined in the hints anyway
-        prompt = prompt.replace("[[TABLE_HTML]]", "") # sample["table_html"]
-        prompt = prompt.replace("[[FEWSHOT_DESCRIPTIONS]]", "") # sample["fewshot_descriptions"]
+        prompt = prompt.replace("[[TABLE_HTML]]", "")  # sample["table_html"]
+        prompt = prompt.replace(
+            "[[FEWSHOT_DESCRIPTIONS]]", ""
+        )  # sample["fewshot_descriptions"]
         context = ""
 
         for shard in sample["shards"]:
@@ -70,7 +78,9 @@ class TaskData2Text(Task):
         else:
             return None, -1, 0.0
 
-    def extract_fully_specific_response(self, response: str, sample: Dict[str, Any]) -> str:
+    def extract_fully_specific_response(
+        self, response: str, sample: Dict[str, Any]
+    ) -> str:
         return response
 
     def process_original_sample(self, sample: Dict[str, Any]) -> Dict[str, Any]:
@@ -80,14 +90,15 @@ class TaskData2Text(Task):
             "table_html": sample["table_html"],
             "table_highlighted_html": sample["table_highlighted_html"],
             "metadata": sample["metadata"],
-            "references": sample["references"]
+            "references": sample["references"],
         }
+
 
 if __name__ == "__main__":
     # Test code
     task = TaskData2Text()
     samples = task.get_samples()
     print(f"Loaded {len(samples)} samples")
-    
+
     sample = samples[0]
     print(task.populate_concat_prompt(sample))

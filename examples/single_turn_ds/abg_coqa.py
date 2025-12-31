@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import json
 import os.path as osp
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 from collabllm.datasets.single_turn import SingleTurnDataset
 
@@ -14,10 +14,10 @@ class AbgCoQA(SingleTurnDataset):
 
     * Task: binary classification — **ambiguous** vs **non_ambiguous**.
     * Each example exposes
-        • `prompt`      – story + (optional) history + target question  
-        • `completion`  – the label string: "ambiguous" or "non_ambiguous"  
-        • `split`       – train / val / test  
-      plus metadata (`id`, `source`, `ambiguity` flag).  
+        • `prompt`      – story + (optional) history + target question
+        • `completion`  – the label string: "ambiguous" or "non_ambiguous"
+        • `split`       – train / val / test
+      plus metadata (`id`, `source`, `ambiguity` flag).
     """
 
     def __init__(

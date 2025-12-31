@@ -1,21 +1,20 @@
 # chat_session_simulator.py
 from __future__ import annotations
 
-import os
 import copy
 import logging
-from typing import Dict, List, Optional, Any
-from concurrent.futures import ThreadPoolExecutor, as_completed
-
+import os
 import random
-import torch
-from transformers import pipeline, PreTrainedModel, PreTrainedTokenizerBase
-from tqdm import tqdm
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Any, Dict, List, Optional
 
-from collabllm.prompts import SYSTEM_PROMPT
+import torch
+from tqdm import tqdm
+from transformers import PreTrainedModel, PreTrainedTokenizerBase, pipeline
+
 from collabllm import ENABLE_COLLABLLM_LOGGING
-from collabllm.prompts import COLLABLLM_TERMINATION_SIGNAL
 from collabllm.modules import LLMCollaborator, UserSimulator
+from collabllm.prompts import COLLABLLM_TERMINATION_SIGNAL, SYSTEM_PROMPT
 from collabllm.utils.format import is_conversational
 
 logger = logging.getLogger(__name__)
@@ -24,12 +23,30 @@ PEFT_CHECKPOINT_SUFFIX = "-peft-checkpoint"
 
 # Valid VLLM sampling parameters
 VALID_VLLM_SAMPLING_PARAMS = {
-    "n", "best_of", "presence_penalty", "frequency_penalty", "repetition_penalty",
-    "temperature", "top_p", "top_k", "min_p", "seed", "stop", "stop_token_ids",
-    "bad_words", "ignore_eos", "max_tokens", "min_tokens", "logprobs",
-    "prompt_logprobs", "detokenize", "skip_special_tokens",
-    "spaces_between_special_tokens", "truncate_prompt_tokens"
+    "n",
+    "best_of",
+    "presence_penalty",
+    "frequency_penalty",
+    "repetition_penalty",
+    "temperature",
+    "top_p",
+    "top_k",
+    "min_p",
+    "seed",
+    "stop",
+    "stop_token_ids",
+    "bad_words",
+    "ignore_eos",
+    "max_tokens",
+    "min_tokens",
+    "logprobs",
+    "prompt_logprobs",
+    "detokenize",
+    "skip_special_tokens",
+    "spaces_between_special_tokens",
+    "truncate_prompt_tokens",
 }
+
 
 class ChatSessionSimulator:
     """Manages multiple simultaneous chat sessions."""
@@ -45,7 +62,7 @@ class ChatSessionSimulator:
         chat_history: List[Dict[str, str]],
         assistant_generation_kwargs: Dict[str, Any],
         user_generation_kwargs: Dict[str, Any],
-        num_samples: int = 1,                      
+        num_samples: int = 1,
         max_new_turns: int = 0,
         proact_prompt_ratio: int = 0.0,
         add_system_prompt_ratio: float = 0.0,
@@ -65,7 +82,7 @@ class ChatSessionSimulator:
         """
         # ------------------------------------------------------------------ #
         # 0 · Validation / defaults                                          #
-        # ------------------------------------------------------------------ 
+        # ------------------------------------------------------------------
         self._validate_session_inputs(
             task_desc,
             single_turn_prompt,
@@ -74,7 +91,7 @@ class ChatSessionSimulator:
             local_tokenizer,
             vllm_base_model,
             assistant_generation_kwargs,
-            user_generation_kwargs
+            user_generation_kwargs,
         )
 
         # ------------------------------------------------------------------ #
@@ -84,13 +101,11 @@ class ChatSessionSimulator:
             copy.deepcopy(chat_history or []) for _ in range(num_samples)
         ]
         # for increasing sample diversity
-        for sess in sessions[:int(num_samples * add_system_prompt_ratio)]:
+        for sess in sessions[: int(num_samples * add_system_prompt_ratio)]:
             sess.insert(0, {"role": "system", "content": SYSTEM_PROMPT})
 
-        current_roles = [
-            self._determine_starting_role(hist) for hist in sessions
-        ]
-        active: set[int] = set(range(num_samples))          # indices still alive
+        current_roles = [self._determine_starting_role(hist) for hist in sessions]
+        active: set[int] = set(range(num_samples))  # indices still alive
 
         user_sims = [
             UserSimulator(
@@ -116,24 +131,32 @@ class ChatSessionSimulator:
         msg_budget = [max_new_turns for _ in range(num_samples)]  # ← NEW
         active: set[int] = {i for i, b in enumerate(msg_budget) if b > 0}
 
-        pbar = tqdm(total=max_new_turns, desc="Simulating chat", disable=not (ENABLE_COLLABLLM_LOGGING and verbose))
+        pbar = tqdm(
+            total=max_new_turns,
+            desc="Simulating chat",
+            disable=not (ENABLE_COLLABLLM_LOGGING and verbose),
+        )
 
         while active:
             # ---------- USER TURNS ---------------------------------------- #
             user_idx = [i for i in active if current_roles[i] == "user"]
             if user_idx:
                 with ThreadPoolExecutor(max_workers=max_workers) as pool:
-                    fut_to_i = {pool.submit(user_sims[i], sessions[i]): i for i in user_idx}
+                    fut_to_i = {
+                        pool.submit(user_sims[i], sessions[i]): i for i in user_idx
+                    }
                     for fut in as_completed(fut_to_i):
                         i = fut_to_i[fut]
                         resp = fut.result()
                         self._log_response(f"user (Turn {len(sessions[i])})", resp)
                         sessions[i].append({"role": "user", "content": resp})
-                        
+
                         msg_budget[i] -= 1
 
                         # early exit checks
-                        if msg_budget[i] == 0 or self._should_terminate_conversation(resp):
+                        if msg_budget[i] == 0 or self._should_terminate_conversation(
+                            resp
+                        ):
                             current_roles[i] = "terminated"
                             active.discard(i)
                         else:
@@ -148,7 +171,6 @@ class ChatSessionSimulator:
             if not asst_idx:
                 continue
 
-                
             # --- generate assistant replies (batched or threaded) --- #
             if local_model is None and vllm_base_model is None:
                 num_asst = len(asst_idx)
@@ -158,7 +180,9 @@ class ChatSessionSimulator:
                     fut_to_i = {}
                     for rank, i in enumerate(asst_idx):
                         method_i = "proact" if rank < cutoff else "none"
-                        collab_i = LLMCollaborator(method=method_i, **assistant_generation_kwargs)
+                        collab_i = LLMCollaborator(
+                            method=method_i, **assistant_generation_kwargs
+                        )
                         fut = pool.submit(collab_i, sessions[i])
                         fut_to_i[fut] = i
 
@@ -209,7 +233,7 @@ class ChatSessionSimulator:
         local_model,
         model_name: str,
         generation_kwargs: Dict[str, Any],
-        return_outputs: bool = False
+        return_outputs: bool = False,
     ) -> List[str]:
         """Batched vLLM generation (returns list of responses)."""
         from vllm.lora.request import LoRARequest
@@ -224,13 +248,23 @@ class ChatSessionSimulator:
 
         # vLLM can accept a list of message histories; returns list[str]
         if is_conversational({"prompt": batch_messages[0]}):
-            outs = vllm_base_model.chat(batch_messages, sampling_params=sampling_params, lora_request=lora_req, use_tqdm=False)
+            outs = vllm_base_model.chat(
+                batch_messages,
+                sampling_params=sampling_params,
+                lora_request=lora_req,
+                use_tqdm=False,
+            )
         else:
-            outs = vllm_base_model.generate(batch_messages, sampling_params=sampling_params, lora_request=lora_req, use_tqdm=False)
+            outs = vllm_base_model.generate(
+                batch_messages,
+                sampling_params=sampling_params,
+                lora_request=lora_req,
+                use_tqdm=False,
+            )
 
         if return_outputs:
             return outs
-        
+
         generated_texts = [out.outputs[0].text for out in outs]
         return generated_texts
 
@@ -281,36 +315,32 @@ class ChatSessionSimulator:
     # ------------------------------------------------------------------ #
     # … the rest of the helper methods (_validate_session_inputs, etc.)  #
     # ------------------------------------------------------------------ #
-    def _write_peft_checkpoint(
-        self,
-        local_model,
-        model_name: str
-    ):
+    def _write_peft_checkpoint(self, local_model, model_name: str):
         """
         Write the PEFT checkpoint for the local model if required.
-        
+
         Args:
             local_model: The local model instance to save
             model_name: Name of the assistant model
-            
+
         Returns:
             Path to the saved PEFT checkpoint directory
-            
+
         Raises:
             FileNotFoundError: If unable to create or access the run user directory
         """
 
         peft_dir = self._get_peft_dir(model_name)
-        
+
         # Ensure PEFT directory exists
         os.makedirs(peft_dir, exist_ok=True)
-        
+
         # Save local model as PEFT checkpoint
         local_model.save_pretrained(peft_dir)
         logger.debug(f"Saved PEFT checkpoint to {peft_dir}")
-        
+
         return peft_dir
-    
+
     def _validate_session_inputs(
         self,
         task_desc: str,
@@ -320,7 +350,7 @@ class ChatSessionSimulator:
         local_tokenizer: Optional[PreTrainedTokenizerBase] = None,
         vllm_base_model: Optional[str] = None,
         assistant_generation_kwargs: Optional[Dict[str, Any]] = None,
-        user_generation_kwargs: Optional[Dict[str, Any]] = None
+        user_generation_kwargs: Optional[Dict[str, Any]] = None,
     ) -> None:
         """
         Sanity-check all arguments before starting a chat session.
@@ -349,36 +379,36 @@ class ChatSessionSimulator:
                 "`assistant_generation_kwargs` must include a 'model' key."
             )
         if user_generation_kwargs.get("model") is None:
-            raise ValueError(
-                "`user_generation_kwargs` must include a 'model' key."
-            )
+            raise ValueError("`user_generation_kwargs` must include a 'model' key.")
 
     def _determine_starting_role(self, chat_history: List[Dict[str, str]]) -> str:
         """Determine which role should start the conversation."""
-        if chat_history and chat_history[-1]['role'] == 'user':
-            return 'assistant'
-        return 'user'
-    
+        if chat_history and chat_history[-1]["role"] == "user":
+            return "assistant"
+        return "user"
+
     def _get_peft_dir(self, model_name: str) -> str:
         """
         Get the directory for the PEFT checkpoint.
-        
+
         Args:
             model_name: Name of the assistant model
-            
+
         Returns:
             Path to the PEFT checkpoint directory
         """
         run_user_dir = os.environ.get("RUN_USER_DIR")
-        return os.path.join(run_user_dir, f"{model_name.replace('/', '_')}{PEFT_CHECKPOINT_SUFFIX}")
-    
+        return os.path.join(
+            run_user_dir, f"{model_name.replace('/', '_')}{PEFT_CHECKPOINT_SUFFIX}"
+        )
+
     def _convert_to_sampling_params(self, generation_kwargs: Dict[str, Any]):
         """
         Convert generation kwargs to VLLM SamplingParams.
-        
+
         Args:
             generation_kwargs: Dictionary of generation parameters
-            
+
         Returns:
             SamplingParams instance for VLLM
         """
@@ -386,29 +416,29 @@ class ChatSessionSimulator:
 
         # Filter valid parameters
         generation_kwargs = copy.deepcopy(generation_kwargs)
-        generation_kwargs.pop('model', None)  # 'model' is not a sampling param
-        sampling_kwargs = {'max_tokens': 1024}  # Default max_tokens
+        generation_kwargs.pop("model", None)  # 'model' is not a sampling param
+        sampling_kwargs = {"max_tokens": 1024}  # Default max_tokens
         unmapped_params = []
-        
+
         for key, value in generation_kwargs.items():
             if key in VALID_VLLM_SAMPLING_PARAMS:
                 sampling_kwargs[key] = value
             else:
                 unmapped_params.append(key)
-        
+
         # Log unmapped parameters
         if unmapped_params:
             logger.warning(f"Unmapped VLLM parameters: {unmapped_params}")
-        
+
         return SamplingParams(**sampling_kwargs)
-    
+
     def _should_terminate_conversation(self, response: str) -> bool:
         """
         Check if the response contains a termination signal.
-        
+
         Args:
             response: The response text to check
-            
+
         Returns:
             True if conversation should terminate, False otherwise
         """
@@ -417,9 +447,9 @@ class ChatSessionSimulator:
         except Exception as e:
             logger.error(f"Error checking for chat termination: {e}")
             return False
-    
+
     def _log_response(self, role: str, response: str) -> None:
         """Log the response if verbose mode is enabled and on main process."""
-        logger.info(f"[rank {os.environ.get('RANK', 0)}]{role.capitalize()}: {response}")
-
-
+        logger.info(
+            f"[rank {os.environ.get('RANK', 0)}]{role.capitalize()}: {response}"
+        )

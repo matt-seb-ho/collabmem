@@ -1,8 +1,12 @@
+import json
 import os
-from tasks.database.eval_spider_exec import eval_exec_match
-from typing import Dict, Any, List
+import re
+from typing import Any, Dict, List
+
 from task_base import Task
-import json, re
+
+from tasks.database.eval_spider_exec import eval_exec_match
+
 
 class TaskDatabase(Task):
     def __init__(self):
@@ -14,7 +18,6 @@ class TaskDatabase(Task):
 
     def get_dataset_file(self) -> str:
         return "data/sharded_instructions_600.json"
-
 
     def get_samples(self):
         with open(self.get_dataset_file(), "r") as f:
@@ -40,11 +43,22 @@ class TaskDatabase(Task):
         ref_sql = sample["reference_sql"]
         # if there's no data/spider/databases/ folder, then throw an error
         if not os.path.exists("data/spider/databases/"):
-            raise FileNotFoundError("data/spider/databases/ folder not found; please see data/spider/README.md for instructions")
-
+            raise FileNotFoundError(
+                "data/spider/databases/ folder not found; please see data/spider/README.md for instructions"
+            )
 
         try:
-            is_correct = eval_exec_match(f"data/spider/databases/{sample['db_id']}/", pred_sql, ref_sql, plug_value=True, keep_distinct=False, progress_bar_for_each_datapoint=False) == 1
+            is_correct = (
+                eval_exec_match(
+                    f"data/spider/databases/{sample['db_id']}/",
+                    pred_sql,
+                    ref_sql,
+                    plug_value=True,
+                    keep_distinct=False,
+                    progress_bar_for_each_datapoint=False,
+                )
+                == 1
+            )
         except Exception as e:
             print(f"Error evaluating SQL: {e}")
             is_correct = False
@@ -52,16 +66,22 @@ class TaskDatabase(Task):
         return {"score": score}
 
     def populate_fully_specific_prompt(self, sample: Dict[str, Any]) -> str:
-        return self.fully_specified_prompt.replace("[[DATABASE_SCHEMA]]", sample["schema_sql"]).replace("[[USER_QUERY]]", sample["fully_specified_question"])
+        return self.fully_specified_prompt.replace(
+            "[[DATABASE_SCHEMA]]", sample["schema_sql"]
+        ).replace("[[USER_QUERY]]", sample["fully_specified_question"])
 
     def populate_concat_prompt(self, sample: Dict[str, Any]) -> str:
         user_query = "Consider all the following:\n"
 
         for shard in sample["shards"]:
             user_query += f"- {shard['shard']}\n"
-        return self.fully_specified_prompt.replace("[[DATABASE_SCHEMA]]", sample["schema_sql"]).replace("[[USER_QUERY]]", user_query)
+        return self.fully_specified_prompt.replace(
+            "[[DATABASE_SCHEMA]]", sample["schema_sql"]
+        ).replace("[[USER_QUERY]]", user_query)
 
-    def extract_fully_specific_response(self, response: str, sample: Dict[str, Any]) -> str:
+    def extract_fully_specific_response(
+        self, response: str, sample: Dict[str, Any]
+    ) -> str:
         return response["sql"]
 
     def process_original_sample(self, sample: Dict[str, Any]) -> Dict[str, Any]:

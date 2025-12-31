@@ -1,9 +1,9 @@
+from tasks.actions import TaskActions
+from tasks.code import TaskCode
+from tasks.data2text import TaskData2Text
 from tasks.database import TaskDatabase
 from tasks.math import TaskMath
-from tasks.code import TaskCode
 from tasks.summary import TaskSummary
-from tasks.data2text import TaskData2Text
-from tasks.actions import TaskActions
 from tasks.translation import TaskTranslation
 
 
@@ -28,6 +28,7 @@ def get_task(task_name, version=None):
         return TaskActions(**kwargs)
     else:
         raise ValueError(f"Task {task_name} not supported")
+
 
 if __name__ == "__main__":
     task = get_task("data2text")
