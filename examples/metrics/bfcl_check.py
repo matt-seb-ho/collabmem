@@ -41,7 +41,7 @@ class BFCLActionsMetric(BaseMetric):
         completion: str,
         messages: Optional[List[Dict[str, str]]],
         metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+    ) -> float:
         if completion is None:
             raise ValueError("`completion` (model output) must be provided.")
         metadata = metadata or {}
@@ -54,20 +54,22 @@ class BFCLActionsMetric(BaseMetric):
         test_category = metadata.get("test_category", "")
 
         if func_schema in (None, "") or reference_answer in (None, ""):
-            return {
-                "score": 0.0,
-                "is_correct": False,
-                "error": "Missing function/reference_answer in metadata.",
-            }
+            # return {
+            #     "score": 0.0,
+            #     "is_correct": False,
+            #     "error": "Missing function/reference_answer in metadata.",
+            # }
+            return 0.0
 
         try:
             decoded = ast_parse(predicted.strip(), language)
         except Exception as e:
-            return {
-                "score": 0.0,
-                "is_correct": False,
-                "error": f"AST parse failed: {e}",
-            }
+            # return {
+            #     "score": 0.0,
+            #     "is_correct": False,
+            #     "error": f"AST parse failed: {e}",
+            # }
+            return 0.0
 
         result = ast_checker(
             func_schema,
@@ -78,8 +80,9 @@ class BFCLActionsMetric(BaseMetric):
             "gpt-4o",  # preserved from original TaskActions
         )
         valid = bool(result.get("valid", False))
-        return {
-            "score": 1.0 if valid else 0.0,
-            "is_correct": valid,
-            "error": result.get("error"),
-        }
+        # return {
+        #     "score": 1.0 if valid else 0.0,
+        #     "is_correct": valid,
+        #     "error": result.get("error"),
+        # }
+        return 1.0 if valid else 0.0

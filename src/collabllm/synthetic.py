@@ -34,6 +34,7 @@ def generate_multiturn_dataset(
     num_samples: int = 3,
     max_workers: int = 8,
     max_metric_workers: int = 8,
+    strip_sys_prompt: bool = True,
 ) -> Dict[str, Any]:
     """
     Generate a synthetic conversation in nested format:
@@ -57,6 +58,9 @@ def generate_multiturn_dataset(
 
     sim = ChatSessionSimulator()
     chat_history: List[Dict[str, str]] = []
+    dataset_system_prompt = single_turn_metadata.get("system_prompt", None)
+    if isinstance(dataset_system_prompt, str) and dataset_system_prompt.strip():
+        chat_history.append({"role": "system", "content": dataset_system_prompt})
 
     # Shared simulation args
     base_sim_args = {
@@ -149,9 +153,15 @@ def generate_multiturn_dataset(
             )
         )
 
+        turn_prompt_cpy = turn_prompt.copy()
+        processed_prompt = (
+            strip_system_prompt(turn_prompt_cpy)
+            if strip_sys_prompt
+            else turn_prompt_cpy
+        )
         multiturn_data["turns"].append(
             {
-                "prompt": strip_system_prompt(turn_prompt.copy()),
+                "prompt": processed_prompt,
                 "responses": responses_with_scores,
             }
         )

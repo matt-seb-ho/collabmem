@@ -30,7 +30,8 @@ class UserSimulator(object):
         prompt = USER_SIMULATOR_PROMPT.format(
             task_desc=self.task_desc,
             single_turn_prompt=self.single_turn_prompt,
-            chat_history=parse_messages(messages, strip_sys_prompt=True),
+            # chat_history=parse_messages(messages, strip_sys_prompt=True),
+            chat_history=parse_messages(messages, strip_sys_prompt=False),
             terminal_signal=COLLABLLM_TERMINATION_SIGNAL,
         )
         messages = [{"role": "user", "content": prompt}]

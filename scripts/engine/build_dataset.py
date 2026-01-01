@@ -138,6 +138,7 @@ def data_engine(args):
                 max_workers=min(args.num_samples, 4),
                 max_metric_workers=args.max_metric_workers,
                 add_system_prompt_ratio=args.add_system_prompt_ratio,
+                strip_sys_prompt=(not args.keep_sys_prompt),
             )
 
             future_to_hash[future] = prompt_hash
@@ -295,6 +296,11 @@ if __name__ == "__main__":
         type=int,
         default=8,
         help="Maximum number of threads to use for generating conversations (ThreadPool size).",
+    )
+    parser.add_argument(
+        "--keep_sys_prompt",
+        action="store_true",
+        help="Whether to keep system prompts in the saved conversations.",
     )
 
     load_dotenv(".env")
