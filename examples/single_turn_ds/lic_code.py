@@ -111,7 +111,7 @@ class LiCCode(SingleTurnDataset):
         humaneval_full_prompt_path: str | Path = HUMANEVAL_FULL_PROMPT_PATH,
         humaneval_system_prompt_path: str | Path = HUMANEVAL_SYSTEM_PROMPT_PATH,
         # split control
-        train_ratio: float = 0.8,
+        train_ratio: float = 0.5,
         seed: int = 42,
     ):
         self.train_ratio = train_ratio
