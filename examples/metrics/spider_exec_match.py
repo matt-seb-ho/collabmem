@@ -35,8 +35,8 @@ def _best_effort_extract_sql(text: str) -> str:
     LiC mostly executes the whole extracted_answer; but models may add brief preface.
     We try to locate a plausible SQL start (WITH/SELECT) and keep the rest.
     """
-    t = _strip_sql_fences(text)
-    t = t.strip()
+    # t = _strip_sql_fences(text)
+    t = text.strip()
 
     # Find first SQL keyword likely to start a full query
     m = re.search(r"\b(WITH|SELECT)\b", t, flags=re.IGNORECASE)
