@@ -1,4 +1,5 @@
 from .abg_coqa import AbgCoQA
+from .bfcl import BFCLSingleTurnDataset
 from .bigcodebench import BigCodeBench
 from .gsm8k import GSM8K
 from .lic_code import LiCCode
@@ -14,4 +15,5 @@ datasets_info = {
     # lost in conversation benchmark
     "gsm8k": {"task_desc": "question answering", "class": GSM8K},
     "lic-code": {"task_desc": "code generation", "class": LiCCode},
+    "bfcl": {"task_desc": "action generation", "class": BFCLSingleTurnDataset},
 }

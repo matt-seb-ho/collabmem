@@ -1,4 +1,5 @@
 from .accuracy import *
+from .bfcl_check import *
 from .bleu import *
 from .efficiency import *
 from .interactivity import *
