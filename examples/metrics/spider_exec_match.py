@@ -92,9 +92,11 @@ class SpiderExecMatchMetric(BaseMetric):
         pred_sql = _best_effort_extract_sql(completion)
         pred_sql = _normalize_sql(pred_sql)
         ref_sql = _normalize_sql(ref_sql)
-        
+
         if DEBUG_MODE:
-            print(f"task_id: {metadata.get('task_id')}, db_id: {db_id}, db_dir: {db_dir}")
+            print(
+                f"task_id: {metadata.get('task_id')}, db_id: {db_id}, db_dir: {db_dir}"
+            )
             print(f"Pred SQL:\n{pred_sql}\n---\nRef SQL:\n{ref_sql}\n===")
 
         try:

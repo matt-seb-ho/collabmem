@@ -1,13 +1,13 @@
 import asyncio
 import json
 
-from llmplus import GenerationConfig, LLMClient, Provider
-
 from collabmem.compose_q import (
     BaselinePrediction,
     ComposedExample,
     extract_final_numeric_from_model_output,
 )
+from llmplus import GenerationConfig, LLMClient, Provider
+
 from collabmem.constants import REPO_ROOT
 
 BASELINE_OUT_FILE = REPO_ROOT / "outputs/gsm8k_baseline_predictions.json"

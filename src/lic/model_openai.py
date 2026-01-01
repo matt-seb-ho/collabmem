@@ -3,6 +3,7 @@ import os
 import re
 import time
 
+from azure_oai_setup import initialize_azure_oai_client
 from dotenv import load_dotenv
 from openai import AzureOpenAI, OpenAI
 
@@ -37,6 +38,9 @@ class OpenAI_Model:
                 azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
                 api_version="2024-10-01-preview",
             )
+        elif os.environ.get("USE_TRAPI", "0") == "1":
+            print("[model_openai.py] Using TRAPI Azure OpenAI Client")
+            self.client = initialize_azure_oai_client()
         else:
             assert "OPENAI_API_KEY" in os.environ
             self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
@@ -73,6 +77,10 @@ class OpenAI_Model:
             inp_token_cost, out_token_cost = 0.075, 0.150
         elif base_model.startswith("o1-preview") or base_model == "o1":
             inp_token_cost, out_token_cost = 0.015, 0.06
+        elif base_model.startswith("gpt-5-mini"):
+            # inp_per_million = 0.25
+            # out_per_million = 2.0
+            inp_token_cost, out_token_cost = 0.00025, 0.002
         else:
             raise Exception(f"Model {model} pricing unknown, please add")
 

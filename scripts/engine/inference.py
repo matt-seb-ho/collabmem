@@ -154,7 +154,7 @@ def load_model_and_tokenizer(
     tok.padding_side, tok.pad_token = ("left" if is_eval else "right"), tok.eos_token
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
     total = sum(p.numel() for p in model.parameters())
-    print(f"Trainable params: {trainable:,}/{total:,} ({trainable/total:.2%})")
+    print(f"Trainable params: {trainable:,}/{total:,} ({trainable / total:.2%})")
 
     try:
         from vllm import LLM

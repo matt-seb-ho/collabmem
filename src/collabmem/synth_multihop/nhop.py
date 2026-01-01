@@ -3,10 +3,9 @@ import re
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
-from llmplus import GenerationConfig, LLMClient
-
 from collabmem.compose_q import CodeRepresentation, QAExample, batch_generate_simple
 from collabmem.execute_code import RunResult, run_snippet
+from llmplus import GenerationConfig, LLMClient
 
 CODE_REPR_VALIDATION_TEMPLATE = """\
 # expecting a function here

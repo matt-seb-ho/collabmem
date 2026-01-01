@@ -104,9 +104,9 @@ def generate_sharded_summhay_samples():
             docs = [{k: doc[k] for k in doc_keep_keys} for doc in docs]
 
             final_doc_idxs = [doc["document_index"] for doc in docs]
-            assert (
-                sorted(final_doc_idxs) == final_doc_idxs
-            ), "Document indices are not sorted"
+            assert sorted(final_doc_idxs) == final_doc_idxs, (
+                "Document indices are not sorted"
+            )
             N_turns = 10
 
             # split the doc ids into N_turns
@@ -177,9 +177,10 @@ class TaskSummary(Task):
         return samples
 
     def evaluator_function(self, extracted_answer, sample):
-        evaluator_model_card = (
-            "t-gpt-4o" if os.environ.get("USE_TRAPI", "0") == "1" else "gpt-4o"
-        )
+        # evaluator_model_card = (
+        #     "t-gpt-4o" if os.environ.get("USE_TRAPI", "0") == "1" else "gpt-4o"
+        # )
+        evaluator_model_card = "gpt-4o_2024-11-20"
         evals = evaluate_insights(
             sample["insights"],
             extracted_answer,
@@ -228,7 +229,7 @@ class TaskSummary(Task):
         }
 
         for i, shard in enumerate(sample["shards"]):
-            documents_txt += f"Document Chunk {i+1}:\n"
+            documents_txt += f"Document Chunk {i + 1}:\n"
             for doc_idx in shard["doc_idxs"]:
                 documents_txt += f"Document {doc_idx}:\n{doc_idx2doc[doc_idx]}\n\n"
 

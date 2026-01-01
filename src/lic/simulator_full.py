@@ -95,10 +95,11 @@ class ConversationSimulatorFull:
         extracted_answer = self.system_agent.extract_answer(trace)
 
         evaluation_return = self.task.evaluator_function(extracted_answer, self.sample)
-        assert (
-            type(evaluation_return) is dict
-            and ("score" in evaluation_return or "is_correct" in evaluation_return)
-        ), "Evaluator function should return a dictionary with 'score' or 'is_correct' key"
+        assert type(evaluation_return) is dict and (
+            "score" in evaluation_return or "is_correct" in evaluation_return
+        ), (
+            "Evaluator function should return a dictionary with 'score' or 'is_correct' key"
+        )
         score = evaluation_return.get("score", None)
         is_correct = score == 1.0
 

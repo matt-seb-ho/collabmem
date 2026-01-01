@@ -328,7 +328,7 @@ class MultiturnDataset:
         logger.info(
             f"Converted {len(serialized_dialogues)} dialogues "
             f"(filter: {lower_bound_metric} ≥ {lower_bound}); "
-            f"retention ratio: {len(serialized_dialogues)/len(best_examples):.2f}"
+            f"retention ratio: {len(serialized_dialogues) / len(best_examples):.2f}"
         )
 
         full_dataset = Dataset.from_dict({"messages": serialized_dialogues})
@@ -369,7 +369,7 @@ class MultiturnDataset:
             )
 
         logger.info(
-            f"Converted {len(pairs)} pairs (minimum_gap={minimum_gap}, ratio={len(pairs)/len(self.data):.2f})"
+            f"Converted {len(pairs)} pairs (minimum_gap={minimum_gap}, ratio={len(pairs) / len(self.data):.2f})"
         )
 
         if not pairs:

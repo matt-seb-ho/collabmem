@@ -103,10 +103,11 @@ class RecapSimulator:
             evaluation_return = self.task.evaluator_function(
                 extracted_answer, sharded_sample
             )
-            assert (
-                type(evaluation_return) is dict
-                and ("score" in evaluation_return or "is_correct" in evaluation_return)
-            ), "Evaluator function should return a dictionary with 'score' or 'is_correct' key"
+            assert type(evaluation_return) is dict and (
+                "score" in evaluation_return or "is_correct" in evaluation_return
+            ), (
+                "Evaluator function should return a dictionary with 'score' or 'is_correct' key"
+            )
             is_correct = evaluation_return.get("is_correct", None)
             score = evaluation_return.get("score", None)
             recap_trace.append(

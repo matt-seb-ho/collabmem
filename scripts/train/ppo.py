@@ -190,7 +190,7 @@ def load_model_and_tokenizer(
     tok.padding_side, tok.pad_token = ("left" if is_eval else "right"), tok.eos_token
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
     total = sum(p.numel() for p in model.parameters())
-    print(f"Trainable params: {trainable:,}/{total:,} ({trainable/total:.2%})")
+    print(f"Trainable params: {trainable:,}/{total:,} ({trainable / total:.2%})")
 
     try:
         from vllm import LLM
@@ -455,11 +455,11 @@ def main() -> None:
         # Compute rewards
         rewards = compute_rewards(prompts, responses)
 
-        print(f"\n{'='*50} Step {step} {'='*50}")
+        print(f"\n{'=' * 50} Step {step} {'=' * 50}")
         for i, (prompt, response, reward) in enumerate(
             zip(prompts, responses, rewards)
         ):
-            print(f"Sample {i+1}:")
+            print(f"Sample {i + 1}:")
             print(f"Prompt: {prompt[-200:]}")  # Show last 200 chars
             print(f"Response: {response}")
             print(f"Reward: {reward}")

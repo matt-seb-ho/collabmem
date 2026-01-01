@@ -47,7 +47,7 @@ class TaskTranslation(Task):
     def populate_concat_prompt(self, sample: Dict[str, Any]) -> str:
         source_document = "Please translate the different chunks of the following German document into English. Translate the entire document without keeping chunking information.\n\n"
         for i, shard in enumerate(sample["shards"]):
-            source_document += f"Document Chunk {i+1}:\n" + shard["shard"] + "\n\n"
+            source_document += f"Document Chunk {i + 1}:\n" + shard["shard"] + "\n\n"
         return self.fully_specified_prompt.replace("[[GERMAN_TEXT]]", source_document)
 
     def populate_sharded_prompt(self, sample, turn_index):
@@ -60,10 +60,10 @@ class TaskTranslation(Task):
                 0.0,
             )
         elif turn_index <= len(sample["shards"]):
-            prompt = f"I have received the latest chunk of the document. Please translate the entire document so far.\n\nChunk {turn_index+1}:\n\n[[CHUNK_{turn_index+1}]]"
+            prompt = f"I have received the latest chunk of the document. Please translate the entire document so far.\n\nChunk {turn_index + 1}:\n\n[[CHUNK_{turn_index + 1}]]"
             shard = sample["shards"][turn_index]
             return (
-                prompt.replace(f"[[CHUNK_{turn_index+1}]]", shard["shard"]),
+                prompt.replace(f"[[CHUNK_{turn_index + 1}]]", shard["shard"]),
                 shard["shard_id"],
                 0.0,
             )

@@ -1,13 +1,13 @@
 import json
 from dataclasses import asdict
 
-from datasets import load_dataset
-from llmplus import GenerationConfig, LLMClient, Provider
-
 from collabmem.compose_q import (
     evaluate_baseline_accuracy,
     subsample_qa_examples,
 )
+from datasets import load_dataset
+from llmplus import GenerationConfig, LLMClient, Provider
+
 from collabmem.constants import REPO_ROOT
 
 GPT5_MINI = "gpt-5-mini-2025-08-07"

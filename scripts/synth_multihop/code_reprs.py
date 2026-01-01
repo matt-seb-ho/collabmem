@@ -1,12 +1,12 @@
 import json
 
-from llmplus import GenerationConfig, LLMClient, Provider
-
 from collabmem.compose_q import (
     QAExample,
     compose_problems,
     generate_code_representations,
 )
+from llmplus import GenerationConfig, LLMClient, Provider
+
 from collabmem.constants import REPO_ROOT
 
 INIT_OUT_FILE = REPO_ROOT / "outputs/gsm8k_baseline_predictions.json"

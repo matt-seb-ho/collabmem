@@ -3,12 +3,12 @@ import re
 from dataclasses import dataclass
 from typing import List, Optional, Tuple
 
+from collabmem.compose_q import CodeRepresentation, QAExample, batch_generate_simple
+from collabmem.execute_code import RunResult, run_snippet
+
 # Reuse your existing COMPOSITION_PROMPT_TEMPLATE, run_snippet, CODE_REPR_VALIDATION_TEMPLATE,
 # batch_generate_simple, LLMClient, GenerationConfig, QAExample, CodeRepresentation
 from llmplus import GenerationConfig, LLMClient
-
-from collabmem.compose_q import CodeRepresentation, QAExample, batch_generate_simple
-from collabmem.execute_code import RunResult, run_snippet
 
 CODE_REPR_VALIDATION_TEMPLATE = """\
 # expecting a function here

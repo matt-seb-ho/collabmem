@@ -19,9 +19,8 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
-from llmplus import GenerationConfig, LLMClient
-
 from collabmem.execute_code import RunResult, run_snippet
+from llmplus import GenerationConfig, LLMClient
 
 # ---------- Data structures ----------
 

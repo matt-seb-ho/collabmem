@@ -2,11 +2,11 @@ import json
 import random
 from dataclasses import asdict
 
+from collabmem.compose_q import CodeRepresentation, QAExample
+from collabmem.nhop import compose_multi_hop_problems
 from llmplus import GenerationConfig, LLMClient, Provider
 
-from collabmem.compose_q import CodeRepresentation, QAExample
 from collabmem.constants import REPO_ROOT
-from collabmem.nhop import compose_multi_hop_problems
 
 GPT5_MINI = "gpt-5-mini-2025-08-07"
 

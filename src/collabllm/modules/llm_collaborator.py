@@ -19,9 +19,9 @@ class LLMCollaborator(object):
         """
         super().__init__()
         self.method = method
-        assert (
-            method in self.registered_prompts
-        ), f"Prompting method {method} not registered. Available methods: {list(self.registered_prompts.keys())}"
+        assert method in self.registered_prompts, (
+            f"Prompting method {method} not registered. Available methods: {list(self.registered_prompts.keys())}"
+        )
 
         self.num_retries = num_retries
         self.llm_kwargs = {"temperature": 0.8, "max_tokens": 2048, **llm_kwargs}
