@@ -10,17 +10,21 @@ from collabllm.datasets.single_turn import SingleTurnDataset
 from collabmem.constants import LIC_DATA_PATH, LIC_PROMPT_DIRECTORY
 
 
-class BFCLSingleTurnDataset(SingleTurnDataset):
+def _arrow_safe(v: Any) -> Any:
     """
-    Actions / Berkeley Function Calling Leaderboard (BFCL-style) ➟ SingleTurnDataset adaptor.
-
-    - Loads LIC JSON (default: data/sharded_instructions_600.json)
-    - Filters rows where row["task"] == "actions"
-    - Builds fully-specified prompt using prompts/actions/actions_full_prompt.txt
-    - Stores system_prompt (with functions inserted) in metadata
-    - Stores groundtruth as JSON in `completion` (BigCodeBench-style)
+    Ensure values are Arrow-friendly inside a struct column.
+    - dict/list -> JSON string
+    - None -> "" (or keep None if you prefer, but then keep it consistent)
+    - primitives pass through
     """
+    if v is None:
+        return ""
+    if isinstance(v, (dict, list)):
+        return json.dumps(v, ensure_ascii=False)
+    return v
 
+
+class ActionsBFCLSingleTurn(SingleTurnDataset):
     def __init__(
         self,
         *,
@@ -36,7 +40,6 @@ class BFCLSingleTurnDataset(SingleTurnDataset):
         self.seed = seed
         self.prompt_mode = prompt_mode
 
-        # Load prompt templates (same as TaskActions.__init__)
         self.system_prompt_template = (
             self.prompt_dir / "actions_system_prompt.txt"
         ).read_text()
@@ -44,46 +47,32 @@ class BFCLSingleTurnDataset(SingleTurnDataset):
             self.prompt_dir / "actions_full_prompt.txt"
         ).read_text()
 
-        raw = self._load_lic_json(self.dataset_path)
-        processed = self._preprocess(raw)
+        rows = self._load_lic_json(self.dataset_path)
+        processed = self._preprocess(rows)
 
         super().__init__(processed, eval_ratio=1.0 - train_ratio, seed=seed)
 
-    # ------------------------------------------------------------------ #
-    # Loading                                                            #
-    # ------------------------------------------------------------------ #
     def _load_lic_json(self, path: Path) -> List[Dict[str, Any]]:
         with path.open("r") as f:
             data = json.load(f)
-        # same filter as TaskActions.get_samples()
         return [d for d in data if d.get("task") == "actions"]
 
-    # ------------------------------------------------------------------ #
-    # Prompt logic (reused from TaskActions)                              #
-    # ------------------------------------------------------------------ #
     def _generate_system_prompt(self, sample: Dict[str, Any]) -> str:
-        # same as TaskActions.generate_system_prompt()
         return self.system_prompt_template.replace(
             "[[FUNCTIONS]]", "{}".format(sample["function"])
         )
 
     def _populate_fully_specific_prompt(self, sample: Dict[str, Any]) -> str:
-        # same as TaskActions.populate_fully_specific_prompt()
         question = sample["fully_specified_question"][0][0]["content"]
         return self.full_prompt_template.replace("[[QUESTION]]", question)
 
     def _populate_concat_prompt(self, sample: Dict[str, Any]) -> str:
-        # same as TaskActions.populate_concat_prompt()
         query = ""
         for shard in sample.get("shards", []):
             query += f"- {shard['shard']}\n"
         return self.full_prompt_template.replace("[[QUESTION]]", query)
 
-    # ------------------------------------------------------------------ #
-    # Preprocessing                                                      #
-    # ------------------------------------------------------------------ #
     def _preprocess(self, rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        # If the dataset already has a split field, respect it; otherwise create local split.
         has_split = all(("split" in r) for r in rows)
 
         split_map: Optional[Dict[int, str]] = None
@@ -103,15 +92,14 @@ class BFCLSingleTurnDataset(SingleTurnDataset):
         for i, sample in enumerate(rows):
             split_tag = sample.get("split") if has_split else split_map[i]
 
-            # Prompt selection
-            if self.prompt_mode == "concat_shards":
-                prompt = self._populate_concat_prompt(sample)
-            else:
-                prompt = self._populate_fully_specific_prompt(sample)
-
+            prompt = (
+                self._populate_concat_prompt(sample)
+                if self.prompt_mode == "concat_shards"
+                else self._populate_fully_specific_prompt(sample)
+            )
             system_prompt = self._generate_system_prompt(sample)
 
-            # BigCodeBench-style JSON-encoded ground truth payload in completion
+            # Keep completion as JSON payload (BigCodeBench pattern)
             ground_truth = {
                 "dataset": "actions_bfcl",
                 "task": "actions",
@@ -121,27 +109,26 @@ class BFCLSingleTurnDataset(SingleTurnDataset):
                 "test_category": sample.get("test_category"),
             }
 
+            # IMPORTANT: every metadata value must be Arrow-safe + consistent
             processed.append(
                 {
-                    # required
                     "prompt": prompt,
-                    "completion": json.dumps(ground_truth),
-                    # metadata (available to metric)
+                    "completion": json.dumps(ground_truth, ensure_ascii=False),
                     "split": split_tag,
-                    "task_id": sample.get("task_id"),
-                    "system_prompt": system_prompt,
-                    "function": sample.get("function"),
-                    "reference_answer": sample.get("reference_answer"),
-                    "language": sample.get("language", "python"),
-                    "test_category": sample.get("test_category"),
-                    # helpful / optional (mirrors TaskActions.get_answer_description)
-                    "extraction_requirement": (
+                    # metadata (all Arrow-safe scalars)
+                    "task_id": _arrow_safe(sample.get("task_id")),
+                    "system_prompt": _arrow_safe(system_prompt),
+                    "function": _arrow_safe(sample.get("function")),
+                    "reference_answer": _arrow_safe(sample.get("reference_answer")),
+                    "language": _arrow_safe(sample.get("language", "python")),
+                    "test_category": _arrow_safe(sample.get("test_category", "")),
+                    "extraction_requirement": _arrow_safe(
                         "Return a series of valid function calls in the format "
                         "[func_name1(param1=value1, ...), func_name2(...)]. "
                         "You may include multiple function calls. Output only the calls."
                     ),
                     "answer_extraction_strategy": "full_response",
-                    "prompt_mode": self.prompt_mode,
+                    "prompt_mode": _arrow_safe(self.prompt_mode),
                 }
             )
 

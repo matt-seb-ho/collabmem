@@ -1,6 +1,5 @@
 # bfcl_actions_metric.py
-from __future__ import annotations
-
+import json
 import re
 from typing import Any, Dict, List, Optional
 
@@ -9,36 +8,32 @@ from lic.tasks.actions.eval_bfcl import ast_checker, ast_parse
 
 
 def _strip_code_fences(text: str) -> str:
-    """
-    BFCL answers are usually raw function-call strings, but models sometimes wrap
-    in ```...``` fences. This keeps behavior faithful while being robust.
-    """
     if text is None:
         return ""
     text = text.strip()
-
-    # If there's a fenced block, prefer its contents (first block).
     m = re.search(r"```(?:\w+)?\n(.*?)```", text, flags=re.DOTALL)
-    if m:
-        return m.group(1).strip()
+    return m.group(1).strip() if m else text
 
-    return text
+
+def _maybe_json_load(x: Any) -> Any:
+    # If it's a JSON-encoded string, decode; else return as-is
+    if not isinstance(x, str):
+        return x
+    s = x.strip()
+    if not s:
+        return x
+    if (s.startswith("{") and s.endswith("}")) or (
+        s.startswith("[") and s.endswith("]")
+    ):
+        try:
+            return json.loads(s)
+        except Exception:
+            return x
+    return x
 
 
 @SingleTurnOrChatMetric.register_metric("bfcl_actions")
 class BFCLActionsMetric(BaseMetric):
-    """
-    Actions/BFCL metric using the original LIC evaluator:
-      - ast_parse
-      - ast_checker
-
-    Expects in metadata:
-      - function: function schema / tool definitions string
-      - reference_answer: gold function call(s)
-      - language: language identifier understood by ast_parse
-      - test_category: BFCL category string (passed through)
-    """
-
     def score(
         self,
         prompt: str,
@@ -49,44 +44,39 @@ class BFCLActionsMetric(BaseMetric):
     ) -> Dict[str, Any]:
         if completion is None:
             raise ValueError("`completion` (model output) must be provided.")
-        if metadata is None:
-            metadata = {}
+        metadata = metadata or {}
 
-        predicted_answer = _strip_code_fences(completion)
+        predicted = _strip_code_fences(completion)
 
-        # Pull required fields from metadata
-        func_schema = metadata.get("function")
-        reference_answer = metadata.get("reference_answer")
+        func_schema = _maybe_json_load(metadata.get("function"))
+        reference_answer = _maybe_json_load(metadata.get("reference_answer"))
         language = metadata.get("language", "python")
         test_category = metadata.get("test_category", "")
 
-        if func_schema is None or reference_answer is None:
+        if func_schema in (None, "") or reference_answer in (None, ""):
             return {
                 "score": 0.0,
                 "is_correct": False,
-                "error": "Missing required metadata: function and/or reference_answer.",
+                "error": "Missing function/reference_answer in metadata.",
             }
 
         try:
-            decoded_output = ast_parse(predicted_answer.strip(), language)
+            decoded = ast_parse(predicted.strip(), language)
         except Exception as e:
             return {
                 "score": 0.0,
                 "is_correct": False,
-                "error": f"Failing to parse the predicted answer as an AST: {e}",
+                "error": f"AST parse failed: {e}",
             }
 
-        # Note: original code hardcodes model_name="gpt-4o" as a parameter to ast_checker.
-        # We preserve that for faithful reproduction.
         result = ast_checker(
             func_schema,
-            decoded_output,
+            decoded,
             reference_answer,
             language,
             test_category,
-            "gpt-4o",
+            "gpt-4o",  # preserved from original TaskActions
         )
-
         valid = bool(result.get("valid", False))
         return {
             "score": 1.0 if valid else 0.0,
