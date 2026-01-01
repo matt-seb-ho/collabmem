@@ -3,7 +3,7 @@ import random
 import re
 from typing import Any, Dict, List
 
-from task_base import Task
+from lic.task_base import Task
 
 
 class TaskMath(Task):

@@ -1,8 +1,8 @@
 import json
 
-from model_openai import generate_json
-from tasks import get_task
-from utils import extract_conversation
+from lic.model_openai import generate_json
+from lic.tasks import get_task
+from lic.utils import extract_conversation
 
 
 class SystemAgent:

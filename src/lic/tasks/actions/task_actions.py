@@ -2,9 +2,9 @@ import json
 import random
 from typing import Any, Dict, List
 
-from task_base import Task
+from lic.task_base import Task
 
-from tasks.actions.eval_bfcl import ast_checker, ast_parse
+from lic.tasks.actions.eval_bfcl import ast_checker, ast_parse
 
 
 class TaskActions(Task):

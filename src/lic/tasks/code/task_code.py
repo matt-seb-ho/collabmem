@@ -7,9 +7,9 @@ import re
 import zlib
 from typing import Any, Dict, List, Tuple
 
-from task_base import Task
+from lic.task_base import Task
 
-from tasks.code.eval_code import check_correctness
+from lic.tasks.code.eval_code import check_correctness
 
 
 class TaskCode(Task):

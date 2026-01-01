@@ -10,9 +10,9 @@ from itertools import chain, product
 from typing import Any, List, Set, Tuple
 
 import tqdm
-from utils import print_colored
+from lic.utils import print_colored
 
-from tasks.database.eval_spider_parse import (
+from lic.tasks.database.eval_spider_parse import (
     get_all_preds_for_execution,
     remove_distinct,
 )

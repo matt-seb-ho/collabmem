@@ -1,7 +1,7 @@
 import json
 
-from model_openai import generate_json
-from utils import extract_conversation
+from lic.model_openai import generate_json
+from lic.utils import extract_conversation
 
 
 class UserAgent:

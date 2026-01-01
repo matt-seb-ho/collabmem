@@ -4,7 +4,7 @@ from collections import defaultdict
 from datetime import datetime
 
 import streamlit as st
-from tasks import get_task
+from lic.tasks import get_task
 
 
 def load_conversations(file_path):

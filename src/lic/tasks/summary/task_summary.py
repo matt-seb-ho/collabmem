@@ -4,9 +4,9 @@ import os
 import random
 from collections import Counter
 
-from task_base import Task
+from lic.task_base import Task
 
-from tasks.summary.eval_summhay import (
+from lic.tasks.summary.eval_summhay import (
     build_ref_insight2docids,
     compute_single_sample_results,
     evaluate_insights,

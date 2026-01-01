@@ -1,10 +1,10 @@
-from tasks.actions import TaskActions
-from tasks.code import TaskCode
-from tasks.data2text import TaskData2Text
-from tasks.database import TaskDatabase
-from tasks.math import TaskMath
-from tasks.summary import TaskSummary
-from tasks.translation import TaskTranslation
+from lic.tasks.actions import TaskActions
+from lic.tasks.code import TaskCode
+from lic.tasks.data2text import TaskData2Text
+from lic.tasks.database import TaskDatabase
+from lic.tasks.math import TaskMath
+from lic.tasks.summary import TaskSummary
+from lic.tasks.translation import TaskTranslation
 
 
 def get_task(task_name, version=None):

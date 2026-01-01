@@ -3,12 +3,12 @@ from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 
 import tqdm
-from model_openai import generate
-from system_agent import SystemAgent
-from tasks import get_task
-from user_agent import UserAgent
-from utils import date_str, extract_conversation, print_colored
-from utils_log import get_run_counts, log_conversation
+from lic.model_openai import generate
+from lic.system_agent import SystemAgent
+from lic.tasks import get_task
+from lic.user_agent import UserAgent
+from lic.utils import date_str, extract_conversation, print_colored
+from lic.utils_log import get_run_counts, log_conversation
 
 snowball_message = """Just to reiterate,
 {HINTS_SO_FAR}

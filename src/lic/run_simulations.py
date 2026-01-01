@@ -6,9 +6,9 @@ from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 
 import tqdm
-from simulator_full import ConversationSimulatorFull
-from simulator_sharded import ConversationSimulatorSharded
-from utils_log import get_run_counts
+from lic.simulator_full import ConversationSimulatorFull
+from lic.simulator_sharded import ConversationSimulatorSharded
+from lic.utils_log import get_run_counts
 
 
 def run_simulation(todo):

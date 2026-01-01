@@ -3,9 +3,9 @@ import os
 import re
 from typing import Any, Dict, List
 
-from task_base import Task
+from lic.task_base import Task
 
-from tasks.database.eval_spider_exec import eval_exec_match
+from lic.tasks.database.eval_spider_exec import eval_exec_match
 
 
 class TaskDatabase(Task):

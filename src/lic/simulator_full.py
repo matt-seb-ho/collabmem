@@ -1,10 +1,10 @@
 import random
 
-from model_openai import generate
-from system_agent import SystemAgent
-from tasks import get_task
-from utils import date_str
-from utils_log import log_conversation
+from lic.model_openai import generate
+from lic.system_agent import SystemAgent
+from lic.tasks import get_task
+from lic.utils import date_str
+from lic.utils_log import log_conversation
 
 
 class ConversationSimulatorFull:
