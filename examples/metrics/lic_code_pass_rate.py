@@ -5,8 +5,7 @@ import ast
 from typing import Any, Dict, List, Optional
 
 # Adjust these imports to your CollabLLM metric registry locations
-from collabllm.metrics.base import BaseMetric
-from collabllm.metrics.registry import SingleTurnOrChatMetric
+from collabllm.metric import BaseMetric, SingleTurnOrChatMetric
 
 # This is from your provided codebase
 from lic.tasks.code.eval_code import check_correctness
