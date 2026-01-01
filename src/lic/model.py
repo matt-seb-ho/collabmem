@@ -292,6 +292,6 @@ def generate(*args, model="gpt-4o-mini", **kwargs):
 
 
 def generate_json(messages, model="gpt-4o-mini", **kwargs):
-    out = generate(messages, model=model, is_json=True, return_metadata=True, **kwargs)
+    out = generate(messages, model=model, is_json=True, **kwargs)
     out["message"] = json.loads(out["message"])
     return out
