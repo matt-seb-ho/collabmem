@@ -12,7 +12,6 @@ from typing import Any, Dict, List, Tuple
 from collabllm.datasets.single_turn import SingleTurnDataset
 from collabmem.constants import LIC_DATA_PATH, LIC_PROMPT_DIRECTORY
 
-
 # ------------------------- LiC Default Prompt Paths ------------------------- #
 
 LCB_FULL_PROMPT_PATH = LIC_PROMPT_DIRECTORY / "lcb/lcb_full_prompt.txt"

@@ -10,12 +10,12 @@ from itertools import chain, product
 from typing import Any, List, Set, Tuple
 
 import tqdm
-from lic.utils import print_colored
 
 from lic.tasks.database.eval_spider_parse import (
     get_all_preds_for_execution,
     remove_distinct,
 )
+from lic.utils import print_colored
 
 threadLock = threading.Lock()
 TIMEOUT = 60

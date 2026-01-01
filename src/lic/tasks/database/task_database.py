@@ -4,7 +4,6 @@ import re
 from typing import Any, Dict, List
 
 from lic.task_base import Task
-
 from lic.tasks.database.eval_spider_exec import eval_exec_match
 
 

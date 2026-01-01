@@ -3,7 +3,8 @@ import os
 import re
 
 import numpy as np
-from model_openai import generate_json
+
+from lic.model_openai import generate_json
 
 
 def summary2bullets(summary, max_summary_length=300):

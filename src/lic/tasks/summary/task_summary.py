@@ -5,7 +5,6 @@ import random
 from collections import Counter
 
 from lic.task_base import Task
-
 from lic.tasks.summary.eval_summhay import (
     build_ref_insight2docids,
     compute_single_sample_results,

@@ -3,7 +3,6 @@ import random
 from typing import Any, Dict, List
 
 from lic.task_base import Task
-
 from lic.tasks.actions.eval_bfcl import ast_checker, ast_parse
 
 

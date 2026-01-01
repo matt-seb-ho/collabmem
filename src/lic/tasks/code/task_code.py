@@ -8,7 +8,6 @@ import zlib
 from typing import Any, Dict, List, Tuple
 
 from lic.task_base import Task
-
 from lic.tasks.code.eval_code import check_correctness
 
 

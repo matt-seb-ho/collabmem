@@ -4,6 +4,7 @@ import os
 from concurrent.futures import ThreadPoolExecutor
 
 import tqdm
+
 from lic.model_openai import generate
 from lic.system_agent import SystemAgent
 from lic.tasks import get_task
