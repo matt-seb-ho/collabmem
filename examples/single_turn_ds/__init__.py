@@ -1,6 +1,7 @@
 from .abg_coqa import AbgCoQA
 from .bigcodebench import BigCodeBench
 from .gsm8k import GSM8K
+from .lic_code import LiCCode
 from .math_hard import MATH
 from .medium import Medium
 
@@ -10,5 +11,7 @@ datasets_info = {
     "abg-coqa": {"task_desc": "question answering", "class": AbgCoQA},
     "medium": {"task_desc": "document editing", "class": Medium},
     "bigcodebench": {"task_desc": "code generation", "class": BigCodeBench},
+    # lost in conversation benchmark
     "gsm8k": {"task_desc": "question answering", "class": GSM8K},
+    "lic-code": {"task_desc": "code generation", "class": LiCCode},
 }
