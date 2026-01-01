@@ -6,6 +6,7 @@ from .lic_code import LiCCode
 from .math_hard import MATH
 from .medium import Medium
 from .spider import SpiderDatabaseSingleTurn
+from .totto import ToTToSingleTurn
 
 # ADD NEW DATASET BELOW
 datasets_info = {
@@ -18,4 +19,5 @@ datasets_info = {
     "lic-code": {"task_desc": "code generation", "class": LiCCode},
     "bfcl": {"task_desc": "action generation", "class": BFCLSingleTurnDataset},
     "spider": {"task_desc": "SQL query generation", "class": SpiderDatabaseSingleTurn},
+    "totto": {"task_desc": "data-to-text generation", "class": ToTToSingleTurn},
 }

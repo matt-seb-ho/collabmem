@@ -7,3 +7,4 @@ from .lic_code_pass_rate import *
 from .pass_rate import *
 from .reward_model import *
 from .spider_exec_match import *
+from .totto_bleu import *
