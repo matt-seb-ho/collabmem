@@ -24,7 +24,7 @@ def _arrow_safe(v: Any) -> Any:
     return v
 
 
-class ActionsBFCLSingleTurn(SingleTurnDataset):
+class BFCLSingleTurnDataset(SingleTurnDataset):
     def __init__(
         self,
         *,
