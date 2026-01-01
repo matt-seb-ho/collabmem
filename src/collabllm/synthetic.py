@@ -174,12 +174,43 @@ def generate_multiturn_dataset(
         if len(chat_history) >= max_total_turns:
             break
 
-        # d) select one user response
-        # get session with the max number of length
+        # # d) select one user response
+        # # get session with the max number of length
+        # sessions = sorted(
+        #     responses_with_scores[best_idx]["sessions"].copy(), key=lambda x: len(x)
+        # )
+        # next_user_msg = sessions[-1][len(chat_history)]["content"]
+        # chat_history.append({"role": "user", "content": next_user_msg})
+        # d) select one user response (robust)
         sessions = sorted(
             responses_with_scores[best_idx]["sessions"].copy(), key=lambda x: len(x)
         )
-        next_user_msg = sessions[-1][len(chat_history)]["content"]
+
+        next_user_msg = None
+        if sessions:
+            longest = sessions[-1]
+            # We need a message at index == len(chat_history) (the next user turn)
+            if len(longest) > len(chat_history):
+                next_user_msg = longest[len(chat_history)]["content"]
+
+        # Fallback: explicitly ask simulator for the next user message
+        if next_user_msg is None:
+            fallback = sim.run_chat_simulation(
+                **base_sim_args,
+                num_samples=1,
+                chat_history=chat_history,
+                max_new_turns=1,
+                max_workers=1,
+                verbose=False,
+            )
+            # fallback shape is typically List[List[message]]
+            if not fallback or not fallback[0] or "content" not in fallback[0][-1]:
+                raise RuntimeError(
+                    f"Failed to generate fallback user msg. "
+                    f"chat_history_len={len(chat_history)} sessions_count={len(sessions)}"
+                )
+            next_user_msg = fallback[0][-1]["content"]
+
         chat_history.append({"role": "user", "content": next_user_msg})
 
         if sim._should_terminate_conversation(next_user_msg):
