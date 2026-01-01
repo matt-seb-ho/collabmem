@@ -120,6 +120,12 @@ if __name__ == "__main__":
         help="Temperature to use for user models",
     )
     parser.add_argument(
+        "--problem_limit",
+        type=int,
+        default=-1,
+        help="Limit number of problems to run (for each task)",
+    )
+    parser.add_argument(
         "--reasoning_cls_override",
         type=json.loads,
         default="{}",
@@ -137,7 +143,18 @@ if __name__ == "__main__":
     with open(dataset_fn, "r") as f:
         samples = json.load(f)
 
-    samples = [d for d in samples if d["task"] in args.tasks]
+    if args.problem_limit > 0:
+        per_task_counts = Counter()
+        selected_samples = []
+        for sample in samples:
+            if per_task_counts[sample["task"]] < args.problem_limit:
+                selected_samples.append(sample)
+                per_task_counts[sample["task"]] += 1
+            else:
+                continue
+        samples = selected_samples
+    else:
+        samples = [d for d in samples if d["task"] in args.tasks]
 
     print(f"Loaded {len(samples)} samples")
     random.shuffle(samples)
