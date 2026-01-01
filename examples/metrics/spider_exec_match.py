@@ -6,8 +6,10 @@ import re
 from typing import Any, Dict, List, Optional
 
 from collabllm.metric import BaseMetric, SingleTurnOrChatMetric
-from collabmem.constants import LIC_DATA_PATH
+from collabmem.constants import REPO_ROOT
 from lic.tasks.database.eval_spider_exec import eval_exec_match
+
+DEBUG_MODE = False
 
 
 def _strip_sql_fences(text: str) -> str:
@@ -75,8 +77,9 @@ class SpiderExecMatchMetric(BaseMetric):
         # base_dir = "data/spider/databases/"
         # db_dir = os.path.join(base_dir, str(db_id))
         # LIC_DATA_PATH points to lic/data/sharded_*.json
-        base_dir = LIC_DATA_PATH.parent / "spider/databases"
-        db_dir = base_dir / str(db_id)
+        # base_dir = LIC_DATA_PATH.parent / "spider/databases"
+        base_dir = REPO_ROOT / "src/lic/data/spider/databases"
+        db_dir = str(base_dir / str(db_id))
 
         if not os.path.exists(base_dir):
             raise FileNotFoundError(
@@ -89,11 +92,16 @@ class SpiderExecMatchMetric(BaseMetric):
         pred_sql = _best_effort_extract_sql(completion)
         pred_sql = _normalize_sql(pred_sql)
         ref_sql = _normalize_sql(ref_sql)
+        
+        if DEBUG_MODE:
+            print(f"task_id: {metadata.get('task_id')}, db_id: {db_id}, db_dir: {db_dir}")
+            print(f"Pred SQL:\n{pred_sql}\n---\nRef SQL:\n{ref_sql}\n===")
 
         try:
             ok = (
                 eval_exec_match(
-                    db_dir + "/",  # LiC passes trailing slash
+                    # db_dir + "/",  # LiC passes trailing slash
+                    db_dir,
                     pred_sql,
                     ref_sql,
                     plug_value=True,

@@ -80,7 +80,14 @@ def data_engine(args):
     )
 
     os.makedirs(args.output_dir, exist_ok=True)
-    output_path = osp.join(args.output_dir, f"{args.dataset_name}_multiturn.json")
+    # let's make an optional suffix
+    if args.output_file_suffix:
+        output_path = osp.join(
+            args.output_dir,
+            f"{args.dataset_name}_multiturn_{args.output_file_suffix}.json",
+        )
+    else:
+        output_path = osp.join(args.output_dir, f"{args.dataset_name}_multiturn.json")
 
     data_list: List[Dict[str, Any]] = []
     seen_prompt_hashes = set()
@@ -167,9 +174,13 @@ def data_engine(args):
                 json.dump(data_list, f, indent=2)
 
             # Push to Hugging Face Hub incrementally
-            MultiturnDataset(data_list).push_to_hub(
-                repo_id=f"{args.hf_entity}/collabllm-multiturn-{args.dataset_name}"
-            )
+            if args.debug:
+                print("Skipping push to Hub in debug mode.")
+                print(f"Wrote to {output_path}, total examples: {len(data_list)}")
+            else:
+                MultiturnDataset(data_list).push_to_hub(
+                    repo_id=f"{args.hf_entity}/collabllm-multiturn-{args.dataset_name}"
+                )
 
 
 if __name__ == "__main__":
@@ -301,6 +312,17 @@ if __name__ == "__main__":
         "--keep_sys_prompt",
         action="store_true",
         help="Whether to keep system prompts in the saved conversations.",
+    )
+    parser.add_argument(
+        "--output_file_suffix",
+        type=str,
+        default=None,
+        help="Optional suffix to append to the output file name.",
+    )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Enable debug mode with more verbose logging.",
     )
 
     load_dotenv(".env")
