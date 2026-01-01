@@ -3,6 +3,7 @@ import os
 import re
 import time
 
+from dotenv import load_dotenv
 from openai import AzureOpenAI, OpenAI
 
 
@@ -26,6 +27,7 @@ def format_messages(messages, variables={}):
 
 class OpenAI_Model:
     def __init__(self):
+        load_dotenv(".env")
         if (
             "AZURE_OPENAI_API_KEY" in os.environ
             and "AZURE_OPENAI_ENDPOINT" in os.environ
