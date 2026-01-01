@@ -2,5 +2,6 @@ from .accuracy import *
 from .bleu import *
 from .efficiency import *
 from .interactivity import *
+from .lic_code_pass_rate import *
 from .pass_rate import *
 from .reward_model import *
