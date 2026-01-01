@@ -5,6 +5,7 @@ from .gsm8k import GSM8K
 from .lic_code import LiCCode
 from .math_hard import MATH
 from .medium import Medium
+from .spider import SpiderDatabaseSingleTurn
 
 # ADD NEW DATASET BELOW
 datasets_info = {
@@ -16,4 +17,5 @@ datasets_info = {
     "gsm8k": {"task_desc": "question answering", "class": GSM8K},
     "lic-code": {"task_desc": "code generation", "class": LiCCode},
     "bfcl": {"task_desc": "action generation", "class": BFCLSingleTurnDataset},
+    "spider": {"task_desc": "SQL query generation", "class": SpiderDatabaseSingleTurn},
 }
