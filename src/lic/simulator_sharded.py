@@ -1,7 +1,7 @@
 import json
 import random
 
-from lic.model_openai import generate
+from lic.model import generate, is_reasoning_model
 from lic.system_agent import SystemAgent
 from lic.tasks import get_task
 from lic.user_agent import UserAgent
@@ -20,6 +20,7 @@ class ConversationSimulatorSharded:
         user_temperature=1.0,
         dataset_fn=None,
         log_folder="logs",
+        reasoning_cls_override=None,
     ):
         self.task_name = sample["task"]
         self.task = get_task(self.task_name)
@@ -44,16 +45,16 @@ class ConversationSimulatorSharded:
             {"role": "system", "content": self.system_message, "timestamp": date_str()}
         ]
 
+        self.reasoning_cls_override = reasoning_cls_override
+
     def get_num_turns(self, participant="assistant"):
         return sum(1 for msg in self.trace if msg["role"] == participant)
 
     def run(self, verbose=False, save_log=True):
-        is_reasoning_model = (
-            "o1" in self.assistant_model
-            or "o3" in self.assistant_model
-            or "deepseek-r1" in self.assistant_model
+        _is_reasoning_model = is_reasoning_model(
+            self.assistant_model, override=self.reasoning_cls_override
         )
-        max_assistant_tokens = 10000 if is_reasoning_model else 1000
+        max_assistant_tokens = 10000 if _is_reasoning_model else 1000
         is_completed, is_correct, score = False, False, None
 
         shards = self.sample["shards"]

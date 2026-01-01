@@ -25,6 +25,7 @@ def run_simulation(todo):
                 temperature=assistant_temp,
                 dataset_fn=dataset_fn,
                 log_folder=args.log_folder,
+                reasoning_cls_override=todo.get("reasoning_cls_override", None),
             )
         elif todo["conv_type"].startswith("concat"):
             conversation_simulator = ConversationSimulatorFull(
@@ -35,6 +36,7 @@ def run_simulation(todo):
                 temperature=assistant_temp,
                 dataset_fn=dataset_fn,
                 log_folder=args.log_folder,
+                reasoning_cls_override=todo.get("reasoning_cls_override", None),
             )
         elif todo["conv_type"].startswith("sharded"):
             conversation_simulator = ConversationSimulatorSharded(
@@ -46,6 +48,7 @@ def run_simulation(todo):
                 user_temperature=user_temp,
                 dataset_fn=dataset_fn,
                 log_folder=args.log_folder,
+                reasoning_cls_override=todo.get("reasoning_cls_override", None),
             )
         conversation_simulator.run(verbose=args.verbose)
 
@@ -115,6 +118,12 @@ if __name__ == "__main__":
         type=float,
         default=1.0,
         help="Temperature to use for user models",
+    )
+    parser.add_argument(
+        "--reasoning_cls_override",
+        type=json.loads,
+        default="{}",
+        help="JSON dict of reasoning classification override.",
     )
 
     args = parser.parse_args()
@@ -214,6 +223,7 @@ if __name__ == "__main__":
                     "system_model": args.system_model,
                     "user_model": args.user_model,
                     "dataset_fn": dataset_fn,
+                    "reasoning_cls_override": args.reasoning_cls_override,
                 }
             ] * (args.N_sharded_runs - sharded_run_counts[sample["task_id"]])
 

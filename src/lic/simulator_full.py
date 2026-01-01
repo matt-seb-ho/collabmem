@@ -1,6 +1,6 @@
 import random
 
-from lic.model_openai import generate
+from lic.model import generate, is_reasoning_model
 from lic.system_agent import SystemAgent
 from lic.tasks import get_task
 from lic.utils import date_str
@@ -18,6 +18,7 @@ class ConversationSimulatorFull:
         temperature=1.0,
         dataset_fn=None,
         log_folder=None,
+        reasoning_cls_override=None,
     ):
         self.task_name = sample["task"]
         self.task = get_task(self.task_name)
@@ -30,6 +31,7 @@ class ConversationSimulatorFull:
         self.log_folder = log_folder
         self.run_custom_temperature = temperature != 1.0
         self.temperature = temperature
+        self.reasoning_cls_override = reasoning_cls_override
 
         self.system_message = self.task.generate_system_prompt(self.sample)
         self.system_agent = SystemAgent(self.task_name, self.system_model, self.sample)
@@ -60,13 +62,11 @@ class ConversationSimulatorFull:
         if self.run_custom_temperature:
             conv_type = f"{conv_type}-t{self.temperature}"
 
-        is_reasoning_model = (
-            "o1" in self.assistant_model
-            or "o3" in self.assistant_model
-            or "deepseek-r1" in self.assistant_model
+        _is_reasoning_model = is_reasoning_model(
+            self.assistant_model, override=self.reasoning_cls_override
         )
 
-        max_tokens = 16000 if is_reasoning_model else 1000
+        max_tokens = 16000 if _is_reasoning_model else 1000
         assistant_response_obj = generate(
             [
                 {"role": "system", "content": self.system_message},

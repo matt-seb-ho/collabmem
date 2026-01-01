@@ -1,6 +1,6 @@
 import json
 
-from lic.model_openai import generate_json
+from lic.model import generate_json
 from lic.tasks import get_task
 from lic.utils import extract_conversation
 
