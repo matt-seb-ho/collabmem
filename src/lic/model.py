@@ -109,6 +109,10 @@ class OpenAIProvider:
             # inp_per_million = 0.25
             # out_per_million = 2.0
             inp_token_cost, out_token_cost = 0.00025, 0.002
+        elif base_model.startswith("gpt-5.2"):
+            # input per million: 1.75
+            # output per million: 14.0
+            inp_token_cost, out_token_cost = 0.00175, 0.014
         else:
             raise Exception(f"Model {model} pricing unknown, please add")
 
