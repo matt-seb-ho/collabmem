@@ -14,5 +14,5 @@ LOGS_DIR = LIC_ROOT / "logs"
 PROMPT_FILE_DIRECTORY = LIC_ROOT / "prompts"
 PROMPT_FILE_PATHS = {
     "dc_cu_vanilla": PROMPT_FILE_DIRECTORY / "dc_cu_curator_prompt.txt",
-    "dc_cu_lic": PROMPT_FILE_DIRECTORY / "li_dc_curator_prompt.txt",
+    "dc_cu_lic": PROMPT_FILE_DIRECTORY / "lic_dc_curator_prompt.txt",
 }
