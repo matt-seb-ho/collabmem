@@ -1,4 +1,17 @@
 # lic/simulator_sharded_edited.py
+#
+# Sharded LiC simulator with an additional "context editor" model call before
+# each assistant turn, plus a "finalization nudge" after the last shard is revealed:
+# if the assistant asks for clarification/discussion on the final shard, we inject
+# one synthetic user message: "That's all the information I have. Please provide your final answer now."
+#
+# This avoids the edge case where the loop terminates immediately after all shards are revealed,
+# preventing any re-answer + evaluation.
+
+from lic.context_editor import (
+    build_assistant_input_from_edited_state,
+    edit_conversation_state,
+)
 from lic.model import generate, is_reasoning_model
 from lic.system_agent import SystemAgent
 from lic.tasks import get_task
@@ -6,9 +19,8 @@ from lic.user_agent import UserAgent
 from lic.utils import date_str, extract_conversation, print_colored
 from lic.utils_log import log_conversation
 
-from lic.context_editor import (
-    edit_conversation_state,
-    build_assistant_input_from_edited_state,
+FINALIZATION_USER_MESSAGE = (
+    "That's all the information I have. Please provide your final answer now."
 )
 
 
@@ -24,12 +36,14 @@ class ConversationSimulatorShardedEdited:
         dataset_fn=None,
         log_folder="logs",
         reasoning_cls_override=None,
-        # NEW:
+        # editor params
         editor_model="gpt-4o-mini",
         editor_temperature=0.0,
         editor_max_tokens=1200,
         enable_editor=True,
         log_editor_artifacts=True,
+        # finalization behavior
+        enable_finalization_nudge=True,
     ):
         self.task_name = sample["task"]
         self.task = get_task(self.task_name)
@@ -55,12 +69,16 @@ class ConversationSimulatorShardedEdited:
 
         self.reasoning_cls_override = reasoning_cls_override
 
-        # NEW editor params
+        # editor knobs
         self.editor_model = editor_model
         self.editor_temperature = editor_temperature
         self.editor_max_tokens = editor_max_tokens
         self.enable_editor = enable_editor
         self.log_editor_artifacts = log_editor_artifacts
+
+        # finalization nudge
+        self.enable_finalization_nudge = enable_finalization_nudge
+        self._finalization_prompted = False  # once per conversation
 
         self.trace = [
             {"role": "system", "content": self.system_message, "timestamp": date_str()}
@@ -68,6 +86,28 @@ class ConversationSimulatorShardedEdited:
 
     def get_num_turns(self, participant="assistant"):
         return sum(1 for msg in self.trace if msg["role"] == participant)
+
+    def _get_last_system_verification(self):
+        """
+        Returns the last system-verification response dict (or None).
+        Expected format (from LiC): {"response_type": "...", ...}
+        """
+        for msg in reversed(self.trace):
+            if msg.get("role") == "log":
+                content = msg.get("content", {})
+                if content.get("type") == "system-verification":
+                    return content.get("response")
+        return None
+
+    def _revealed_shard_ids(self, shards):
+        return set(
+            [
+                msg["content"]["shard_id"]
+                for msg in self.trace
+                if msg.get("role") == "log"
+                and msg.get("content", {}).get("type") == "shard_revealed"
+            ]
+        )
 
     def run(self, verbose=False, save_log=True):
         _is_reasoning_model = is_reasoning_model(
@@ -79,31 +119,58 @@ class ConversationSimulatorShardedEdited:
         shards = self.sample["shards"]
 
         while not is_completed:
-            revealed_shard_ids = set(
-                [
-                    msg["content"]["shard_id"]
-                    for msg in self.trace
-                    if msg["role"] == "log"
-                    and msg["content"]["type"] == "shard_revealed"
-                ]
-            )
+            revealed_shard_ids = self._revealed_shard_ids(shards)
             all_shards_revealed = len(revealed_shard_ids) == len(shards)
+
+            # If all shards are revealed, the original simulator would break immediately.
+            # We instead optionally inject ONE final user message if the assistant last response
+            # was clarification/discussion, to force a final answer attempt.
+            use_synthetic_user = False
             if all_shards_revealed:
-                if verbose:
-                    print_colored(
-                        f"[log] all shards revealed ({revealed_shard_ids} / {len(shards)})",
-                        "blue",
-                    )
-                break
+                if not self.enable_finalization_nudge or self._finalization_prompted:
+                    if verbose:
+                        print_colored(
+                            f"[log] all shards revealed ({len(revealed_shard_ids)} / {len(shards)}); stopping",
+                            "blue",
+                        )
+                    break
 
-            is_last_turn = len(revealed_shard_ids) == len(shards) - 1
-
-            # 1) user response
-            user_response, shard_revealed_id, cost_usd = (
-                self.user_agent.generate_response(
-                    self.trace, self.sample, temperature=self.user_temperature
+                last_verification = self._get_last_system_verification()
+                last_type = (
+                    last_verification.get("response_type")
+                    if isinstance(last_verification, dict)
+                    else None
                 )
-            )
+
+                if last_type in ["clarification", "discussion"]:
+                    use_synthetic_user = True
+                    self._finalization_prompted = True
+                else:
+                    if verbose:
+                        print_colored(
+                            f"[log] all shards revealed ({len(revealed_shard_ids)} / {len(shards)}); stopping",
+                            "blue",
+                        )
+                    break
+
+            # If we are not in the "all shards revealed" condition, determine whether this is last shard turn
+            # (used only for summary-task eval skipping).
+            is_last_shard_turn = len(revealed_shard_ids) == len(shards) - 1
+            # If we inject synthetic user after all shards are revealed, we should treat it as "last turn".
+            is_last_turn = True if use_synthetic_user else is_last_shard_turn
+
+            # 1) get a user response
+            if use_synthetic_user:
+                user_response = FINALIZATION_USER_MESSAGE
+                shard_revealed_id = -1
+                cost_usd = 0.0
+            else:
+                user_response, shard_revealed_id, cost_usd = (
+                    self.user_agent.generate_response(
+                        self.trace, self.sample, temperature=self.user_temperature
+                    )
+                )
+
             self.trace.append(
                 {
                     "role": "user",
@@ -115,7 +182,7 @@ class ConversationSimulatorShardedEdited:
             if verbose:
                 print_colored(f"[user] {user_response}", "green")
 
-            if shard_revealed_id != -1:
+            if (not use_synthetic_user) and shard_revealed_id != -1:
                 self.trace.append(
                     {
                         "role": "log",
@@ -129,7 +196,7 @@ class ConversationSimulatorShardedEdited:
                 if verbose:
                     print_colored(f"[log] shard revealed: {shard_revealed_id}", "blue")
 
-            # 2) assistant response (EDITED CONTEXT BASELINE)
+            # 2) assistant response (edited-context baseline)
             assistant_input = None
             editor_cost = 0.0
             edited_state = None
@@ -203,21 +270,29 @@ class ConversationSimulatorShardedEdited:
             )
             if verbose:
                 print_colored(
-                    f"[log] system verification: {system_verification_response}",
-                    "blue",
+                    f"[log] system verification: {system_verification_response}", "blue"
                 )
 
             if system_verification_response["response_type"] == "answer_attempt":
+                # 4) extract answer and evaluate
                 extracted_answer = self.system_agent.extract_answer(self.trace)
                 is_correct, score = None, None
 
                 if self.task_name == "summary" and not is_last_turn:
+                    # Preserve original behavior: only evaluate summary task on the last shard turn.
                     evaluation_return = {"score": 0.0}
                     score = 0.0
                 else:
                     evaluation_return = self.task.evaluator_function(
                         extracted_answer, self.sample
                     )
+                    assert (
+                        isinstance(evaluation_return, dict)
+                        and (
+                            "score" in evaluation_return
+                            or "is_correct" in evaluation_return
+                        )
+                    ), "Evaluator function should return a dictionary with 'score' or 'is_correct' key"
                     is_correct = evaluation_return.get("is_correct", None)
                     score = evaluation_return.get("score", None)
 
@@ -261,12 +336,15 @@ class ConversationSimulatorShardedEdited:
                             f"[log] conversation completed: {is_correct}; score: {score}",
                             "blue",
                         )
+
             elif system_verification_response["response_type"] in [
                 "clarification",
                 "discussion",
             ]:
+                # Continue to next loop iteration. If shards are all revealed, we may inject the finalization nudge.
                 continue
 
+        # Save logs
         if save_log:
             conv_type = "sharded-edited"
             if self.run_with_custom_temperature:
