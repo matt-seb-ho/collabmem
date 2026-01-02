@@ -5,6 +5,8 @@ import os
 import random
 from collections import Counter
 
+import tqdm
+
 from lic.cheatsheet_logger import CheatsheetLogConfig, CheatsheetLogger
 from lic.cheatsheet_memory import CheatsheetConfig, CheatsheetMemory
 from lic.cheatsheet_sim_sharded import ConversationSimulatorSharded
@@ -125,7 +127,7 @@ def main():
         CheatsheetLogConfig(
             log_dir=os.path.join(args.log_folder, args.run_name),
             run_name=args.run_name,
-            save_full_text=True,
+            save_full_text=False,
         )
     )
 
@@ -145,7 +147,7 @@ def main():
             enable_updates=(args.mode != "frozen"),
             include_eval_feedback=(args.mode == "warmup"),
             curator_model=args.curator_model,
-            curator_temperature=0.0,
+            curator_temperature=(1.0 if args.curator_model.startswith("gpt-5") else 0.0),
             curator_max_tokens=2000,
             cheatsheet_update_template=cheatsheet_update_template,
         )
@@ -160,7 +162,14 @@ def main():
         correct = 0
         total = 0
 
-        for episode_idx, sample in enumerate(samples):
+        pbar = tqdm.tqdm(
+            enumerate(samples),
+            total=len(samples),
+            desc=f"[{assistant_model}] {args.mode} ({args.split_name})",
+            dynamic_ncols=True,
+        )
+
+        for episode_idx, sample in pbar:
             task_key = (
                 "__global__" if args.cheatsheet_scope == "global" else sample["task"]
             )
@@ -217,13 +226,15 @@ def main():
             if is_correct or (score == 1.0):
                 correct += 1
 
-            if total % 10 == 0:
-                print(
-                    f"[{assistant_model}] progress {total}/{len(samples)} | acc={correct/total:.3f}"
-                )
+            pbar.set_postfix(
+                {
+                    "task": sample["task"],
+                    "acc": f"{correct}/{total}",
+                }
+            )
 
         print(
-            f"[{assistant_model}] DONE split={args.split_name} mode={args.mode} acc={correct}/{total} = {correct/total:.3f}"
+            f"[{assistant_model}] DONE split={args.split_name} mode={args.mode} acc={correct}/{total} = {correct / total:.3f}"
         )
 
         if args.save_final_cheatsheet_path:
