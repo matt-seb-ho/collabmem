@@ -117,7 +117,7 @@ def main():
     p.add_argument(
         "--editor_update_prompt_path",
         type=str,
-        default=PROMPT_FILE_PATHS["dc_cu_lic"],
+        default=PROMPT_FILE_PATHS["editor_cheatsheet"],
         help="Cheatsheet update template for EDITOR (can be same as solver, but recommended to make a tailored one later)",
     )
 
