@@ -87,7 +87,7 @@ def main():
 
     # context editor knobs
     p.add_argument("--editor_model", type=str, default="gpt-4o-mini")
-    p.add_argument("--editor_temperature", type=float, default=0.0)
+    p.add_argument("--editor_temperature", type=float, default=1.0)
     p.add_argument("--editor_max_tokens", type=int, default=1200)
     p.add_argument("--disable_editor", action="store_true")
     p.add_argument("--no_log_editor_artifacts", action="store_true")
