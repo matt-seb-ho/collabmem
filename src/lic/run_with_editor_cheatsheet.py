@@ -88,7 +88,7 @@ def main():
     # context editor knobs
     p.add_argument("--editor_model", type=str, default="gpt-4o-mini")
     p.add_argument("--editor_temperature", type=float, default=1.0)
-    p.add_argument("--editor_max_tokens", type=int, default=1200)
+    p.add_argument("--editor_max_tokens", type=int, default=8192)
     p.add_argument("--disable_editor", action="store_true")
     p.add_argument("--no_log_editor_artifacts", action="store_true")
 
@@ -247,7 +247,7 @@ def main():
         pbar = tqdm.tqdm(
             enumerate(samples),
             total=len(samples),
-            desc=f"[{assistant_model}] dual ({args.split_name})",
+            desc=f"[{assistant_model}] ed_cs ({args.split_name})",
             dynamic_ncols=True,
         )
 
@@ -303,26 +303,25 @@ def main():
                     trace=trace,
                     eval_summary=eval_summary,
                 )
-                solver_logger.log_revision(...)
 
-            solver_logger.log_revision(
-                dataset_fn=args.dataset_file,
-                split_name=args.split_name,
-                mode=args.solver_mode,
-                sample=sample,
-                models={
-                    "assistant": assistant_model,
-                    "system": args.system_model,
-                    "user": args.user_model,
-                    "curator": args.curator_model,
-                },
-                eval_summary=eval_summary,
-                curator_meta=upd_solver.get("curator_meta"),
-                cheatsheet_old=upd_solver.get("old", old_solver),
-                cheatsheet_new=upd_solver.get("new", solver_mem.cheatsheet),
-                episode_idx=episode_idx,
-                cheatsheet_scope=args.solver_cheatsheet_scope,
-            )
+                solver_logger.log_revision(
+                    dataset_fn=args.dataset_file,
+                    split_name=args.split_name,
+                    mode=args.solver_mode,
+                    sample=sample,
+                    models={
+                        "assistant": assistant_model,
+                        "system": args.system_model,
+                        "user": args.user_model,
+                        "curator": args.curator_model,
+                    },
+                    eval_summary=eval_summary,
+                    curator_meta=upd_solver.get("curator_meta"),
+                    cheatsheet_old=upd_solver.get("old", old_solver),
+                    cheatsheet_new=upd_solver.get("new", solver_mem.cheatsheet),
+                    episode_idx=episode_idx,
+                    cheatsheet_scope=args.solver_cheatsheet_scope,
+                )
 
             # update EDITOR cheatsheet
             old_editor = editor_mem.cheatsheet

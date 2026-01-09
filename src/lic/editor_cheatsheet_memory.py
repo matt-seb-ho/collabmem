@@ -91,7 +91,7 @@ class EditorCheatsheetMemory(CheatsheetMemory):
             model=self.cfg.curator_model,
             temperature=self.cfg.curator_temperature,
             return_metadata=True,
-            max_tokens=self.cfg.curator_max_tokens,
+            max_tokens=self.cfg.curator_max_tokens + 8192, # TODO: don't hardcode more tokens for reasoning...
         )
 
         curator_text = resp["message"].strip()
