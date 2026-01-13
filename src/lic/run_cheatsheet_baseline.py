@@ -77,7 +77,7 @@ def main():
         "--cheatsheet_update_prompt_path",
         type=str,
         required=False,
-        default=PROMPT_FILE_PATHS["dc_cu_lic"],
+        default=PROMPT_FILE_PATHS["cheatsheet_v2"],
         help="Path to cheatsheet update template (required unless mode=frozen)",
     )
     p.add_argument(

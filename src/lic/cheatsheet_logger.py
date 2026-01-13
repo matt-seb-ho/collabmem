@@ -16,7 +16,7 @@ def _sha256(s: str) -> str:
 class CheatsheetLogConfig:
     log_dir: str
     run_name: str  # e.g., "dc_warmup_math_gpt-5-mini"
-    save_full_text: bool = False  # save each revision as a .txt file
+    save_full_text: bool = True # save each revision as a .txt file
     jsonl_name: str = "cheatsheet_revisions.jsonl"
 
 
