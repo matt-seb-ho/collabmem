@@ -78,7 +78,7 @@ def main():
         type=str,
         required=False,
         default=PROMPT_FILE_PATHS["dc_cu_lic"],
-        help="Path to DC cheatsheet update template (required unless mode=frozen)",
+        help="Path to cheatsheet update template (required unless mode=frozen)",
     )
     p.add_argument(
         "--init_cheatsheet_path",
@@ -103,6 +103,23 @@ def main():
         choices=["global", "per_task"],
         default="per_task",
         help="Whether cheatsheet is shared across tasks or separate per task",
+    )
+
+    # NEW: Ablation flags for extrinsic grounding in reflection prompt
+    p.add_argument(
+        "--include_eval_label",
+        action="store_true",
+        help="Include evaluation correctness label/summary as reflection fodder (a)",
+    )
+    p.add_argument(
+        "--include_full_spec_q",
+        action="store_true",
+        help="Include the oracle single-turn fully specified question sample['full_spec_q'] (b)",
+    )
+    p.add_argument(
+        "--include_ground_truth",
+        action="store_true",
+        help="Include ground truth output sample['ground_truth_a'] (c)",
     )
 
     args = p.parse_args()
@@ -145,13 +162,18 @@ def main():
     for assistant_model in args.models:
         cfg = CheatsheetConfig(
             enable_updates=(args.mode != "frozen"),
-            include_eval_feedback=(args.mode == "warmup"),
             curator_model=args.curator_model,
-            curator_temperature=(1.0 if args.curator_model.startswith("gpt-5") else 0.0),
+            curator_temperature=(
+                1.0 if args.curator_model.startswith("gpt-5") else 0.0
+            ),
             curator_max_tokens=2000,
             cheatsheet_update_template=cheatsheet_update_template,
+            # NEW toggles (ablatable, independent of mode)
+            include_eval_label=args.include_eval_label,
+            include_full_spec_q=args.include_full_spec_q,
+            include_ground_truth=args.include_ground_truth,
         )
-        # memory = CheatsheetMemory(initial_cheatsheet, cfg)
+
         if args.cheatsheet_scope == "global":
             memories = {"__global__": CheatsheetMemory(initial_cheatsheet, cfg)}
         else:
@@ -193,6 +215,10 @@ def main():
             trace = sim.trace
             eval_summary = find_last_eval(trace)
 
+            # Reflection fodder from dataset (may be None)
+            full_spec_q = sample.get("full_spec_q")
+            ground_truth_a = sample.get("ground_truth_a")
+
             # update cheatsheet (or not)
             old_cheatsheet = memory.cheatsheet
             upd = memory.maybe_update(
@@ -200,6 +226,8 @@ def main():
                 system_message=sim.system_message,
                 trace=trace,
                 eval_summary=eval_summary,
+                full_spec_q=full_spec_q,
+                ground_truth_a=ground_truth_a,
             )
 
             # log revision
@@ -234,30 +262,26 @@ def main():
             )
 
         print(
-            f"[{assistant_model}] DONE split={args.split_name} mode={args.mode} acc={correct}/{total} = {correct / total:.3f}"
+            f"[{assistant_model}] DONE split={args.split_name} mode={args.mode} "
+            f"acc={correct}/{total} = {correct / total:.3f}"
         )
 
         if args.save_final_cheatsheet_path:
-            # save per model (append model name)
             base, ext = os.path.splitext(args.save_final_cheatsheet_path)
-            out_path = f"{base}_{assistant_model}{ext or '.txt'}"
-            os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
-            if args.save_final_cheatsheet_path:
-                base, ext = os.path.splitext(args.save_final_cheatsheet_path)
-                ext = ext or ".txt"
-                os.makedirs(os.path.dirname(base) or ".", exist_ok=True)
+            ext = ext or ".txt"
+            os.makedirs(os.path.dirname(base) or ".", exist_ok=True)
 
-                if args.cheatsheet_scope == "global":
-                    out_path = f"{base}_{assistant_model}{ext}"
+            if args.cheatsheet_scope == "global":
+                out_path = f"{base}_{assistant_model}{ext}"
+                with open(out_path, "w", encoding="utf-8") as f:
+                    f.write(memories["__global__"].cheatsheet)
+                print(f"Saved final cheatsheet to {out_path}")
+            else:
+                for task, mem in memories.items():
+                    out_path = f"{base}_{assistant_model}_{task}{ext}"
                     with open(out_path, "w", encoding="utf-8") as f:
-                        f.write(memories["__global__"].cheatsheet)
-                    print(f"Saved final cheatsheet to {out_path}")
-                else:
-                    for task, mem in memories.items():
-                        out_path = f"{base}_{assistant_model}_{task}{ext}"
-                        with open(out_path, "w", encoding="utf-8") as f:
-                            f.write(mem.cheatsheet)
-                        print(f"Saved final cheatsheet for {task} to {out_path}")
+                        f.write(mem.cheatsheet)
+                    print(f"Saved final cheatsheet for {task} to {out_path}")
 
 
 if __name__ == "__main__":

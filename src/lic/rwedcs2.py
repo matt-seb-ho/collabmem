@@ -260,7 +260,7 @@ def main():
         CheatsheetLogConfig(
             log_dir=os.path.join(args.log_folder, args.run_name, "editor_cheatsheet"),
             run_name=args.run_name + "_editor",
-            save_full_text=False,
+            save_full_text=True,
         )
     )
 

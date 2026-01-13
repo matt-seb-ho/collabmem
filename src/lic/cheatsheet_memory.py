@@ -10,7 +10,8 @@ from lic.constants import PROMPT_FILE_PATHS
 
 
 VANILLA_UPDATE_PROMPT = PROMPT_FILE_PATHS["dc_cu_vanilla"].read_text()
-LIC_UPDATE_PROMPT = PROMPT_FILE_PATHS["dc_cu_lic"].read_text
+# LIC_UPDATE_PROMPT = PROMPT_FILE_PATHS["dc_cu_lic"].read_text()
+LIC_UPDATE_PROMPT = PROMPT_FILE_PATHS["cheatsheet_v2"].read_text()
 
 
 @dataclass
@@ -25,11 +26,12 @@ class CheatsheetConfig:
     curator_temperature: float = 0.0
     curator_max_tokens: int = 2000
 
-    # Whether to include extrinsic feedback in reflection prompt
-    include_eval_feedback: bool = False
+    # Extrinsic grounding toggles (ablatable)
+    include_eval_label: bool = False  # (a) correctness label / eval summary
+    include_full_spec_q: bool = False  # (b) single-turn fully specified question
+    include_ground_truth: bool = False  # (c) ground truth output/answer
 
-    # Prompt templates (you said you have them from the DC repo)
-    # cheatsheet_update_template: str = ""  # must include placeholders below
+    # Prompt template
     cheatsheet_update_template: str = LIC_UPDATE_PROMPT
 
 
@@ -50,48 +52,90 @@ class CheatsheetMemory:
             ">>>\n"
         )
 
+    @staticmethod
+    def _safe_str(x: Any) -> str:
+        """Cast anything reasonable to a string, preserving None as '(not provided)'."""
+        if x is None:
+            return "(not provided)"
+        if isinstance(x, str):
+            return x
+        # For dict/list/etc., repr is often more informative than str
+        try:
+            return str(x)
+        except Exception:
+            return repr(x)
+
+    @staticmethod
+    def _replace_if_present(template: str, placeholder: str, value: str) -> str:
+        """Replace placeholder if present; no-op otherwise."""
+        if placeholder in template:
+            return template.replace(placeholder, value)
+        return template
+
     def _render_update_prompt(
         self,
         task_name: str,
         system_message: str,
         trace: List[Dict[str, Any]],
         eval_summary: Optional[Dict[str, Any]],
+        full_spec_q: Optional[str],
+        ground_truth_a: Any,
     ) -> str:
-        # Build a compact “question” and “model_answer” representation
-        # Use the conversation itself as the “interaction” to learn from.
+        # Conversation trajectory as primary reflection target
         conversation_txt = extract_conversation(trace, to_str=True)
 
+        # Model answer: last assistant utterance is usually the final attempt
         model_answer = ""
-        # last assistant msg (if present) is usually best “answer attempt”
         for msg in reversed(trace):
-            if msg["role"] == "assistant":
-                model_answer = msg["content"]
+            if msg.get("role") == "assistant":
+                model_answer = msg.get("content", "")
                 break
 
-        feedback_block = ""
-        if self.cfg.include_eval_feedback and eval_summary is not None:
-            feedback_block = (
-                "\n\nEVALUATION FEEDBACK:\n"
-                f"- is_correct: {eval_summary.get('is_correct')}\n"
-                f"- score: {eval_summary.get('score')}\n"
-                f"- extracted_answer: {eval_summary.get('extracted_answer')}\n"
+        # Optional extrinsic grounding fields
+        correctness_label_txt = "(not provided)"
+        if self.cfg.include_eval_label and eval_summary is not None:
+            correctness_label_txt = (
+                "EVALUATION LABEL / SUMMARY:\n"
+                f"- is_correct: {self._safe_str(eval_summary.get('is_correct'))}\n"
+                f"- score: {self._safe_str(eval_summary.get('score'))}\n"
+                f"- extracted_answer: {self._safe_str(eval_summary.get('extracted_answer'))}\n"
             )
 
-        # Required placeholders:
-        # [[QUESTION]], [[MODEL_ANSWER]], [[PREVIOUS_CHEATSHEET]]
-        # (You can put whatever you want in [[QUESTION]]; here it’s “episode context”.)
-        question = (
+        full_spec_txt = "(not provided)"
+        if self.cfg.include_full_spec_q:
+            full_spec_txt = self._safe_str(full_spec_q)
+
+        gt_txt = "(not provided)"
+        if self.cfg.include_ground_truth:
+            gt_txt = self._safe_str(ground_truth_a)
+
+        # Backwards-compat: some templates still expect [[QUESTION]] as a single blob.
+        # We'll provide a compact episode header there, but also populate the new fields
+        # if present in the template.
+        question_blob = (
             f"TASK: {task_name}\n\n"
             f"SYSTEM PROMPT:\n{system_message}\n\n"
-            f"CONVERSATION:\n{conversation_txt}"
-            f"{feedback_block}"
+            f"CONVERSATION:\n{conversation_txt}\n"
         )
 
-        return (
-            self.cfg.cheatsheet_update_template.replace("[[QUESTION]]", question)
-            .replace("[[MODEL_ANSWER]]", model_answer)
-            .replace("[[PREVIOUS_CHEATSHEET]]", self.cheatsheet)
+        tmpl = self.cfg.cheatsheet_update_template
+
+        # Always fill legacy placeholders
+        tmpl = tmpl.replace("[[PREVIOUS_CHEATSHEET]]", self.cheatsheet)
+        tmpl = tmpl.replace("[[MODEL_ANSWER]]", model_answer)
+        tmpl = tmpl.replace("[[QUESTION]]", question_blob)  # harmless if unused
+
+        # Fill new LiC prompt placeholders if present
+        tmpl = self._replace_if_present(tmpl, "[[CONVERSATION]]", conversation_txt)
+        tmpl = self._replace_if_present(
+            tmpl, "[[CORRECTNESS_LABEL]]", correctness_label_txt
         )
+        tmpl = self._replace_if_present(
+            tmpl, "[[FULL_TASK_SPEC_SINGLE_TURN]]", full_spec_txt
+        )
+        tmpl = self._replace_if_present(tmpl, "[[GROUND_TRUTH_OUTPUT]]", gt_txt)
+
+        return tmpl
 
     def maybe_update(
         self,
@@ -99,12 +143,19 @@ class CheatsheetMemory:
         system_message: str,
         trace: List[Dict[str, Any]],
         eval_summary: Optional[Dict[str, Any]],
+        full_spec_q: Optional[str] = None,
+        ground_truth_a: Any = None,
     ) -> Dict[str, Any]:
         if not self.cfg.enable_updates:
             return {"updated": False, "old": self.cheatsheet, "new": self.cheatsheet}
 
         prompt = self._render_update_prompt(
-            task_name, system_message, trace, eval_summary
+            task_name=task_name,
+            system_message=system_message,
+            trace=trace,
+            eval_summary=eval_summary,
+            full_spec_q=full_spec_q,
+            ground_truth_a=ground_truth_a,
         )
 
         resp = generate(
@@ -115,11 +166,10 @@ class CheatsheetMemory:
             max_tokens=self.cfg.curator_max_tokens,
         )
 
-        curator_text = resp["message"]
+        curator_text = resp["message"].strip()
 
-        # IMPORTANT: use the same extraction logic as DC if you want exact behavior.
-        # If you already have DC's extract_cheatsheet(), import and call it here.
-        new_cheatsheet = curator_text.strip()
+        # IMPORTANT: If you want exact DC behavior, call DC's extract_cheatsheet() here.
+        new_cheatsheet = curator_text
         old = self.cheatsheet
         self.cheatsheet = new_cheatsheet
 
@@ -130,4 +180,6 @@ class CheatsheetMemory:
             "curator_output": curator_text,
             "curator_cost_usd": resp.get("total_usd"),
             "timestamp": date_str(),
+            # Keep optional meta slot if your logger expects it
+            "curator_meta": {k: v for k, v in resp.items() if k != "message"},
         }
