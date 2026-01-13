@@ -144,7 +144,7 @@ def main():
         CheatsheetLogConfig(
             log_dir=os.path.join(args.log_folder, args.run_name),
             run_name=args.run_name,
-            save_full_text=False,
+            save_full_text=True,
         )
     )
 

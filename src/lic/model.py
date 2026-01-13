@@ -11,6 +11,9 @@ from openai import AzureOpenAI, OpenAI
 from lic.azure_oai_setup import initialize_azure_oai_client
 
 
+GLOBAL_REASONING_EFFORT = "low"
+
+
 def is_reasoning_model(
     model_name: str, override: dict[str, bool] | None = None
 ) -> bool:
@@ -160,15 +163,27 @@ class OpenAIProvider:
         N = 0
         while True:
             try:
-                response = self.client.chat.completions.create(
-                    model=model,
-                    messages=messages,
-                    timeout=timeout,
-                    max_completion_tokens=max_tokens,
-                    temperature=temperature,
-                    **kwargs,
-                )
-                break
+                if model.startswith("gpt-5"):
+                    response = self.client.chat.completions.create(
+                        model=model,
+                        messages=messages,
+                        timeout=timeout,
+                        max_completion_tokens=max_tokens,
+                        temperature=temperature,
+                        reasoning_effort=GLOBAL_REASONING_EFFORT,
+                        **kwargs,
+                    )
+                    break
+                else:
+                    response = self.client.chat.completions.create(
+                        model=model,
+                        messages=messages,
+                        timeout=timeout,
+                        max_completion_tokens=max_tokens,
+                        temperature=temperature,
+                        **kwargs,
+                    )
+                    break
             except Exception:
                 N += 1
                 if N >= max_retries:
