@@ -42,6 +42,7 @@ class ConversationSimulatorShardedEdited:
         editor_max_tokens=1200,
         enable_editor=True,
         log_editor_artifacts=True,
+        editor_playbook: str | None = None,   # <-- NEW
         # finalization behavior
         enable_finalization_nudge=True,
     ):
@@ -75,6 +76,7 @@ class ConversationSimulatorShardedEdited:
         self.editor_max_tokens = editor_max_tokens
         self.enable_editor = enable_editor
         self.log_editor_artifacts = log_editor_artifacts
+        self.editor_playbook = editor_playbook
 
         # finalization nudge
         self.enable_finalization_nudge = enable_finalization_nudge
@@ -207,6 +209,7 @@ class ConversationSimulatorShardedEdited:
                     editor_model=self.editor_model,
                     temperature=self.editor_temperature,
                     max_tokens=self.editor_max_tokens,
+                    playbook=self.editor_playbook,
                 )
                 editor_cost = editor_obj.get("total_usd", 0.0)
 
