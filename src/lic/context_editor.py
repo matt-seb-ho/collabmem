@@ -181,26 +181,28 @@ def build_assistant_input_from_edited_state(
     last_user_message: str,
     edited_state: Dict[str, Any],
     # Default: only expose clean_context to downstream assistant.
-    expose_scratch: bool = False,
+    # expose_scratch: bool = False,
 ) -> List[Dict[str, str]]:
     clean_context = edited_state.get("clean_context", "")
 
     # In most setups you do NOT want to show scratch to the assistant.
-    if expose_scratch:
-        scratch = edited_state.get("scratch", "")
-        edited_system = (
-            "Edited conversation state (produced by a context editor).\n\n"
-            "Scratch (editor planning):\n"
-            f"{scratch}\n\n"
-            "Clean context (use this):\n"
-            f"{clean_context}"
-        )
-    else:
-        edited_system = (
-            "Edited conversation state (produced by a context editor). "
-            "Use it as a bias-reduced snapshot of what the user has provided.\n\n"
-            f"{clean_context}"
-        )
+    # if expose_scratch:
+    #     scratch = edited_state.get("scratch", "")
+    #     edited_system = (
+    #         "Edited conversation state (produced by a context editor).\n\n"
+    #         "Scratch (editor planning):\n"
+    #         f"{scratch}\n\n"
+    #         "Clean context (use this):\n"
+    #         f"{clean_context}"
+    #     )
+    # else:
+    #     edited_system = (
+    #         "Edited conversation state (produced by a context editor). "
+    #         "Use it as a bias-reduced snapshot of what the user has provided.\n\n"
+    #         f"{clean_context}"
+    #     )
+
+    edited_system = f"Current Conversation State (summarized from previous interactions in this session):\n\n{clean_context}"
 
     return [
         {"role": "system", "content": original_system_message},

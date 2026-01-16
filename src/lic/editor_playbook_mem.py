@@ -7,7 +7,8 @@ from typing import Any, Dict, List, Optional
 
 from lic.model import generate
 from lic.retry_utils import RetryConfig, retry_call
-from lic.utils import date_str, extract_conversation
+from lic.utils import date_str
+from lic.utils_editor_trace import extract_editor_triplets
 
 # DEFAULT_EDITOR_CHEATSHEET_UPDATE_TEMPLATE = """\
 
@@ -16,178 +17,169 @@ from lic.utils import date_str, extract_conversation
 # It is intentionally NOT overly prescriptive about *how* to edit; it specifies the
 # objective and asks the curator to learn/update principles via self-reflection.
 
-# EDITOR_CHEATSHEET_UPDATE_PROMPT_V3 = r"""
+# v3
 DEFAULT_EDITOR_CHEATSHEET_UPDATE_TEMPLATE = """\
-# CHEATSHEET REFERENCE CURATOR (CONTEXT EDITOR / LOST-IN-CONVERSATION SETTING)
+# CHEATSHEET / PLAYBOOK CURATOR INSTRUCTIONS
 
-#### 1. Purpose and Goals
-You are the Cheatsheet Curator for a **conversation context editor**.
-
-The context editor is called *before each assistant turn* to produce a cleaned context that helps the assistant perform well when task specifications emerge across multiple turns.
-
-In these settings, performance degrades because assistants may:
-- answer before enough information is provided,
-- cling to early assumptions even after later corrections,
-- overweight prior assistant content relative to new user constraints,
-- lose track of evolving requirements.
-
-Your job is to maintain a continuously evolving **CHEATSHEET / PLAYBOOK** that helps the context editor facilitate correct downstream behavior in such multi-turn settings.
-
-After each conversation trajectory, update the cheatsheet by extracting reusable strategies, failure modes, and editing patterns. Prefer generalizable lessons over episode-specific details.
+- You are the curator of a continuously evolving **cheatsheet / playbook** for a *conversation context editor*.
+- The context editor is invoked before each assistant turn and is responsible for producing a cleaned context that helps the assistant operate correctly when task specifications are revealed gradually across multiple turns.
+- Multi-turn conversations are prone to "lost in conversation" failures, where early or incorrect content (e.g. early assumptions, premature solutions) interferes with later understanding.
+- Your job is to extract **reusable editor-side strategies, pitfalls, and patterns** that help reconstruct the user’s task specification faithfully and suppress misleading conversational artifacts.
 
 ---
 
-#### 2. What “Success” Means for the Context Editor (Objective, Not a Fixed Policy)
-The context editor is a *state reconstruction and stabilization* component.
+## 1. What the Context Editor Is Optimizing For (Priority Order)
 
-After a multi-turn interaction, there is an implicit task specification that the assistant ideally should understand and act on.
+The editor’s role is **not** to solve the task.
 
-When available, the dataset’s oracle single-turn specification:
-[[FULL_TASK_SPEC_SINGLE_TURN]]
+Its role is to maintain the best possible *representation of the user’s task specification so far*, under partial and evolving information.
 
-represents **what the assistant should have understood as the task after all interactions** (i.e., the fully accumulated and clarified task).
+The editor’s priorities are:
 
-This oracle spec is not necessarily something the editor should copy verbatim, but it is a highly informative reference for reflection:
-- Did the edited context support converging to the right understanding of the task?
-- What information was missing or misrepresented in the edited context?
-- What incorrect assumptions or outdated assistant-derived content should have been removed?
-- What user constraints or corrections should have been emphasized?
+1) **Reconstruct the task specification from user turns**
+   - Accumulate constraints, definitions, requirements, formats, and revisions.
+   - Maintain a coherent, up-to-date picture of "what the user is asking for."
+   - Explicitly track what is still unknown or underspecified.
 
-The editor’s role can be decomposed into prioritized subtasks (use these as a lens during reflection, not as rigid rules):
-1) **Consolidate user specifications into a coherent working spec** (accumulate constraints, definitions, formats, requirements)
-2) **Remove incorrect / outdated / invalidated assumptions and derivations** (especially assistant-originated hypotheses that conflict with later user info)
-3) **(Lower priority) Preserve valid prior assistant progress if it remains consistent**, to improve efficiency without harming correctness
+2) **Suppress interference from misleading prior content**
+   - Remove or demote incorrect, outdated, or speculative assumptions.
+   - Remove results derived from outdated information/assumptions.
+   - Especially guard against assistant-originated hypotheses that are later contradicted or never confirmed by the user.
 
-The cheatsheet should help the editor do (1) and (2) reliably, and do (3) only when safe.
-
----
-
-#### 3. Core Responsibilities (Curator)
-As the Cheatsheet Curator, you must:
-
-1) Curate and preserve knowledge
-- Select and document only the most relevant, useful, actionable strategies.
-- Preserve valuable older entries unless clearly superseded.
-- Consolidate redundancies rather than deleting.
-
-IMPORTANT: once you produce the NEW CHEATSHEET, anything not explicitly included will be lost. Copy forward any prior content you still want.
-
-2) Maintain accuracy and scope
-- Only include guidance that improves the context editor’s editing behavior.
-- Avoid drifting into generic “how to solve tasks” advice (that belongs to the assistant, not the editor).
-
-3) Encourage learning via self-reflection (do NOT hard-code a fixed policy)
-- Do not treat any initial principles as immutable.
-- Use the trajectory (and oracle spec if provided) to:
-  - propose candidate rules,
-  - strengthen them when supported by evidence,
-  - weaken/scope/remove them when contradicted by evidence,
-  - add new rules when novel patterns appear.
-
-4) Track usefulness over time
-- Each entry includes a usage count.
-- Increment the count when the strategy appears to have helped (e.g., prevents a known trap, improves correctness, improves alignment to the accumulated spec).
+3) **Optionally preserve prior assistant progress**
+   - Only when it is clearly consistent with the reconstructed specification.
+   - From an efficiency standpoint, we prefer to keep prior work if it is safe to do so, but this is strictly secondary to ensuring clean context/mitigating interference.
+   - If interference suppression (2) conflicts with progress salvage, **drop salvage**.
+     False positives here are costly because they anchor the assistant incorrectly.
 
 ---
 
-#### 4. Cheatsheet Structure
-Organize the cheatsheet into these sections:
+## 2. What to Reflect On (Most Important Signal)
 
-1) EDITING OUTPUT TEMPLATES (How to write clean_context)
-- Compact structures that help the assistant: e.g., “Working Spec + Open Questions + Constraints + Output Format”.
+### Full Task Specification
 
-2) EDITING HEURISTICS / CHECKLISTS
-- Step-by-step procedures the editor can apply before emitting clean_context.
+In realistic situations, users often specify tasks gradually across multiple turns (adding details, revising constraints, correcting earlier statements, etc.).
 
-3) FAILURE MODES / INTERACTION TRAPS
-- Editor-specific mistakes and how to avoid them (e.g., anchoring to early assistant guesses, missing late constraints, collapsing uncertainty into guesses).
+In this exercise, we have access to the full task specification
+This represents:
+> The complete task specification that the context editor *should have inferred*
+> after seeing all user turns in the multi-turn interaction.
 
-4) [OPTIONAL] TASK-SPECIFIC NOTES
-- Only include if it clearly improves spec reconstruction for that task type (focus on spec completeness, not solution tactics).
+This full task spec is the **main reflection target**.
 
-5) USAGE COUNTERS
-- Each memory item includes **Count: N**.
+Use it to ask:
+- What information from the conversation was essential to recover this spec?
+- What was missing, diluted, or distorted in the edited context?
+- What earlier assumptions or assistant-derived content should have been removed?
+- What editing behavior would have caused the final clean_context to closely approximate this spec?
 
----
+**Important caveat:**
+- The full task spec is the *ideal target only at the end* of the conversation, once all shards have been revealed.
+- Earlier context edits are intermediate steps:
+  - they should preserve known specs,
+  - mark unknowns clearly,
+  - and steer the assistant toward asking for or preparing for missing information.
 
-#### 5. Formatting Guidelines (Strict)
-Use the following structure for each memory item:
-
-<memory_item>
-<title>
-[Short name of strategy / template / trap-avoidance]
-</title>
-<description>
-- What problem it addresses (editor-side).
-- When it applies.
-- What to include/exclude in edited context.
-- If relevant, link to conversation points (e.g., Conv3-Turn5).
-Optional but encouraged:
-- Evidence: brief note of what in this episode supports it
-- Scope: tasks where it applies (or unknown)
-- Confidence: high/medium/low
-</description>
-<example>
-[Short example of a clean_context snippet, rewrite rule, checklist step, or conflict-resolution pattern.]
-</example>
-</memory_item>
-** Count: [N]
-
-Avoid pasting long raw logs; summarize patterns and provide compact examples.
+Your cheatsheet should therefore encode strategies that help the editor *progressively converge* toward this target across turns.
 
 ---
 
-#### 6. Cheatsheet Template (Output Requirements)
-Return ONLY the NEW CHEATSHEET, formatted exactly as:
+## 3. Scope Discipline
+
+Only include guidance that improves **context editing behavior**.
+
+Good content:
+- how to aggregate user constraints across turns
+- how to represent partial specs and open questions
+- how to detect and remove stale or invalid assumptions
+- how to decide whether assistant progress is safe to keep
+- patterns for writing clean_context that emphasize user intent
+
+Do NOT include:
+- advice on how the assistant should solve the task
+- domain-specific solution strategies or reasoning steps
+- “the answer is likely X”-style guidance
+
+If a pattern is task-type-specific, include it only if it affects
+**spec reconstruction**, not task execution.
+
+---
+
+## 4. Cheatsheet Structure (Deliberately Flexible)
+
+Organize content in whatever structure best preserves useful editor knowledge.
+Common (but optional) groupings include:
+- Editing moves / heuristics
+- Rewrite or consolidation patterns
+- Failure modes / traps
+- Gates/decision rules for keeping vs dropping assistant content
+- Minimal before→after examples
+
+---
+
+## 5. Memory Item Guidelines (Lightweight, Not Rigid)
+
+We recommend keeping organizing the cheatsheet into "memory items" or bullet points.
+- Each memory item should capture **one reusable lesson** about context editing.
+- You can rewrite, revise, recombine or reorganize items however you like.
+- The benefit of itemization is that we can track "usage counts" for each item over time, helping identify which lessons are most impactful.
+
+You may include any of the following when helpful:
+- what situation triggers it
+- what the editor should do
+- what to avoid
+- why it matters (brief evidence or rationale)
+- a compact example or rewrite pattern
+
+Do NOT force all fields to appear in every item.
+
+Each item must include:
+- a clear title
+- an **inline usage count**, incremented when supported by this episode
+
+Other fields (e.g. rationale, example, when to use) are optional.
+
+We recommend using yaml formatting, e.g.:
+```
+- title: "Explicitly track unknowns"
+  usage_count: 5
+  when_to_use: "When the user has not yet specified a key detail"
+```
+
+---
+
+## 6. Output Requirements
+
+Return ONLY the updated cheatsheet, wrapped exactly as:
 
 <cheatsheet>
+version: [increment]
 
-Version: [increment version number]
-
-EDITING OUTPUT TEMPLATES
-<memory_item> ... </memory_item>
-
-EDITING HEURISTICS / CHECKLISTS
-<memory_item> ... </memory_item>
-
-FAILURE MODES / INTERACTION TRAPS
-<memory_item> ... </memory_item>
-
-[OPTIONAL] TASK-SPECIFIC NOTES
-<memory_item> ... </memory_item>
+[cheatsheet contents]
 
 </cheatsheet>
 
-Target length: ~2000–2500 words.
-All content must be inside <cheatsheet>.
+Anything not included will be lost. Copy forward prior material you still want.
 
------
------
+Target length: flexible. Prefer concise, high-signal entries.
 
-## PREVIOUS CHEATSHEET
+---
+
+## 7. Inputs (Labeled for Clarity)
+
+### PREVIOUS CHEATSHEET
 [[PREVIOUS_CHEATSHEET]]
 
------
------
-
-## CONVERSATION TRAJECTORY (PRIMARY REFLECTION TARGET)
+### CONVERSATION TRAJECTORY
+(Multi-turn interaction from which the editor must reconstruct the task.)
 [[CONVERSATION]]
 
-This is a multi-turn interaction; the correct task specification may only become clear by the end.
-
------
------
-
-## OPTIONAL EXTRINSIC GROUNDING (MAY OR MAY NOT BE PRESENT)
-
-(A) EVALUATION LABEL / SUMMARY
-[[CORRECTNESS_LABEL]]
-
-(B) SINGLE-TURN FULLY SPECIFIED TASK (WHAT THE ASSISTANT SHOULD HAVE UNDERSTOOD AFTER ALL TURNS)
+### FULL TASK SPECIFICATION (PRIMARY REFLECTION TARGET)
 [[FULL_TASK_SPEC_SINGLE_TURN]]
 
-(C) GROUND TRUTH OUTPUT (IF AVAILABLE)
-[[GROUND_TRUTH_OUTPUT]]
+### OPTIONAL AUXILIARY SIGNALS
+- Evaluation label / summary: [[CORRECTNESS_LABEL]]
+- Ground truth output (if available): [[GROUND_TRUTH_OUTPUT]]
 """
 
 
@@ -270,8 +262,9 @@ class EditorCheatsheetMemory:
         full_spec_q: Optional[str],
         ground_truth_a: Any,
     ) -> str:
-        conversation_txt = extract_conversation(trace, to_str=True)
+        conversation_txt = extract_editor_triplets(trace, to_str=True)
 
+        # Optional auxiliary signals
         correctness_label_txt = "(not provided)"
         if self.cfg.include_eval_label and eval_summary is not None:
             correctness_label_txt = (
@@ -291,11 +284,17 @@ class EditorCheatsheetMemory:
 
         tmpl = self.cfg.cheatsheet_update_template
 
+        # Required in v3 template
         tmpl = tmpl.replace("[[PREVIOUS_CHEATSHEET]]", self.cheatsheet)
-        tmpl = tmpl.replace("[[TASK_NAME]]", task_name)
-        tmpl = tmpl.replace("[[SYSTEM_MESSAGE]]", system_message)
         tmpl = tmpl.replace("[[CONVERSATION]]", conversation_txt)
 
+        # Robust to template drift: only replace if present
+        tmpl = self._replace_if_present(
+            tmpl, "[[TASK_NAME]]", self._safe_str(task_name)
+        )
+        tmpl = self._replace_if_present(
+            tmpl, "[[SYSTEM_MESSAGE]]", self._safe_str(system_message)
+        )
         tmpl = self._replace_if_present(
             tmpl, "[[CORRECTNESS_LABEL]]", correctness_label_txt
         )
