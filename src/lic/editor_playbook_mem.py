@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import traceback
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
 from lic.model import generate
@@ -207,8 +207,13 @@ class EditorCheatsheetConfig:
     include_full_spec_q: bool = True
     include_ground_truth: bool = False
 
-    retry_cfg: RetryConfig = RetryConfig(
-        max_attempts=4, base_delay_s=0.8, max_delay_s=10.0, jitter=0.25
+    # retry_cfg: RetryConfig = RetryConfig(
+    #     max_attempts=4, base_delay_s=0.8, max_delay_s=10.0, jitter=0.25
+    # )
+    retry_cfg: RetryConfig = field(
+        default_factory=lambda: RetryConfig(
+            max_attempts=4, base_delay_s=0.8, max_delay_s=10.0, jitter=0.25
+        )
     )
     require_cheatsheet_wrapper: bool = (
         True  # if True, require <cheatsheet>...</cheatsheet>
