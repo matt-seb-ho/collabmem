@@ -241,7 +241,9 @@ def main():
                     "curator": args.curator_model,
                 },
                 eval_summary=eval_summary,
-                curator_meta=upd.get("curator_meta"),
+                # curator_meta=upd.get("curator_meta"),
+                curator_meta=upd.get("curator_meta")
+                or {"error": upd.get("error"), "attempts": upd.get("curator_attempts")},
                 cheatsheet_old=upd.get("old", old_cheatsheet),
                 cheatsheet_new=upd.get("new", mem.cheatsheet),
                 episode_idx=episode_idx,

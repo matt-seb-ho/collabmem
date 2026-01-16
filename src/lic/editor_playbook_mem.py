@@ -1,12 +1,13 @@
 # lic/editor_cheatsheet_memory.py
 from __future__ import annotations
 
+import traceback
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
 from lic.model import generate
+from lic.retry_utils import RetryConfig, retry_call
 from lic.utils import date_str, extract_conversation
-
 
 # DEFAULT_EDITOR_CHEATSHEET_UPDATE_TEMPLATE = """\
 
@@ -206,6 +207,14 @@ class EditorCheatsheetConfig:
     include_full_spec_q: bool = True
     include_ground_truth: bool = False
 
+    retry_cfg: RetryConfig = RetryConfig(
+        max_attempts=4, base_delay_s=0.8, max_delay_s=10.0, jitter=0.25
+    )
+    require_cheatsheet_wrapper: bool = (
+        True  # if True, require <cheatsheet>...</cheatsheet>
+    )
+    min_chars: int = 50  # reject trivially short outputs
+
     # Prompt template for reflection/update
     cheatsheet_update_template: str = DEFAULT_EDITOR_CHEATSHEET_UPDATE_TEMPLATE
 
@@ -301,6 +310,7 @@ class EditorCheatsheetMemory:
         full_spec_q: Optional[str] = None,
         ground_truth_a: Any = None,
     ) -> Dict[str, Any]:
+        # frozen / disabled updates
         if not self.cfg.enable_updates:
             return {"updated": False, "old": self.cheatsheet, "new": self.cheatsheet}
 
@@ -313,24 +323,86 @@ class EditorCheatsheetMemory:
             ground_truth_a=ground_truth_a,
         )
 
-        resp = generate(
-            [{"role": "user", "content": prompt}],
-            model=self.cfg.curator_model,
-            temperature=self.cfg.curator_temperature,
-            return_metadata=True,
-            max_tokens=self.cfg.curator_max_tokens + 8000,
-        )
+        curator_attempts = 0
 
-        curator_text = (resp.get("message") or "").strip()
-        old = self.cheatsheet
-        self.cheatsheet = curator_text if curator_text else old
+        def _call_curator():
+            return generate(
+                [{"role": "user", "content": prompt}],
+                model=self.cfg.curator_model,
+                temperature=self.cfg.curator_temperature,
+                return_metadata=True,
+                max_tokens=self.cfg.curator_max_tokens,
+            )
 
-        return {
-            "updated": True,
-            "old": old,
-            "new": self.cheatsheet,
-            "curator_output": curator_text,
-            "curator_cost_usd": resp.get("total_usd"),
-            "timestamp": date_str(),
-            "curator_meta": {k: v for k, v in resp.items() if k != "message"},
-        }
+        try:
+
+            def _call_with_count():
+                nonlocal curator_attempts
+                curator_attempts += 1
+                return _call_curator()
+
+            resp = retry_call(
+                _call_with_count,
+                cfg=self.cfg.retry_cfg,
+                retry_on=(TimeoutError, ConnectionError),
+                retry_if=lambda e: "timeout" in repr(e).lower()
+                or "rate" in repr(e).lower(),
+            )
+
+            curator_text = (resp.get("message") or "").strip()
+
+            # Validate output; if invalid, do not update
+            if not self._looks_like_valid_cheatsheet(
+                curator_text,
+                require_wrapper=self.cfg.require_cheatsheet_wrapper,
+                min_chars=self.cfg.min_chars,
+            ):
+                return {
+                    "updated": False,
+                    "old": self.cheatsheet,
+                    "new": self.cheatsheet,
+                    "error": "invalid_curator_output",
+                    "curator_attempts": curator_attempts,
+                    "curator_output_preview": curator_text[:500],
+                    "timestamp": date_str(),
+                    "curator_meta": {k: v for k, v in resp.items() if k != "message"},
+                }
+
+            old = self.cheatsheet
+            self.cheatsheet = curator_text
+
+            return {
+                "updated": True,
+                "old": old,
+                "new": self.cheatsheet,
+                "curator_output": curator_text,
+                "curator_cost_usd": resp.get("total_usd"),
+                "curator_attempts": curator_attempts,
+                "timestamp": date_str(),
+                "curator_meta": {k: v for k, v in resp.items() if k != "message"},
+            }
+
+        except Exception as e:
+            # Failure should not crash training/eval; keep old cheatsheet
+            return {
+                "updated": False,
+                "old": self.cheatsheet,
+                "new": self.cheatsheet,
+                "error": repr(e),
+                "traceback": traceback.format_exc(),
+                "curator_attempts": curator_attempts,
+                "timestamp": date_str(),
+            }
+
+    @staticmethod
+    def _looks_like_valid_cheatsheet(
+        text: str, require_wrapper: bool, min_chars: int
+    ) -> bool:
+        if not text:
+            return False
+        t = text.strip()
+        if len(t) < min_chars:
+            return False
+        if require_wrapper and ("<cheatsheet>" not in t or "</cheatsheet>" not in t):
+            return False
+        return True
