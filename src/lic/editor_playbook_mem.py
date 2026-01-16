@@ -186,7 +186,7 @@ Target length: flexible. Prefer concise, high-signal entries.
 @dataclass
 class EditorCheatsheetConfig:
     # How the editor sees the cheatsheet each turn (we pass it as `playbook` into editor system messages)
-    max_cheatsheet_chars: int = 12000  # safety guard
+    max_cheatsheet_chars: int = 16000  # safety guard
 
     # Update behavior
     enable_updates: bool = True

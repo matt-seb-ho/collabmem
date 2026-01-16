@@ -10,8 +10,8 @@ def extract_editor_triplets(
     to_str: bool = False,
     include_system: bool = False,
     clean_context_key: str = "clean_context",
-    max_clean_context_chars: int = 6000,
-    max_msg_chars: int = 12000,
+    max_clean_context_chars: int = 16000,
+    max_msg_chars: int = 16000,
 ) -> Any:
     """
     Extract a compact transcript for editor reflection:
