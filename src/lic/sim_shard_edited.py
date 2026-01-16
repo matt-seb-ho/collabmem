@@ -8,11 +8,15 @@
 # This avoids the edge case where the loop terminates immediately after all shards are revealed,
 # preventing any re-answer + evaluation.
 
+import json
+import traceback
+
 from lic.context_editor import (
     build_assistant_input_from_edited_state,
     edit_conversation_state,
 )
 from lic.model import generate, is_reasoning_model
+from lic.retry_utils import RetryConfig, retry_call
 from lic.system_agent import SystemAgent
 from lic.tasks import get_task
 from lic.user_agent import UserAgent
@@ -42,7 +46,7 @@ class ConversationSimulatorShardedEdited:
         editor_max_tokens=1200,
         enable_editor=True,
         log_editor_artifacts=True,
-        editor_playbook: str | None = None,   # <-- NEW
+        editor_playbook: str | None = None,  # <-- NEW
         # finalization behavior
         enable_finalization_nudge=True,
     ):
@@ -77,6 +81,14 @@ class ConversationSimulatorShardedEdited:
         self.enable_editor = enable_editor
         self.log_editor_artifacts = log_editor_artifacts
         self.editor_playbook = editor_playbook
+
+        # retry knobs
+        self.retry_cfg = RetryConfig(
+            max_attempts=4, base_delay_s=0.8, max_delay_s=10.0, jitter=0.25
+        )
+        self.enable_editor_fallback = (
+            True  # if editor fails, fall back to unedited context
+        )
 
         # finalization nudge
         self.enable_finalization_nudge = enable_finalization_nudge
@@ -204,36 +216,92 @@ class ConversationSimulatorShardedEdited:
             edited_state = None
 
             if self.enable_editor:
-                edited_state, editor_obj = edit_conversation_state(
-                    trace=self.trace,
-                    editor_model=self.editor_model,
-                    temperature=self.editor_temperature,
-                    max_tokens=self.editor_max_tokens,
-                    playbook=self.editor_playbook,
-                )
-                editor_cost = editor_obj.get("total_usd", 0.0)
+                editor_attempts = 0
+                last_editor_err = None
+                editor_obj = None
+                edited_state = None
 
-                assistant_input = build_assistant_input_from_edited_state(
-                    original_system_message=self.system_message,
-                    last_user_message=user_response,
-                    edited_state=edited_state,
-                )
+                def _call_editor_once():
+                    # one attempt at calling the editor
+                    return edit_conversation_state(
+                        trace=self.trace,
+                        editor_model=self.editor_model,
+                        temperature=self.editor_temperature,
+                        max_tokens=self.editor_max_tokens,
+                        playbook=self.editor_playbook,
+                    )
 
-                if self.log_editor_artifacts:
+                # Retry block: retry on transient API failures and JSON parsing failures
+                # JSON parse failure surfaces as ValueError from _safe_json_loads in context_editor.py
+                try:
+
+                    def _call_with_count():
+                        nonlocal editor_attempts
+                        editor_attempts += 1
+                        return _call_editor_once()
+
+                    edited_state, editor_obj = retry_call(
+                        _call_with_count,
+                        cfg=self.retry_cfg,
+                        retry_on=(TimeoutError, ConnectionError, ValueError),
+                        # plus heuristic transient detection for other exception types
+                        retry_if=lambda e: "timeout" in repr(e).lower()
+                        or "rate" in repr(e).lower(),
+                    )
+
+                    editor_cost = editor_obj.get("total_usd", 0.0)
+
+                    assistant_input = build_assistant_input_from_edited_state(
+                        original_system_message=self.system_message,
+                        last_user_message=user_response,
+                        edited_state=edited_state,
+                    )
+
+                    if self.log_editor_artifacts:
+                        self.trace.append(
+                            {
+                                "role": "log",
+                                "content": {
+                                    "type": "context-editor",
+                                    "edited_state": edited_state,
+                                    "assistant_input_preview": assistant_input,
+                                    "editor_attempts": editor_attempts,
+                                },
+                                "timestamp": date_str(),
+                                "cost_usd": editor_cost,
+                            }
+                        )
+                        if verbose:
+                            print_colored("[log] context editor applied", "blue")
+
+                except Exception as e:
+                    last_editor_err = traceback.format_exc()
+                    # log the failure
                     self.trace.append(
                         {
                             "role": "log",
                             "content": {
-                                "type": "context-editor",
-                                "edited_state": edited_state,
-                                "assistant_input_preview": assistant_input,
+                                "type": "context-editor-failure",
+                                "error": repr(e),
+                                "traceback": last_editor_err,
+                                "editor_attempts": editor_attempts,
                             },
                             "timestamp": date_str(),
-                            "cost_usd": editor_cost,
                         }
                     )
                     if verbose:
-                        print_colored("[log] context editor applied", "blue")
+                        print_colored(
+                            f"[log] context editor failed after {editor_attempts} attempts; "
+                            f"fallback={'on' if self.enable_editor_fallback else 'off'}",
+                            "blue",
+                        )
+
+                    if self.enable_editor_fallback:
+                        # Fallback: proceed without editor (use full raw conversation)
+                        assistant_input = extract_conversation(self.trace, to_str=False)
+                    else:
+                        # If you prefer failing the episode, re-raise.
+                        raise
             else:
                 assistant_input = extract_conversation(self.trace, to_str=False)
 
@@ -289,13 +357,12 @@ class ConversationSimulatorShardedEdited:
                     evaluation_return = self.task.evaluator_function(
                         extracted_answer, self.sample
                     )
-                    assert (
-                        isinstance(evaluation_return, dict)
-                        and (
-                            "score" in evaluation_return
-                            or "is_correct" in evaluation_return
-                        )
-                    ), "Evaluator function should return a dictionary with 'score' or 'is_correct' key"
+                    assert isinstance(evaluation_return, dict) and (
+                        "score" in evaluation_return
+                        or "is_correct" in evaluation_return
+                    ), (
+                        "Evaluator function should return a dictionary with 'score' or 'is_correct' key"
+                    )
                     is_correct = evaluation_return.get("is_correct", None)
                     score = evaluation_return.get("score", None)
 

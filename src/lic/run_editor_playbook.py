@@ -74,7 +74,7 @@ def main():
 
     # Editor model (the thing we are improving)
     p.add_argument("--editor_model", type=str, default="gpt-4o-mini")
-    p.add_argument("--editor_temperature", type=float, default=0.0)
+    p.add_argument("--editor_temperature", type=float, default=1.0)
     p.add_argument("--editor_max_tokens", type=int, default=1200)
     p.add_argument("--disable_editor", action="store_true")
     p.add_argument("--no_log_editor_artifacts", action="store_true")
@@ -84,7 +84,7 @@ def main():
         "--mode", type=str, choices=["warmup", "vanilla", "frozen"], required=True
     )
     p.add_argument("--curator_model", type=str, default="gpt-4o-mini")
-    p.add_argument("--curator_temperature", type=float, default=0.0)
+    p.add_argument("--curator_temperature", type=float, default=1.0)
     p.add_argument("--curator_max_tokens", type=int, default=2000)
 
     p.add_argument(
