@@ -4,6 +4,7 @@ import json
 import os
 import random
 from collections import Counter
+from pathlib import Path
 
 import tqdm
 
@@ -122,7 +123,15 @@ def main():
         update_template = read_text(args.cheatsheet_update_prompt_path)
 
     initial_cheatsheet = "(empty)"
+    per_task_init_cheatsheets = None
     if args.init_cheatsheet_path:
+        # check if extension is json
+        if Path(args.init_cheatsheet_path).suffix == ".json":
+            with open(args.init_cheatsheet_path, "r", encoding="utf-8") as f:
+                init_cheatsheet_data = json.load(f)
+            per_task_init_cheatsheets = {
+                k: Path(v).read_text() for k, v in init_cheatsheet_data.items()
+            }
         initial_cheatsheet = read_text(args.init_cheatsheet_path)
 
     if args.run_name is None:
@@ -164,9 +173,17 @@ def main():
     if args.cheatsheet_scope == "global":
         memories = {"__global__": EditorCheatsheetMemory(initial_cheatsheet, cfg)}
     else:
-        memories = {
-            task: EditorCheatsheetMemory(initial_cheatsheet, cfg) for task in args.tasks
-        }
+        if per_task_init_cheatsheets:
+            memories = {
+                task: EditorCheatsheetMemory(
+                    per_task_init_cheatsheets.get(task, "(empty)"), cfg
+                )
+                for task in args.tasks
+            }
+        else:
+            memories = {
+                task: EditorCheatsheetMemory(initial_cheatsheet, cfg) for task in args.tasks
+            }
 
     for assistant_model in args.assistant_models:
         correct = 0

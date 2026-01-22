@@ -11,7 +11,7 @@ from openai import AzureOpenAI, OpenAI
 from lic.azure_oai_setup import initialize_azure_oai_client
 
 
-GLOBAL_REASONING_EFFORT = "low"
+GLOBAL_REASONING_EFFORT = "medium"
 
 
 def is_reasoning_model(
