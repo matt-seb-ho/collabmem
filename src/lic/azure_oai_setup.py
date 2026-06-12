@@ -14,7 +14,11 @@ SCOPE = "api://trapi/.default"
 API_VERSION = "2024-12-01-preview"
 # See https://aka.ms/trapi/models for the instance name
 INSTANCE = "gcr/shared"
+
 ENDPOINT = f"https://trapi.research.microsoft.com/{INSTANCE}"
+# dl-openai-1.openai.azure.com
+# dl-openai-3.openai.azure.com
+# ENDPOINT = f"https://dl-openai-3.openai.azure.com/{INSTANCE}"
 
 
 def initialize_azure_oai_client(
